@@ -1,0 +1,61 @@
+.productForm {
+  background-color: bisque;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  width: 500px;
+  margin: 30px auto 30px auto;
+}
+
+.productForm label {
+  display: block;
+  margin-top: 20px;
+}
+
+.productForm input,
+textarea,
+select {
+  width: 100%;
+  padding: 8px;
+  box-sizing: border-box;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.productForm button {
+  background-color: black;
+  color: bisque;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+.productForm button:hover {
+  border: black 1px solid;
+  background-color: bisque;
+  color: black;
+}
+
+.productForm button:active {
+  background-color: black;
+  color: bisque;
+}
+
+.productForm button:disabled {
+  background-color: gray;
+  color: black;
+  cursor:auto;
+}
+
+.addSuccessMessage{
+  color: green;
+  font-size: 15px;
+}
+
+.addSFailedMessage{
+  color: red;
+  font-size: 15px;
+
+}

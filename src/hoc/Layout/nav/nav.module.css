@@ -1,0 +1,22 @@
+.Nav{
+    display: flex;
+    background-color: bisque;
+    height: 70px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.Nav .flexItem{
+    margin: 10px;
+
+}
+
+.toggleMenuButton{
+background-color: #ffe4c400;
+border: none;
+font-weight: bold;
+font-size: 25px;
+cursor: pointer;
+}
+
+

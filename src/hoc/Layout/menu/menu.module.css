@@ -1,0 +1,42 @@
+.Menu {
+  height: 100%;
+  width: 200px;
+  position: fixed;
+  z-index: 10;
+  top: 0;
+  right: 0;
+  background-color: #000000e6;
+  overflow-x: hidden;
+  padding-top: 20px;
+  color: bisque;
+  text-align: center;
+  box-shadow: -5px 0px 10px 1px #aaaaaa;
+}
+
+@media screen and (max-height: 450px) {
+  .Menu {
+    padding-top: 15px;
+  }
+}
+
+.Menu .logOutButton{
+  background-color: red;
+  border: 2px solid black;
+  width: 60%;
+  height: 30px;
+  color: bisque;
+  font-weight: bold;
+  font-size: 20px;
+  cursor: pointer;
+
+}
+
+.Menu .logOutButton:hover{
+  background-color: bisque;
+  color: red;
+}
+
+.Menu .logOutButton:active{
+  background-color: red;
+  color: bisque;
+}
