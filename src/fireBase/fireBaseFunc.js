@@ -25,7 +25,6 @@ export const getAllowedAdmins = async () => {
 export const logInWithGoogle = async () => {
   try {
     const allowedAdmins = await getAllowedAdmins()
-    console.log(allowedAdmins);
     const provider = new GoogleAuthProvider();
     const result = await signInWithPopup(auth, provider);
     const user = result.user;
@@ -33,7 +32,10 @@ export const logInWithGoogle = async () => {
       const token = await user.getIdToken();
       return { user, token };
     }
-    else throw new Error("משתמש זה לא יכול להתחבר כאדמין, במידה ואתה אחד האדמינים פנה למנהלי האתר");
+    else{
+      user.delete();
+      throw new Error("משתמש זה לא יכול להתחבר כאדמין, במידה ואתה אחד האדמינים פנה למנהלי האתר"); 
+    }
   } catch (error) {
     throw new Error("Google login failed. Check your internet or try again later.");
   }

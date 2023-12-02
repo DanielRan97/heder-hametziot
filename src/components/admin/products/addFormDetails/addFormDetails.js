@@ -30,10 +30,12 @@ const AddFormDetails = () => {
     try {
       if (categoryListState.includes(categoryState)) {
         setCategoryFeedBack({ message: `${categoryState} כבר קיים`, type: 'error' });
+        setCategoryState("");
       } else {
         await addCategory(categoryState);
         setCategoryListState((prevArray) => [...prevArray, categoryState]);
         setCategoryFeedBack({ message: `${categoryState} נוסף בהצלחה`, type: 'success' });
+        setCategoryState("");
       }
     } catch (error) {
       setModal({show:true, title:"שגיאה", text:"שגיאה בהוספת נתונים, בדוק את חיבור האינטרנט"})
@@ -47,13 +49,17 @@ const AddFormDetails = () => {
         const includesObject = res.some((obj) => obj.category === typeState.category && obj.type === typeState.type);
         if (includesObject) {
           setTypeFeedBack({ message: `${typeState.type} כבר קיים`, type: 'error' });
+          setTypeState({...typeState, type: ""})
         } else {
           await addType(typeState);
           setTypeFeedBack({ message: `${typeState.type} נוסף בהצלחה`, type: 'success' });
+          setTypeState({...typeState, type: ""})
         }
       }else {
           await addType(typeState);
           setTypeFeedBack({ message: `${typeState.type} נוסף בהצלחה`, type: 'success' });
+          setTypeState({...typeState, type: ""})
+
       }
 
     } catch (error) {
@@ -70,6 +76,7 @@ const AddFormDetails = () => {
           <label>
             שם הקטגוריה:
             <input
+              value={categoryState}
               type="text"
               onChange={(e) => setCategoryState(e.target.value)}
             />
@@ -88,7 +95,6 @@ const AddFormDetails = () => {
           <h1>הוסף תת קטגוריה</h1>
 
           <label>
-            {" "}
             הוסף קטגוריה :
             <select
               value={typeState.category}
@@ -101,7 +107,7 @@ const AddFormDetails = () => {
               </option>
               {categoryListState.length > 0 ? (
                 categoryListState.map((element, index) => (
-                  <option value={element} key={index}>
+                  <option key={index}>
                     {element}
                   </option>
                 ))
@@ -117,6 +123,7 @@ const AddFormDetails = () => {
             שם תת קטגוריה:
             <input
               type="text"
+              value={typeState.type}
               onChange={(e) =>
                 setTypeState({ ...typeState, type: e.target.value })
               }

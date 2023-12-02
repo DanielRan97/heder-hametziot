@@ -3,7 +3,7 @@
   border-radius: 8px;
   padding: 20px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  width: 500px;
+  max-width: 500px;
   margin: 30px auto 30px auto;
 }
 
@@ -30,6 +30,11 @@ select {
   border-radius: 4px;
   cursor: pointer;
   margin: 10px;
+}
+
+.productForm .radio{
+  display: inline-block;
+  margin: 5px;
 }
 
 .productForm button:hover {

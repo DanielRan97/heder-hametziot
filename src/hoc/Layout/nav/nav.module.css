@@ -2,14 +2,21 @@
     display: flex;
     background-color: bisque;
     height: 70px;
-    align-items: center;
-    justify-content: space-between;
+    justify-content: space-around;
+    align-items: flex-start;
+    width: 100%;
+    padding-left: 5%;
+    padding-right: 5%;
 }
 
-.Nav .flexItem{
-    margin: 10px;
-
+.Nav .menuToggle{
+    margin: auto 0px auto 0px;
 }
+
+.Nav .title{
+    margin: auto;
+}
+
 
 .toggleMenuButton{
 background-color: #ffe4c400;

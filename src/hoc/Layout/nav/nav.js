@@ -8,13 +8,13 @@ const Nav = props => {
 
     return(
         <Aux>
-            <div className={classes.flexItem}>
+            <div className={`${classes.flexItem} ${classes.menuToggle}`}>
             <button className={classes.toggleMenuButton} onClick={props.handelMenu}>
             <FontAwesomeIcon icon={faBars} />
                 תפריט
             </button>
             </div>
-            <div className={classes.flexItem}>
+            <div className={`${classes.flexItem} ${classes.title}`}>
             <h1>חדר המציאות</h1>
             </div>
 

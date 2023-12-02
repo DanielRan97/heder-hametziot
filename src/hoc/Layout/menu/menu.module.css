@@ -1,6 +1,6 @@
 .Menu {
   height: 100%;
-  width: 200px;
+  width: 350px;
   position: fixed;
   z-index: 10;
   top: 0;
@@ -19,24 +19,71 @@
   }
 }
 
-.Menu .logOutButton{
-  background-color: red;
-  border: 2px solid black;
-  width: 60%;
-  height: 30px;
+.Menu .categoriesList {
+  margin-top: 50px;
+}
+
+.Menu ul {
+  list-style-type: none;
+  font-weight: bold;
+  margin: 5px 0px 5px 0px;
+  width: 100%;
+  padding: 2px;
+}
+
+.Menu .categories {
+  position: relative;
+  text-align: center;
+  border-bottom: bisque 1px solid;
+  border-top: bisque 1px solid ;
+  min-height: 50px;
+  width: 100%;
+  line-height: 50px;
+  cursor: pointer;
+}
+
+.Menu .categories:hover {
+color: white;
+}
+
+.Menu .categoriesDownButton{
+position: absolute;
+top: 18px;
+left: 10px;
+}
+
+.Menu .typesLi{
+  background-color: bisque;
+  color: black;
+  cursor: pointer;
+  border-bottom: black 1px solid;
+  border-top: black 1px solid ;
+}
+
+.Menu .typesLi:hover{
+  background-color: black;
   color: bisque;
+  text-decoration: underline;
+}
+
+.Menu .logOutButton {
+  background-color: #00000000;
+  border: none;
+  width: 60%;
+  height: 50px;
+  line-height: 50px;
+  color: red;
   font-weight: bold;
   font-size: 20px;
   cursor: pointer;
+  vertical-align: middle;
 
 }
 
-.Menu .logOutButton:hover{
-  background-color: bisque;
-  color: red;
-}
-
-.Menu .logOutButton:active{
-  background-color: red;
+.Menu .logOutButton:hover {
   color: bisque;
+}
+
+.Menu .logOutButton:active {
+  color: red;
 }

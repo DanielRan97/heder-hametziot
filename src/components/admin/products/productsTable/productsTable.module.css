@@ -7,7 +7,7 @@
     font-weight: bold;
     color: bisque !important;
     text-align: center;
-    vertical-align: middle;   
+    vertical-align: middle;
 
 }
 
@@ -16,7 +16,7 @@
     font-weight: bold;
     color: black;
     text-align: center;
-    vertical-align: middle;   
+    vertical-align: middle;
   }
 
   .deleteProductButton {
@@ -43,6 +43,6 @@
 }
 
 .ProductsTable .productImg{
-    width: 100%;
-    height: 100%;
+    height: 100px;
+    width: 100px;
 }

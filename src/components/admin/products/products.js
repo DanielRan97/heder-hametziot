@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ProductsTable from "./productsTable/productsTable";
+import withClass from '../../../hoc/withClass/withClass';
 
 const Products = () => {
   const [productPageState, setProductPageState] = useState("");
@@ -71,4 +72,4 @@ const Products = () => {
   );
 };
 
-export default Products;
+export default withClass(Products, classes.Products);
