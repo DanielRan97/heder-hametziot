@@ -1,0 +1,37 @@
+.Path{
+    text-align: right;
+    margin-right: 10px;
+    font-size: 20px;
+    color: #605b5b87;
+    font-weight: bold;
+    display: block;
+    cursor: pointer;
+    width: 100%;
+    margin: 0px;
+    display: flex;
+    justify-content :space-between;
+    background-color: #00000008;
+    direction: rtl;
+}
+
+.path{
+    margin: auto 70px auto 0px;
+}
+
+.path p{
+    display: inline-block;
+    margin: auto 0px auto 0px;
+
+}
+
+.path span:hover{
+    color: gray;
+    text-decoration: underline;
+}
+
+@media only screen and (max-width: 600px) {
+    .path {
+        margin: auto 30px auto 0px;
+        font-size: 13px;
+    }
+  }

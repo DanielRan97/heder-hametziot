@@ -1,0 +1,60 @@
+.productTemplate {
+    width: 100%;
+}
+
+.mainImg {
+    display: block;
+    margin: auto;
+    height: 500px;
+    width: 500px;
+}
+
+.Product .img {
+    height: 100px;
+    width: 100px;
+    margin: 20px;
+}
+
+.Product .img:hover {
+    border: 1px solid black;
+    box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
+}
+
+.description {
+    font-weight: bold;
+    font-size: 30px;
+    padding-top: 50px;
+}
+
+.Alink {
+    background-color: bisque;
+    color: black;
+    width: 162px;
+    height: 60px;
+    line-height: 60px;
+    margin: 50px auto auto auto;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-decoration: none;
+    font-weight: bold;
+    display: block;
+}
+
+.Alink:hover {
+    background-color: black;
+    color: bisque;
+}
+
+.Alink:active {
+    background-color: bisque;
+    color: black;
+}
+
+@media (max-width: 600px) {
+    .mainImg {
+        width: 300px;
+        height: 300px;
+    }
+
+}

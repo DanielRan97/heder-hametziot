@@ -6,7 +6,7 @@ import withClass from "../../withClass/withClass";
 import classes from "./menu.module.css";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleRight } from "@fortawesome/free-solid-svg-icons";
+import { faAngleDown, faAngleRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Menu = (props) => {
   const [types, setTypes] = useState([]);
@@ -35,9 +35,14 @@ const Menu = (props) => {
     navigate("/");
   };
 
+  const typesHandler = (category, type) => {
+    navigate(`/products/${category}/${type}`);
+    props.setMenu();
+  };
+
   const setTypesList = () => {
     let uniqCategory = [...new Set(categories)];
-  
+
     if (types.length > 0) {
       return (
         <div className={classes.categoriesList}>
@@ -67,7 +72,13 @@ const Menu = (props) => {
                     {types
                       .filter((type) => type.category === element)
                       .map((type) => (
-                        <li key={type.type} className={classes.typesLi}>{type.type}</li>
+                        <li
+                          key={type.type}
+                          className={classes.typesLi}
+                          onClick={() => typesHandler(type.category, type.type)}
+                        >
+                          {type.type}
+                        </li>
                       ))}
                   </ul>
                 )}
@@ -79,11 +90,21 @@ const Menu = (props) => {
     }
     return null;
   };
-  
 
   return (
     <Aux>
       <h1>תפריט</h1>
+      <button
+        type="button"
+        className={classes.closeButton}
+        onClick={props.setMenu}
+      >
+        {" "}
+        <FontAwesomeIcon
+          icon={faXmark}
+          className={classes.categoriesDownButton}
+        />
+      </button>
       {setTypesList()}
       {auth.currentUser?.uid ? (
         <button onClick={logOutHandler} className={classes.logOutButton}>

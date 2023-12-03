@@ -6,6 +6,7 @@ import Menu from './menu/menu';
 import { useState } from 'react';
 import Fade from '../fade/fade';
 import MainRouter from '../../router/mainRouter';
+import Path from './nav/path/path';
 
 
 const Layout = () => {
@@ -13,7 +14,7 @@ const Layout = () => {
     const [menu, setMenu] = useState(false);
 
     const handelMenu = () => {
-        setMenu(!menu)
+        setMenu(menu === false ? true : false)
     }
 
     return(
@@ -21,6 +22,7 @@ const Layout = () => {
 
             <header>
                 <Nav handelMenu={handelMenu}/>
+                <Path />
             </header>
 
            {menu? <aside className={classes.layoutAside}>

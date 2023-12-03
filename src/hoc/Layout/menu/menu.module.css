@@ -1,12 +1,12 @@
 .Menu {
   height: 100%;
+  overflow: hidden;
   width: 350px;
   position: fixed;
   z-index: 10;
   top: 0;
   right: 0;
   background-color: #000000e6;
-  overflow-x: hidden;
   padding-top: 20px;
   color: bisque;
   text-align: center;
@@ -87,3 +87,15 @@ left: 10px;
 .Menu .logOutButton:active {
   color: red;
 }
+
+.closeButton{
+  background: none;
+  border: none;
+  color: red;
+  font-size: 30px;
+  position: absolute;
+  top: 2px;
+  left: 2px;
+
+}
+

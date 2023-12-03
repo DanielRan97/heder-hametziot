@@ -101,6 +101,22 @@ export const getProducts = async () => {
   });
 };
 
+export const getProductById = async productId => {
+  const query = ref(db, `products/${productId}`);
+  return new Promise((resolve, reject) => {
+    onValue(
+      query,
+      (snapshot) => {
+        const data = snapshot.val();
+        resolve(data);
+      },
+      {
+        onlyOnce: true,
+      }
+    );
+  });
+};
+
 export const addCategory = async (data) => {
   try {
     const categories = await getCategories();

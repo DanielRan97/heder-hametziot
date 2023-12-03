@@ -4,4 +4,6 @@
 
 .Layout main {
     margin-top: 100px;
+    margin-bottom: 200px;
+    min-height: 100%;
 }

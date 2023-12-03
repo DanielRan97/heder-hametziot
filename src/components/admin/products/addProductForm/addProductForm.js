@@ -95,7 +95,11 @@ const AddProductForm = (props) => {
           <h4>קישור תמונה:</h4>
           {index === 0 ? <p>תמונה ראשית</p> : null}
           <input
-            value={addProductFromState.photos[index] ? addProductFromState.photos[index] : ""}
+            value={
+              addProductFromState.photos[index]
+                ? addProductFromState.photos[index]
+                : ""
+            }
             id={index}
             type="text"
             onChange={(e) => handleImgLinkChange(e, index)}
@@ -119,7 +123,10 @@ const AddProductForm = (props) => {
   const addProductHandler = async () => {
     setAddProductLoading(true);
     try {
-      await addProduct(addProductFromState);
+      await addProduct({
+        ...addProductFromState,
+        createdAt: JSON.stringify(new Date()),
+      });
       setAddSProductMessage({
         message: "המוצר נוסף בהצלחה",
         class: classes.addSuccessMessage,
