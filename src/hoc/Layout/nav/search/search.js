@@ -8,7 +8,6 @@ import withClass from "../../../withClass/withClass";
 
 const Search = () => {
   const [searchState, setSearchState] = useState("");
-  const [searchInputFocus, setSearchInputFocus] = useState(false);
   const [productsState, setProductsState] = useState([]);
   const [filterProductsState, setFilterProductsState] = useState([]);
   const navigate = useNavigate();
@@ -50,7 +49,7 @@ const Search = () => {
   }
   const renderProducts = () => {
     return(
-        filterProductsState.length > 0 && searchInputFocus &&
+        filterProductsState.length > 0  &&
         Object.values(filterProductsState).map((ele, index) => (
             <div key={index} className={classes.resDiv} onClick={() => selectResHandler(ele)}>
                 <img src={ele.photos[0]} alt={ele.name} onError={() => handleImageError(ele)}></img>
@@ -58,6 +57,10 @@ const Search = () => {
             </div>
         ))
     )
+  }
+
+  const closeSearchButton = () => {
+    setSearchState("");
   }
 
   return (
@@ -69,8 +72,8 @@ const Search = () => {
           type="text"
           placeholder="חפש מוצר לפי שם"
           onChange={(e) => searchHandler(e.target.value)}
-          onFocus={() => setSearchInputFocus(!searchInputFocus)}
-          onBlur={() => setSearchInputFocus(!searchInputFocus)}></input>
+          ></input>
+          <button type="button" className={classes.closeSearchButton} onClick={() => closeSearchButton()}>X</button>
       </form>
 
       {searchState !== "" && <div className={classes.resultDiv}>{renderProducts()}</div>}

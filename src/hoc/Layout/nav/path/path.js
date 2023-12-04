@@ -4,8 +4,10 @@ import Aux from "../../../Auxiliary/Auxiliary";
 import withClass from "../../../withClass/withClass";
 import classes from "./path.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
+import ModalDialog from "../../../../components/UI/modal/modal";
 
 const Path = () => {
+  const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const location = useLocation();
   const pathName = decodeURI(location.pathname)
     .split("/")
@@ -48,8 +50,12 @@ const Path = () => {
           }
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
-        setProductName(""); // Handle error by resetting productName
+        setModal({
+          show: true,
+          title: "שגיאה",
+          text: "שגיאה בהצגת נתונים, בדוק את חיבור האינטרנט",
+        });
+        setProductName("");
       }
     };
 
@@ -58,6 +64,13 @@ const Path = () => {
 
   return (
     <Aux>
+      {modal.show ? (
+        <ModalDialog
+          title={modal.title}
+          text={modal.text}
+          onModalClose={() => setModal({ show: false, title: "", text: "" })}
+        />
+      ) : null}
       <div className={classes.path}>
         <span onClick={() => navigate("/")}>
           עמוד הבית{pathName[0] ? "/" : null}
@@ -80,9 +93,7 @@ const Path = () => {
               >{`${pathName[2]}`}</span>
             )}
             {pathName[3] && <span>/</span>}
-            {pathName[3] && productName !== "" && (
-              <span>{productName}</span>
-            )}
+            {pathName[3] && productName !== "" && <span>{productName}</span>}
           </p>
         ) : null}
       </div>

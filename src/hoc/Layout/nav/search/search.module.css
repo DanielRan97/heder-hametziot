@@ -1,4 +1,4 @@
-.Search{
+.Search {
     width: 100%;
     background-color: black;
     color: black;
@@ -8,7 +8,7 @@
 
 }
 
-.searchInput{
+.searchInput {
     margin: auto;
     height: 40px;
     line-height: 60px;
@@ -21,17 +21,16 @@
     background-color: bisque;
 }
 
-.searchInput:focus{
+.searchInput:focus {
     outline: none;
 }
 
-.resultDiv{
+.resultDiv {
     width: 100%;
     background-color: black;
     display: block;
-    position: fixed;
     max-height: 500px;
-    overflow:auto;
+    overflow: auto;
     z-index: 100;
 }
 
@@ -52,7 +51,7 @@
     text-decoration: underline;
 }
 
-.resDiv img{
+.resDiv img {
     width: 200px;
     height: 200px;
     border-radius: 100px;
@@ -62,7 +61,7 @@
     -o-border-radius: 100px;
 }
 
-.resTitle{
+.resTitle {
     line-height: 107px;
 }
 
@@ -75,7 +74,7 @@
 }
 
 @media (min-width: 450px) {
-    .resTitle{
+    .resTitle {
         font-size: 40px;
         padding-top: 40px;
     }
@@ -89,12 +88,25 @@
 .resultDiv::-webkit-scrollbar {
     width: 1em;
 }
- 
+
 .resultDiv::-webkit-scrollbar-track {
-    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
 }
- 
+
 .resultDiv::-webkit-scrollbar-thumb {
-  background-color: bisque;
-  outline: 1px solid white;
+    background-color: bisque;
+    outline: 1px solid white;
+}
+
+.closeSearchButton {
+    background: none;
+    border: none;
+    color: black;
+    position: relative;
+    left: 29px;
+    bottom: 1px;
+}
+
+.closeSearchButton:hover {
+    color: red;
 }
