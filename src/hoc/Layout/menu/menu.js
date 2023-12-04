@@ -35,6 +35,11 @@ const Menu = (props) => {
     navigate("/");
   };
 
+  const homepageLinkHandler = () => {
+    props.setMenu();
+    navigate('/');
+  }
+
   const typesHandler = (category, type) => {
     navigate(`/products/${category}/${type}`);
     props.setMenu();
@@ -47,6 +52,15 @@ const Menu = (props) => {
       return (
         <div className={classes.categoriesList}>
           <ul>
+          <li
+                className={classes.categories}
+                key='homePage'
+                onClick={() =>
+                  homepageLinkHandler()
+                }
+              >
+                עמוד הבית
+              </li>
             {uniqCategory.map((element) => (
               <li
                 className={classes.categories}

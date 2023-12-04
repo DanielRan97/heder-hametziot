@@ -7,7 +7,7 @@ import { useState } from 'react';
 import Fade from '../fade/fade';
 import MainRouter from '../../router/mainRouter';
 import Path from './nav/path/path';
-
+import Search from './nav/search/search';
 
 const Layout = () => {
 
@@ -22,6 +22,7 @@ const Layout = () => {
 
             <header>
                 <Nav handelMenu={handelMenu}/>
+                <Search />
                 <Path />
             </header>
 

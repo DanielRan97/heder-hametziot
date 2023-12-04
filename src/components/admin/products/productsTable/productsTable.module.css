@@ -1,5 +1,6 @@
-.ProductsTable{
+.ProductsTable {
     padding: 25px;
+
 }
 
 .ProductsTable th {
@@ -17,9 +18,9 @@
     color: black;
     text-align: center;
     vertical-align: middle;
-  }
+}
 
-  .deleteProductButton {
+.deleteProductButton {
     background-color: red;
     color: black;
     padding: 10px 20px;
@@ -42,7 +43,27 @@
     color: black;
 }
 
-.ProductsTable .productImg{
+.ProductsTable .productImg {
     height: 100px;
     width: 100px;
+}
+
+.tableRadioInput{
+    display: flex;
+    align-items: start;
+}
+
+.tableRadioInput label{
+    background-color: bisque;
+    height: 50px;
+    min-width: 100px;
+    padding: 10px;
+    margin-right: 3px;
+    border: black 1px solid;
+    border-radius: 30px;
+    line-height: 35px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    -ms-border-radius: 30px;
+    -o-border-radius: 30px;
 }

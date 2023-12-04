@@ -15,7 +15,9 @@ const Products = () => {
   useEffect(() => {
     setProductsState([]);
     let pathName = location.pathname;
-    let paramsCategory = decodeURI(pathName).split("/").filter((ele) => ele !== "");
+    let paramsCategory = decodeURI(pathName)
+      .split("/")
+      .filter((ele) => ele !== "");
     const fetchData = async () => {
       setLoading(true);
       try {
@@ -24,6 +26,7 @@ const Products = () => {
           ...value,
           fbId: key,
         }));
+
         const productFilter = products.filter((ele) =>
           paramsCategory[2]
             ? ele.categories === paramsCategory[1] &&
@@ -42,11 +45,22 @@ const Products = () => {
     fetchData();
   }, [location.pathname]);
 
+  const handleImageError = element => {
+    let filter = productsState.filter(ele => ele !== element);
+    setProductsState(filter);
+  };
+
   const renderProducts = () => {
     return productsState.map((ele) => (
-      <div key={ele.fbId} className={classes.product} onClick={() => navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`)}>
+      <div
+        key={ele.fbId}
+        className={classes.product}
+        onClick={() =>
+          navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`)
+        }
+      >
         <div className={classes.productImgDiv}>
-          <img src={ele.photos[0]} alt={ele.name}></img>
+          <img src={ele.photos[0]} alt={ele.name} onError={() => handleImageError(ele)}></img>
         </div>
         <div className={classes.productData}>
           <h4 className={classes.productTile}>{ele.name}</h4>
