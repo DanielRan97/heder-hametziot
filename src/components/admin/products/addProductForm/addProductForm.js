@@ -125,7 +125,7 @@ const AddProductForm = (props) => {
     try {
       await addProduct({
         ...addProductFromState,
-        createdAt: JSON.stringify(new Date()),
+        createdAt: new Date().toISOString(),
       });
       setAddSProductMessage({
         message: "המוצר נוסף בהצלחה",

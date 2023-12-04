@@ -18,11 +18,13 @@ const Menu = (props) => {
     try {
       let categories = [];
       getTypes().then((res) => {
-        setTypes(res);
-        res.forEach((element) => {
-          categories.push(element.category);
-        });
-        setCategories(categories);
+        if(res !== undefined && res !== null){
+          setTypes(res);
+          res.forEach((element) => {
+            categories.push(element.category);
+          });
+          setCategories(categories);
+        }
       });
     } catch (error) {
       setTypes([]);
@@ -48,7 +50,6 @@ const Menu = (props) => {
   const setTypesList = () => {
     let uniqCategory = [...new Set(categories)];
 
-    if (types.length > 0) {
       return (
         <div className={classes.categoriesList}>
           <ul>
@@ -61,7 +62,8 @@ const Menu = (props) => {
               >
                 עמוד הבית
               </li>
-            {uniqCategory.map((element) => (
+            {types !== undefined && types !== null && types.length > 0 && 
+            uniqCategory.map((element) => (
               <li
                 className={classes.categories}
                 key={element}
@@ -101,8 +103,6 @@ const Menu = (props) => {
           </ul>
         </div>
       );
-    }
-    return null;
   };
 
   return (

@@ -62,7 +62,7 @@ const Product = () => {
                   )
               )}
                 <p className={classes.description}>{product.description}</p>
-                <a className={classes.Alink} href={product.link} target="blank">קנה עכשיו</a>
+                <a className={classes.Alink} href={product.link} target="blank">קנה עכשיו ₪{product.price}.00</a>
                 </div>
       );
     } else {

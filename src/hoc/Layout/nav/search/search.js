@@ -73,7 +73,7 @@ const Search = () => {
           placeholder="חפש מוצר לפי שם"
           onChange={(e) => searchHandler(e.target.value)}
           ></input>
-          <button type="button" className={classes.closeSearchButton} onClick={() => closeSearchButton()}>X</button>
+          {searchState !== "" && <button type="button" className={classes.closeSearchButton} onClick={() => closeSearchButton()}>X</button>}
       </form>
 
       {searchState !== "" && <div className={classes.resultDiv}>{renderProducts()}</div>}

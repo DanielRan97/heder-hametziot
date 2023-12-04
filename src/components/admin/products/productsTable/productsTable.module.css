@@ -18,6 +18,8 @@
     color: black;
     text-align: center;
     vertical-align: middle;
+    max-height: 20px;
+    overflow: auto;
 }
 
 .deleteProductButton {

@@ -71,6 +71,7 @@ const ProductsTable = () => {
         </tr>
       );
     }
+
     return productsState.map((ele) => (
       <tr key={ele.id}>
         <td>{ele.id}</td>
@@ -80,8 +81,15 @@ const ProductsTable = () => {
         <td>{ele.categories}</td>
         <td>{ele.types}</td>
         <td>{ele.gender}</td>
+        <td>{`${new Date(ele.createdAt).getDay().toLocaleString()}/${new Date(
+          ele.createdAt
+        )
+          .getMonth()
+          .toLocaleString()}/${new Date(ele.createdAt)
+          .getFullYear()
+          .toLocaleString()}`}</td>
         <td>
-          <a href={ele.link} target="_blank" rel="noopener noreferrer">
+          <a href={ele.link} target="_blank" rel="noreferrer noopener">
             {ele.link}
           </a>
         </td>
@@ -123,6 +131,13 @@ const ProductsTable = () => {
         <td>{ele.categories}</td>
         <td>{ele.types}</td>
         <td>{ele.gender}</td>
+        <td>{`${new Date(ele.createdAt).getDay().toLocaleString()}/${new Date(
+          ele.createdAt
+        )
+          .getMonth()
+          .toLocaleString()}/${new Date(ele.createdAt)
+          .getFullYear()
+          .toLocaleString()}`}</td>
         <td>
           <a href={ele.link} target="_blank" rel="noopener noreferrer">
             {ele.link}
@@ -154,6 +169,7 @@ const ProductsTable = () => {
             <th>קטגוריה</th>
             <th>תת קטגוריה</th>
             <th>מיגדר</th>
+            <th>תאריך יצירה</th>
             <th>קישור</th>
             <th>תמונה ראשית</th>
             <th>מחיקה</th>
@@ -176,6 +192,7 @@ const ProductsTable = () => {
             <th>קטגוריה</th>
             <th>תת קטגוריה</th>
             <th>מיגדר</th>
+            <th>תאריך יצירה</th>
             <th>קישור</th>
             <th>תמונה ראשית</th>
             <th>מחיקה</th>
