@@ -1,6 +1,7 @@
 .ProductsTable {
     padding: 25px;
-
+    height: 800px;
+    overflow: auto;
 }
 
 .ProductsTable th {

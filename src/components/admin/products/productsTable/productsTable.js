@@ -41,12 +41,12 @@ const ProductsTable = () => {
       await removeProduct(ele);
       if (error === false) {
         const result = productsState.filter((element) => ele !== element.fbId);
-        setProductsState(result);
+        setProductsState(result.reverse());
       } else {
         const resultError = productsErrorState.filter(
           (element) => ele !== element.fbId
         );
-        setProductsErrorState(resultError);
+        setProductsErrorState(resultError.reverse());
       }
     } catch (error) {
       setModal({
@@ -72,9 +72,9 @@ const ProductsTable = () => {
       );
     }
 
-    return productsState.map((ele) => (
+    return productsState.reverse().map((ele, index) => (
       <tr key={ele.id}>
-        <td>{ele.id}</td>
+        <td>{index + 1}</td>
         <td>{ele.name}</td>
         <td>{ele.description}</td>
         <td>₪{ele.price}</td>
@@ -122,9 +122,9 @@ const ProductsTable = () => {
         </tr>
       );
     }
-    return productsErrorState.map((ele) => (
+    return productsErrorState.reverse().map((ele, index) => (
       <tr key={ele.id}>
-        <td>{ele.id}</td>
+        <td>{index}</td>
         <td>{ele.name}</td>
         <td>{ele.description}</td>
         <td>₪{ele.price}</td>

@@ -12,6 +12,9 @@
     justify-content :space-between;
     background-color: #00000008;
     direction: rtl;
+    height:20px;
+    line-height: 20px;
+    font-size: 15px;
 }
 
 .path{

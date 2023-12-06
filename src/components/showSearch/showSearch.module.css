@@ -1,0 +1,52 @@
+.ShowSearch .product {
+    max-height: 200px;
+    max-width: 90%;
+    margin: 0px auto 10px auto;
+    text-align: right;
+    padding: 10px;
+    cursor: pointer;
+    display: flex;
+}
+
+.ShowSearch .product:hover {
+    background-color: bisque;
+}
+
+.ShowSearch .product img {
+    display: inline-block;
+    height: 140px;
+    max-width: 140px;
+    border-radius: 50px;
+    -webkit-border-radius: 13px;
+    -moz-border-radius: 50px;
+    -ms-border-radius: 50px;
+    -o-border-radius: 50px;
+}
+
+.ShowSearch .product .data {
+    display: inline-block;
+    max-width: 300px;
+    margin: 3px;
+}
+
+.ShowSearch .product .price {
+    padding-right: 15px;
+    max-width: 300px;
+}
+
+.ShowSearch hr {
+    margin: auto;
+    width: 90%;
+}
+
+.ShowSearch .showResTitle{
+    margin-bottom: 70px;
+}
+
+@media (max-width: 600px) {
+    .ShowSearch .product img {
+        width: 100px;
+        height: 100px;
+    }
+
+}

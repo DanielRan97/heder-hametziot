@@ -11,6 +11,7 @@
   color: bisque;
   text-align: center;
   box-shadow: -5px 0px 10px 1px #aaaaaa;
+overflow: auto;
 }
 
 @media screen and (max-height: 450px) {

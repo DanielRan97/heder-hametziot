@@ -1,30 +1,14 @@
 .Nav{
-    display: flex;
-    background-color: bisque;
-    height: 70px;
-    justify-content: space-around;
+    min-height: 70px;
     align-items: flex-start;
     width: 100%;
-    padding-left: 5%;
-    padding-right: 5%;
+
 }
 
-.Nav .menuToggle{
-    margin: auto 0px auto 0px;
+.Nav img{
+    height: 202px;
+    width: 268px;
 }
 
-.Nav .title{
-    margin: auto;
-}
-
-
-.toggleMenuButton{
-background-color: #ffe4c400;
-color: black;
-border: none;
-font-weight: bold;
-font-size: 25px;
-cursor: pointer;
-}
 
 

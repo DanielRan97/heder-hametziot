@@ -8,10 +8,8 @@ import {
 } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
 import Loading from "../../../UI/loading/loading";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
 
-const AddProductForm = (props) => {
+const AddProductForm = () => {
   const [addProductFromState, setAddProductFromState] = useState({
     name: "",
     price: 0,
@@ -20,9 +18,8 @@ const AddProductForm = (props) => {
     description: "",
     gender: "",
     link: "",
-    photos: [""],
+    photos: "",
   });
-  const [numPhotos, setNumPhotos] = useState(1);
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
   const [addSProductMessage, setAddSProductMessage] = useState({
@@ -31,6 +28,7 @@ const AddProductForm = (props) => {
   });
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [addProductLoading, setAddProductLoading] = useState(false);
+  const [textareaValue, setTextareaValue] = useState("")
 
   useEffect(() => {
     try {
@@ -86,38 +84,19 @@ const AddProductForm = (props) => {
     );
   };
 
-  const makeImgLinkInput = () => {
-    const inputs = [];
+  const photosHendler = string => {
+    setTextareaValue(string)
 
-    for (let index = 0; index < numPhotos; index++) {
-      inputs.push(
-        <label key={index}>
-          <h4>קישור תמונה:</h4>
-          {index === 0 ? <p>תמונה ראשית</p> : null}
-          <input
-            value={
-              addProductFromState.photos[index]
-                ? addProductFromState.photos[index]
-                : ""
-            }
-            id={index}
-            type="text"
-            onChange={(e) => handleImgLinkChange(e, index)}
-          />
-        </label>
-      );
+    let parts = string.split(/(\.jpg|\.png)/);
+
+    for (let i = 1; i < parts.length; i += 2) {
+        parts[i] += "???";
     }
 
-    return inputs;
-  };
-
-  const handleImgLinkChange = (e, index) => {
-    const updatedPhotos = [...addProductFromState.photos];
-    updatedPhotos[index] = e.target.value;
-    setAddProductFromState({
-      ...addProductFromState,
-      photos: updatedPhotos,
-    });
+    string = parts.join('');
+    let getherArry = string.split("???")
+    let newArray = getherArry.filter(str => str !== "");
+    setAddProductFromState({...addProductFromState, photos: newArray})
   };
 
   const addProductHandler = async () => {
@@ -131,7 +110,7 @@ const AddProductForm = (props) => {
         message: "המוצר נוסף בהצלחה",
         class: classes.addSuccessMessage,
       });
-
+      setTextareaValue("");
       setAddProductFromState({
         name: "",
         price: 0,
@@ -140,7 +119,7 @@ const AddProductForm = (props) => {
         description: "",
         gender: "",
         link: "",
-        photos: Array(addProductFromState.photos).fill(""),
+        photos: "",
       });
       setAddProductLoading(false);
     } catch (error) {
@@ -315,13 +294,10 @@ const AddProductForm = (props) => {
             <p className={classes.addSFailedMessage}>לינק לא תקין</p>
           ) : null}
         </label>
-        {makeImgLinkInput()}
-        <button type="button" onClick={() => setNumPhotos(numPhotos + 1)}>
-          <FontAwesomeIcon
-            icon={faPlus}
-            className={classes.categoriesDownButton}
-          />
-        </button>
+        <label>
+          <h4> לינקים לתמונות </h4>
+          <textarea value={textareaValue} onChange={(e) => photosHendler(e.target.value)}></textarea>
+        </label>
         <p className={addSProductMessage.class}>
           {addProductLoading === <Loading />
             ? addProductLoading

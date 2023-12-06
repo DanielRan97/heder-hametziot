@@ -1,0 +1,91 @@
+.SearchBar  {
+    width: 100%;
+    color: black;
+    display: flex;
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    justify-content: space-around;
+    gap: 30px;
+}
+
+.SearchBar  form {
+    display: flex;
+    margin: auto 0px auto 0px;
+    height: 50px;
+    line-height: 0px;
+    padding-top: 7px;
+    max-width: 200px;
+    justify-content: space-around;
+
+}
+
+.SearchBar Input {
+    height: 40px;
+    line-height: 60px;
+    max-width: 300px;
+    display: inline-block;
+}
+
+.SearchBar Input:focus {
+    outline: none;
+}
+
+
+@media (max-width: 450px) {
+    .resDiv img {
+        width: 100px;
+        height: 100px;
+    }
+
+}
+
+@media (min-width: 450px) {
+    .resTitle {
+        font-size: 40px;
+        padding-top: 40px;
+    }
+
+    .resDiv {
+        display: flex;
+        gap: 40px;
+    }
+}
+
+.resultDiv::-webkit-scrollbar {
+    width: 1em;
+}
+
+.resultDiv::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+.resultDiv::-webkit-scrollbar-thumb {
+    background-color: bisque;
+    outline: 1px solid white;
+}
+
+.SearchBar Button {
+    background: none;
+    border: none;
+    color: black;
+    position: relative;
+}
+
+.SearchBar Button:hover {
+    color: bisque;
+}
+
+.toggleMenuButton {
+    display: inline-block;
+    color: black;
+    background-color: white;
+    border: none;
+    font-weight: bold;
+    font-size: 25px;
+    cursor: pointer;
+}
+
+.toggleMenuButton:hover {
+    color: bisque;
+}

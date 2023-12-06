@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { getTypes, logout } from "../../../fireBase/fireBaseFunc";
+import { getProducts, logout } from "../../../fireBase/fireBaseFunc";
 import { auth } from "../../../fireBase/firebase";
 import Aux from "../../Auxiliary/Auxiliary";
 import withClass from "../../withClass/withClass";
@@ -14,23 +14,25 @@ const Menu = (props) => {
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
 
+
   useEffect(() => {
     try {
       let categories = [];
-      getTypes().then((res) => {
+      let types = [];
+      getProducts().then((res) => {
         if(res !== undefined && res !== null){
-          setTypes(res);
-          res.forEach((element) => {
-            categories.push(element.category);
+          Object.values(res).forEach((element) => {
+            categories.push(element.categories);
+            types.push({category: element.categories , type: element.types});
+            setTypes(types)
           });
           setCategories(categories);
         }
       });
     } catch (error) {
-      setTypes([]);
+      setCategories([]);
     }
   }, []);
-
   const logOutHandler = async () => {
     await logout();
     props.setMenu(false);
@@ -49,6 +51,7 @@ const Menu = (props) => {
 
   const setTypesList = () => {
     let uniqCategory = [...new Set(categories)];
+    let uniqueTypes = [...new Map(types.map(item => [item.type, item])).values()]
 
       return (
         <div className={classes.categoriesList}>
@@ -62,7 +65,7 @@ const Menu = (props) => {
               >
                 עמוד הבית
               </li>
-            {types !== undefined && types !== null && types.length > 0 && 
+            {types !== undefined && types !== null && types.length > 0 &&
             uniqCategory.map((element) => (
               <li
                 className={classes.categories}
@@ -85,11 +88,11 @@ const Menu = (props) => {
                 )}
                 {element === category && (
                   <ul className={classes.typesUl}>
-                    {types
+                    {uniqueTypes
                       .filter((type) => type.category === element)
-                      .map((type) => (
+                      .map((type , index) => (
                         <li
-                          key={type.type}
+                          key={index}
                           className={classes.typesLi}
                           onClick={() => typesHandler(type.category, type.type)}
                         >

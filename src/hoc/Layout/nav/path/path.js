@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getProductById, getProducts } from "../../../../fireBase/fireBaseFunc";
+import { getProductById } from "../../../../fireBase/fireBaseFunc";
 import Aux from "../../../Auxiliary/Auxiliary";
 import withClass from "../../../withClass/withClass";
 import classes from "./path.module.css";
@@ -12,55 +12,21 @@ const Path = () => {
   const pathName = decodeURI(location.pathname)
     .split("/")
     .filter((ele) => ele !== "");
-  const [productName, setProductName] = useState("");
+  const [productName, setProductName] = useState();
   const navigate = useNavigate();
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setProductName("");
+useEffect(() => {
+  const fetchData = async () => {
 
-        if (pathName[1]) {
-          const products = await getProducts();
+    if(pathName[3]){
+      await getProductById(pathName[3]).then(res => {
+        setProductName(res.name)
+      })
+    }
+  }
+  fetchData()
+}, [pathName])
 
-          const pathMatchCategory = Object.values(products).some(
-            (product) => product.categories === pathName[1]
-          );
-          if (!pathMatchCategory) {
-            navigate("/");
-            return;
-          }
-
-          const pathMatchType = pathName[2]
-            ? Object.values(products).some(
-                (product) => product.types === pathName[2]
-              )
-            : true;
-
-          if (!pathMatchType) {
-            navigate("/");
-            return;
-          }
-
-          if (pathMatchCategory && pathName[3]) {
-            const product = await getProductById(pathName[3]);
-            if (product !== null) {
-              setProductName(product.name);
-            }
-          }
-        }
-      } catch (error) {
-        setModal({
-          show: true,
-          title: "שגיאה",
-          text: "שגיאה בהצגת נתונים, בדוק את חיבור האינטרנט",
-        });
-        setProductName("");
-      }
-    };
-
-    fetchData();
-  }, [location.pathname, navigate, pathName]);
 
   return (
     <Aux>
@@ -78,8 +44,8 @@ const Path = () => {
         {pathName.length > 0 ? (
           <p>
             {pathName[0] && <span>{`מוצרים`}</span>}
-            {pathName[1] && <span>/</span>}
-            {pathName[1] && (
+            {pathName[1] && pathName[1] !== "search" && <span>/</span>}
+            {pathName[1] && pathName[1] !== "search" && (
               <span
                 onClick={() => navigate(`products/${pathName[1]}`)}
               >{`${pathName[1]}`}</span>

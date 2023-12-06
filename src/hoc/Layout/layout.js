@@ -7,7 +7,7 @@ import { useState } from 'react';
 import Fade from '../fade/fade';
 import MainRouter from '../../router/mainRouter';
 import Path from './nav/path/path';
-import Search from './nav/search/search';
+import SearchBar from './nav/searchBar/searchBar';
 
 const Layout = () => {
 
@@ -21,8 +21,8 @@ const Layout = () => {
         <Aux>
 
             <header>
-                <Nav handelMenu={handelMenu}/>
-                <Search />
+                <Nav />
+                <SearchBar handelMenu={handelMenu}/>
                 <Path />
             </header>
 
