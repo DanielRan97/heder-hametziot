@@ -46,16 +46,63 @@
     color: black;
 }
 
+.editProductButton {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    font-weight: bold;
+
+}
+
+.editProductButton:hover {
+    border: white 1px solid;
+    background-color: black;
+    color: blue;
+}
+
+.editProductButton:active {
+    background-color: white;
+    color: blue;
+}
+
+.showProduct {
+    background-color: black;
+    color: bisque;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 10px;
+    font-weight: bold;
+    width: 120px;
+}
+
+.showProduct:hover {
+    border: black 1px solid;
+    background-color: bisque;
+    color: black;
+}
+
+.showProduct:active {
+    background-color: bisque;
+    color: black;
+}
+
+
 .ProductsTable .productImg {
     height: 100px;
     width: 100px;
 }
 
-.tableRadioInput{
+.tableRadioInput {
     display: flex;
 }
 
-.tableRadioInput label{
+.tableRadioInput label {
     background-color: bisque;
     height: 50px;
     min-width: 100px;

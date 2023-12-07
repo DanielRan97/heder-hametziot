@@ -5,12 +5,14 @@ import classes from "./productsTable.module.css";
 import React, { useState, useEffect } from "react";
 import { getProducts, removeProduct } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
+import { useNavigate } from "react-router-dom";
 
-const ProductsTable = () => {
+const ProductsTable = (props) => {
   const [productsState, setProductsState] = useState([]);
   const [productsErrorState, setProductsErrorState] = useState([]);
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [productTableShow, setProductTableShow] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -63,6 +65,10 @@ const ProductsTable = () => {
     setProductsErrorState([...productsErrorState, element]);
   };
 
+  const showProduct = (ele) => {
+    navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`);
+  };
+
   const productTableHandler = () => {
     if (productsState.length === 0) {
       return (
@@ -81,13 +87,9 @@ const ProductsTable = () => {
         <td>{ele.categories}</td>
         <td>{ele.types}</td>
         <td>{ele.gender}</td>
-        <td>{`${new Date(ele.createdAt).getDay().toLocaleString()}/${new Date(
-          ele.createdAt
-        )
-          .getMonth()
-          .toLocaleString()}/${new Date(ele.createdAt)
-          .getFullYear()
-          .toLocaleString()}`}</td>
+        <td>{`${new Date(ele.createdAt).getDate().toLocaleString()}/${
+          new Date(ele.createdAt).getMonth() + 1
+        }/${new Date(ele.createdAt).getFullYear().toLocaleString()}`}</td>
         <td>
           <a href={ele.link} target="_blank" rel="noreferrer noopener">
             {ele.link}
@@ -100,6 +102,24 @@ const ProductsTable = () => {
             alt="תמונה ראשית"
             onError={() => handleImageError(ele)}
           />
+        </td>
+        <td>
+          <button
+            type="button"
+            className={classes.showProduct}
+            onClick={() => showProduct(ele)}
+          >
+            הצג מוצר
+          </button>
+        </td>
+        <td>
+          <button
+            type="button"
+            className={classes.editProductButton}
+            onClick={() => props.editPage(ele)}
+          >
+            עריכה
+          </button>
         </td>
         <td>
           <button
@@ -131,19 +151,22 @@ const ProductsTable = () => {
         <td>{ele.categories}</td>
         <td>{ele.types}</td>
         <td>{ele.gender}</td>
-        <td>{`${new Date(ele.createdAt).getDay().toLocaleString()}/${new Date(
-          ele.createdAt
-        )
-          .getMonth()
-          .toLocaleString()}/${new Date(ele.createdAt)
-          .getFullYear()
-          .toLocaleString()}`}</td>
+        <td>{`${new Date(ele.createdAt).getDate().toLocaleString()}/${
+          new Date(ele.createdAt).getMonth() + 1
+        }/${new Date(ele.createdAt).getFullYear().toLocaleString()}`}</td>
         <td>
           <a href={ele.link} target="_blank" rel="noopener noreferrer">
             {ele.link}
           </a>
         </td>
         <td></td>
+        <button
+          type="button"
+          className={classes.editProductButton}
+          onClick={() => props.editPage(ele)}
+        >
+          עריכה
+        </button>
         <td>
           <button
             type="button"
@@ -172,6 +195,8 @@ const ProductsTable = () => {
             <th>תאריך יצירה</th>
             <th>קישור</th>
             <th>תמונה ראשית</th>
+            <th>הצג מוצר</th>
+            <th>עריכה</th>
             <th>מחיקה</th>
           </tr>
         </thead>
@@ -195,6 +220,7 @@ const ProductsTable = () => {
             <th>תאריך יצירה</th>
             <th>קישור</th>
             <th>תמונה ראשית</th>
+            <th>עריכה</th>
             <th>מחיקה</th>
           </tr>
         </thead>

@@ -24,9 +24,12 @@ const Menu = (props) => {
           Object.values(res).forEach((element) => {
             categories.push(element.categories);
             types.push({category: element.categories , type: element.types});
-            setTypes(types)
           });
           setCategories(categories);
+          let jsonObject = types.map(JSON.stringify);
+          let uniqueSet = new Set(jsonObject);
+          let uniqueTypesArray = Array.from(uniqueSet).map(JSON.parse);
+          setTypes(uniqueTypesArray);
         }
       });
     } catch (error) {
@@ -51,7 +54,6 @@ const Menu = (props) => {
 
   const setTypesList = () => {
     let uniqCategory = [...new Set(categories)];
-    let uniqueTypes = [...new Map(types.map(item => [item.type, item])).values()]
 
       return (
         <div className={classes.categoriesList}>
@@ -88,7 +90,7 @@ const Menu = (props) => {
                 )}
                 {element === category && (
                   <ul className={classes.typesUl}>
-                    {uniqueTypes
+                    {types
                       .filter((type) => type.category === element)
                       .map((type , index) => (
                         <li

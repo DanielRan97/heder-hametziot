@@ -7,9 +7,18 @@ import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
 import Aux from '../../../hoc/Auxiliary/Auxiliary';
 import ProductsTable from "./productsTable/productsTable";
 import withClass from '../../../hoc/withClass/withClass';
+import EditProductForm from "./editProductForm/editProductForm";
 
 const Products = () => {
   const [productPageState, setProductPageState] = useState("");
+  const [editProductData, setEditProductData] = useState({});
+
+  const editProducthandler = (ele) => {
+    setEditProductData({});
+    setProductPageState('editForm');
+    setEditProductData(ele)
+  }
+
 
   const productsNav = () => (
     <Aux>
@@ -33,7 +42,7 @@ const Products = () => {
         <FontAwesomeIcon icon={faPlus} />
       </button>
 
-      <ProductsTable />
+      <ProductsTable editPage={(ele) => editProducthandler(ele)}/>
     </Aux>
   );
 
@@ -43,16 +52,17 @@ const Products = () => {
         return productsNav();
       case "addForm":
         return (
-          <AddProductForm
-            setProductPageState={(ele) => setProductPageState(ele)}
-          />
+          <AddProductForm />
         );
       case "addDetailsForm":
         return (
-          <AddFormDetails
-            setProductPageState={(ele) => setProductPageState(ele)}
-          />
+          <AddFormDetails />
         );
+        case "editForm":
+          return (
+            <EditProductForm backToTable={() => setProductPageState('')} editProductData={editProductData}
+            />
+          );
       default:
         return productsNav();
     }

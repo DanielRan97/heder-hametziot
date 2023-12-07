@@ -1,5 +1,5 @@
 import { auth, GoogleAuthProvider, signInWithPopup, db, onAuthStateChanged } from "./firebase";
-import { onValue, ref, set, push, get, remove, child } from "firebase/database";
+import { onValue, ref, set, push, get, remove, child, update } from "firebase/database";
 
 export const logout = async () => {
   try {
@@ -149,6 +149,22 @@ export const addProduct = async (data) => {
     await push(productsRef, productData);
   } catch (error) {
     console.error("Error adding product to Firebase:", error);
+  }
+};
+
+export const editProduct = async (productId, data) => {
+  try {
+    const productsRef = ref(db, "products");
+    const productSnapshot = await get(child(productsRef, productId));
+
+    if (productSnapshot.exists()) {
+      // If the product with the given ID exists, update its data
+      await update(child(productsRef, productId), data);
+    } else {
+      console.error("Product not found for editing");
+    }
+  } catch (error) {
+    console.error("Error editing product in Firebase:", error);
   }
 };
 

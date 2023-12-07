@@ -82,7 +82,7 @@ const ShowSearch = () => {
           onModalClose={() => setModal({ show: false, title: "", text: "" })}
         />
       ) : null}
-            <h3 className={classes.showResTitle}>תוצאות חיפוש : {paramsName[2]}</h3>
+            {productsState.length > 0 ? <h3 className={classes.showResTitle}>תוצאות חיפוש : {paramsName[2]}</h3> : <h3 className={classes.showResTitle}>לא נמצאו מוצרים</h3>}
             {loading && <Loading />}
             {renderProducts()}
         </Aux>
