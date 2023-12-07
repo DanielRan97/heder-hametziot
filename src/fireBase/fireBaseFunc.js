@@ -121,8 +121,9 @@ export const addCategory = async (data) => {
   try {
     const categories = await getCategories();
     const updatedCategories = categories ? [...(categories.categories || []), data] : [data];
+    let filteredArray = updatedCategories.filter(element => element !== undefined);
     const productsRef = ref(db, "categories");
-    set(productsRef, { categories: updatedCategories });
+    set(productsRef, { categories: filteredArray });
   } catch (error) {
     console.error("Error adding category to Firebase:", error);
   }
@@ -132,8 +133,10 @@ export const addType = async (data) => {
   try {
     const types = await getTypes();
     const updatedTypes = types ? [...types, data] : [data];
+    let filteredArray = updatedTypes.filter(element => element !== undefined);
+    console.log(filteredArray);
     const productsRef = ref(db, "types");
-    set(productsRef, updatedTypes);
+    set(productsRef, filteredArray);
   } catch (error) {
     console.error("Error adding type to Firebase:", error);
   }

@@ -118,3 +118,48 @@
     align-items: start;
     cursor: pointer;
 }
+.deleteDialogProductButton {
+    background-color: red;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+    font-weight: bold;
+
+}
+
+.deleteDialogProductButton:hover {
+    border: black 1px solid;
+    background-color: black;
+    color: red;
+}
+
+.deleteDialogProductButton:active {
+    background-color: red;
+    color: black;
+}
+
+.deleteDialogCancelProductButton {
+    background-color: gray;
+    color: black;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    margin: 2px;
+    font-weight: bold;
+
+}
+
+.deleteDialogCancelProductButton:hover {
+    border: gray 1px solid;
+    background-color: black;
+    color: gray;
+}
+
+.deleteDialogCancelProductButton:active {
+    background-color: black;
+    color: gray;
+}

@@ -33,7 +33,7 @@ const SearchBar = props => {
         <input
           value={searchState}
           className={classes.searchInput}
-          type="text"
+          type="search"
           placeholder="חפש את שם המוצר..."
           onChange={e => searchHandler(e.target.value)}
           ></input>

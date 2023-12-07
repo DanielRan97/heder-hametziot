@@ -2,6 +2,17 @@
 text-align: center;
 }
 
+.Products .adminActionsDiv select , input{
+    width: 300px;
+    height: 50px;
+    color: black;
+    margin: 10px;
+}
+
+.Products .adminActionsDiv input:focus {
+    outline: none;
+}
+
 .productsNavButtons {
     background-color: black;
     color: bisque;

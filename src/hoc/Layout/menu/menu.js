@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { getProducts, logout } from "../../../fireBase/fireBaseFunc";
+import { useState } from "react";
+import { logout } from "../../../fireBase/fireBaseFunc";
 import { auth } from "../../../fireBase/firebase";
 import Aux from "../../Auxiliary/Auxiliary";
 import withClass from "../../withClass/withClass";
@@ -9,33 +9,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleRight, faXmark } from "@fortawesome/free-solid-svg-icons";
 
 const Menu = (props) => {
-  const [types, setTypes] = useState([]);
-  const [categories, setCategories] = useState([]);
+
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
-
-
-  useEffect(() => {
-    try {
-      let categories = [];
-      let types = [];
-      getProducts().then((res) => {
-        if(res !== undefined && res !== null){
-          Object.values(res).forEach((element) => {
-            categories.push(element.categories);
-            types.push({category: element.categories , type: element.types});
-          });
-          setCategories(categories);
-          let jsonObject = types.map(JSON.stringify);
-          let uniqueSet = new Set(jsonObject);
-          let uniqueTypesArray = Array.from(uniqueSet).map(JSON.parse);
-          setTypes(uniqueTypesArray);
-        }
-      });
-    } catch (error) {
-      setCategories([]);
-    }
-  }, []);
+  
   const logOutHandler = async () => {
     await logout();
     props.setMenu(false);
@@ -53,7 +30,7 @@ const Menu = (props) => {
   };
 
   const setTypesList = () => {
-    let uniqCategory = [...new Set(categories)];
+    let uniqCategory = [...new Set(props.categories)];
 
       return (
         <div className={classes.categoriesList}>
@@ -67,11 +44,11 @@ const Menu = (props) => {
               >
                 עמוד הבית
               </li>
-            {types !== undefined && types !== null && types.length > 0 &&
-            uniqCategory.map((element) => (
+            {props.types !== undefined && props.types !== null && props.types.length > 0 &&
+            uniqCategory.map((element, index) => (
               <li
                 className={classes.categories}
-                key={element}
+                key={index}
                 onClick={() =>
                   category !== element ? setCategory(element) : setCategory("")
                 }
@@ -90,11 +67,11 @@ const Menu = (props) => {
                 )}
                 {element === category && (
                   <ul className={classes.typesUl}>
-                    {types
+                    {props.types
                       .filter((type) => type.category === element)
                       .map((type , index) => (
                         <li
-                          key={index}
+                          key={index + 1000000}
                           className={classes.typesLi}
                           onClick={() => typesHandler(type.category, type.type)}
                         >

@@ -2,56 +2,41 @@ import Aux from "../../../../hoc/Auxiliary/Auxiliary";
 import Table from "react-bootstrap/Table";
 import withClass from "../../../../hoc/withClass/withClass";
 import classes from "./productsTable.module.css";
-import React, { useState, useEffect } from "react";
-import { getProducts, removeProduct } from "../../../../fireBase/fireBaseFunc";
+import React, { useState } from "react";
+import {removeProduct } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
 import { useNavigate } from "react-router-dom";
+import Loading from '../../../UI/loading/loading';
 
 const ProductsTable = (props) => {
-  const [productsState, setProductsState] = useState([]);
-  const [productsErrorState, setProductsErrorState] = useState([]);
-  const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [productTableShow, setProductTableShow] = useState(true);
   const navigate = useNavigate();
+  const [deleteDialog, setDeleteDialog] = useState("");
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        let products = [];
-        const res = await getProducts();
-        if (res && Object.keys(res).length > 0) {
-          for (const [key, value] of Object.entries(res)) {
-            products.push({ fbId: key, ...value });
-          }
-          setProductsState(products);
-        }
-      } catch (error) {
-        setModal({
-          show: true,
-          title: "שגיאה",
-          text: "שגיאה בקריאת נתונים, בדוק את חיבור האינטרנט",
-        });
-      }
-    };
+  const deleteDialogHandler = (id) => {
+    setDeleteDialog(id);
+    props.setProductsState(props.productsState);
+  };
 
-    fetchProducts();
-  }, []);
+  const cancelDeleteDialogHandler = () => {
+    setDeleteDialog("");
+  };
 
   const removeP = async (ele, error) => {
     try {
-      productsErrorState.length === 1 && setProductTableShow(true);
+      props.productsErrorState.length === 1 && setProductTableShow(true);
       await removeProduct(ele);
       if (error === false) {
-        const result = productsState.filter((element) => ele !== element.fbId);
-        setProductsState(result.reverse());
+        const result = props.productsState.filter((element) => ele !== element.fbId);
+        props.setProductsState(result);
       } else {
-        const resultError = productsErrorState.filter(
+        const resultError = props.productsErrorState.filter(
           (element) => ele !== element.fbId
         );
-        setProductsErrorState(resultError.reverse());
+        props.setProductsErrorState(resultError);
       }
     } catch (error) {
-      setModal({
+      props.setModal({
         show: true,
         title: "שגיאה",
         text: "שגיאה במחיקת נתונים, בדוק את חיבור האינטרנט",
@@ -60,9 +45,9 @@ const ProductsTable = (props) => {
   };
 
   const handleImageError = (element) => {
-    let filter = productsState.filter((ele) => ele !== element);
-    setProductsState(filter);
-    setProductsErrorState([...productsErrorState, element]);
+    let filter = props.productsState.filter((ele) => ele !== element);
+    props.setProductsState(filter);
+    props.setProductsErrorState([...props.productsErrorState, element]);
   };
 
   const showProduct = (ele) => {
@@ -70,20 +55,28 @@ const ProductsTable = (props) => {
   };
 
   const productTableHandler = () => {
-    if (productsState.length === 0) {
+
+    if(props.loading){
       return (
         <tr>
-          <td colSpan="10">אין מוצרים זמינים</td>
+        <td colSpan="13"><Loading /></td>
+      </tr>
+      );
+    }
+    if (props.productsState.length === 0) {
+      return (
+        <tr>
+          <td colSpan="13">אין מוצרים זמינים</td>
         </tr>
       );
     }
 
-    return productsState.reverse().map((ele, index) => (
+    return props.productsState.map((ele, index) => (
       <tr key={ele.id}>
         <td>{index + 1}</td>
         <td>{ele.name}</td>
         <td>{ele.description}</td>
-        <td>₪{ele.price}</td>
+        <td>₪{ele.price}.00</td>
         <td>{ele.categories}</td>
         <td>{ele.types}</td>
         <td>{ele.gender}</td>
@@ -122,32 +115,49 @@ const ProductsTable = (props) => {
           </button>
         </td>
         <td>
-          <button
-            type="button"
-            className={classes.deleteProductButton}
-            onClick={() => removeP(ele.fbId, false)}
-          >
-            מחיקה
-          </button>
+          {deleteDialog !== ele.fbId ? (
+            <button
+              type="button"
+              className={classes.deleteProductButton}
+              onClick={() => deleteDialogHandler(ele.fbId)}
+            >
+              מחיקה
+            </button>
+          ) : (
+            <div>
+              <button
+                className={classes.deleteDialogProductButton}
+                onClick={() => removeP(ele.fbId)}
+              >
+                מחיקה
+              </button>
+              <button
+                className={classes.deleteDialogCancelProductButton}
+                onClick={() => cancelDeleteDialogHandler()}
+              >
+                ביטול
+              </button>
+            </div>
+          )}
         </td>
       </tr>
     ));
   };
 
   const productTableErrorHandler = () => {
-    if (productsErrorState.length === 0) {
+    if (props.productsErrorState.length === 0 && !props.loading) {
       return (
         <tr>
           <td colSpan="10">אין מוצרים זמינים</td>
         </tr>
       );
     }
-    return productsErrorState.reverse().map((ele, index) => (
+    return props.productsErrorState.map((ele, index) => (
       <tr key={ele.id}>
         <td>{index}</td>
         <td>{ele.name}</td>
         <td>{ele.description}</td>
-        <td>₪{ele.price}</td>
+        <td>₪{ele.price}.00</td>
         <td>{ele.categories}</td>
         <td>{ele.types}</td>
         <td>{ele.gender}</td>
@@ -160,21 +170,40 @@ const ProductsTable = (props) => {
           </a>
         </td>
         <td></td>
-        <button
-          type="button"
-          className={classes.editProductButton}
-          onClick={() => props.editPage(ele)}
-        >
-          עריכה
-        </button>
         <td>
           <button
             type="button"
-            className={classes.deleteProductButton}
-            onClick={() => removeP(ele.fbId, true)}
+            className={classes.editProductButton}
+            onClick={() => props.editPage(ele)}
           >
-            מחיקה
+            עריכה
           </button>
+        </td>
+        <td>
+          {deleteDialog !== ele.fbId ? (
+            <button
+              type="button"
+              className={classes.deleteProductButton}
+              onClick={() => deleteDialogHandler(ele.fbId)}
+            >
+              מחיקה
+            </button>
+          ) : (
+            <div>
+              <button
+                className={classes.deleteDialogProductButton}
+                onClick={() => removeP(ele.fbId)}
+              >
+                מחיקה
+              </button>
+              <button
+                className={classes.deleteDialogCancelProductButton}
+                onClick={() => cancelDeleteDialogHandler()}
+              >
+                ביטול
+              </button>
+            </div>
+          )}
         </td>
       </tr>
     ));
@@ -233,7 +262,7 @@ const ProductsTable = (props) => {
     return (
       <form className={classes.tableRadioInput}>
         <label>
-          ({productsErrorState.length}) מוצרים לא תקינים
+          ({props.productsErrorState.length}) מוצרים לא תקינים
           <input
             name="products"
             value={productTableShow}
@@ -242,7 +271,7 @@ const ProductsTable = (props) => {
           />
         </label>
         <label>
-          ({productsState.length}) <span>מוצרים תקינים</span>
+          ({props.productsState.length}) <span>מוצרים תקינים</span>
           <input
             name="products"
             value={productTableShow}
@@ -257,14 +286,14 @@ const ProductsTable = (props) => {
 
   return (
     <Aux>
-      {modal.show ? (
+      {props.modal.show ? (
         <ModalDialog
-          title={modal.title}
-          text={modal.text}
-          onModalClose={() => setModal({ show: false, title: "", text: "" })}
+          title={props.modal.title}
+          text={props.modal.text}
+          onModalClose={() => props.setModal({ show: false, title: "", text: "" })}
         />
       ) : null}
-      {productsErrorState.length > 0 && tableRadioRender()}
+      {props.productsErrorState.length > 0 && tableRadioRender()}
       <Table striped bordered hover responsive>
         {productTableShow ? renderTable() : renderErrorTable()}
       </Table>
