@@ -132,7 +132,7 @@ const Products = () => {
           <option value="מהיקר לזול">מהיקר לזול</option>
           <option value="מהזול ליקר">מהזול ליקר</option>
           <option value="א - ת (שם)">א - ת (שם)</option>
-          <option value="ת - א (שם)">א - ת (שם)</option>
+          <option value="ת - א (שם)">ת - א (שם)</option>
         </select>
 
         <input type="search" placeholder="חפש לפי שם..." onChange={e => searchHandler(e.target.value)}></input>
@@ -141,7 +141,8 @@ const Products = () => {
         editPage={(ele) => editProducthandler(ele)}
         productsState={filterProductsState}
         productsErrorState={productsErrorState}
-        setProductsErrorState={setProductsErrorState}
+        setProductsErrorState={(ele) =>  setProductsErrorState(ele)}
+        setProductsState={(ele) => setFilterProductsState(ele)}
         modal={{ ...modal }}
         loading={loading}
         setModal={(modalChild) => setModal(modalChild)}

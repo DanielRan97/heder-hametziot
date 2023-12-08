@@ -5,6 +5,7 @@ import {
   getTypes,
   editProduct,
   getCategories,
+  handleEditImgs,
 } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
 import Loading from "../../../UI/loading/loading";
@@ -20,6 +21,7 @@ const EditProductForm = (props) => {
     link: props.editProductData.link,
     photos: props.editProductData.photos,
     fbId: props.editProductData.fbId,
+    id: props.editProductData.id
   });
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -29,10 +31,7 @@ const EditProductForm = (props) => {
   });
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [editProductLoading, setEditProductLoading] = useState(false);
-  const [textareaValue, setTextareaValue] = useState(
-    props.editProductData.photos.join(",")
-  );
-
+  const [productImgs, setProductImgs] = useState([]);
   useEffect(() => {
     setEditProductFromState({ ...props.editProductData });
     try {
@@ -65,16 +64,8 @@ const EditProductForm = (props) => {
   };
 
   const editFormButtonDisabled = () => {
-    const {
-      name,
-      price,
-      categories,
-      types,
-      description,
-      gender,
-      link,
-      photos,
-    } = editProductFromState;
+    const { name, price, categories, types, description, gender, link } =
+      editProductFromState;
 
     return (
       name === "" ||
@@ -83,39 +74,41 @@ const EditProductForm = (props) => {
       types === "" ||
       description === "" ||
       gender === "" ||
-      !isValidUrl(link) ||
-      photos[0] === ""
+      !isValidUrl(link)
     );
   };
 
-  const photosHendler = (string) => {
-    setTextareaValue(string);
-
-    let parts = string.split(/(\.jpg|\.png)/);
-
-    for (let i = 1; i < parts.length; i += 2) {
-      parts[i] += "???";
+  const handleChange = (e) => {
+    if (e.target.files.length > 0) {
+      setProductImgs(Array.from(e.target.files));
     }
-
-    string = parts.join("");
-    let getherArry = string.split("???");
-    let newArray = getherArry.filter((str) => str !== "");
-    setEditProductFromState({ ...editProductFromState, photos: newArray });
   };
 
   const editProductHandler = async (id) => {
     setEditProductLoading(true);
+    let images = [];
     try {
+      if(productImgs.length > 0){
+        const res = await handleEditImgs(
+          productImgs,
+          editProductFromState.id
+        );
+        if (res) {
+          images = res;
+        } else {
+          setEditProductLoading(false);
+          setEditSProductMessage({
+            message: "עריכת התמונות נכשלה",
+            class: classes.editSFailedMessage,
+          });
+        }
+      }
       await editProduct(id, {
         ...editProductFromState,
-      });
-      setEditSProductMessage({
-        message: "עריכת המוצר בוצעה בהצלחה",
-        class: classes.editSuccessMessage,
-      });
-      setTextareaValue("");
-      setEditProductLoading(false);
-      props.backToTable();
+        photos: images.length > 0 ? images : editProductFromState.photos
+      }).then(() => {
+        props.backToTable();
+      })
     } catch (error) {
       setEditProductLoading(false);
       setEditSProductMessage({
@@ -290,17 +283,16 @@ const EditProductForm = (props) => {
           ) : null}
         </label>
         <label>
-          <h4> לינקים לתמונות </h4>
-          <textarea
-            value={textareaValue}
-            onChange={(e) => photosHendler(e.target.value)}
-          ></textarea>
+          <h4>העלה תמונות</h4>
+
+          <input type="file" onChange={handleChange} multiple />
         </label>
         <p className={editSProductMessage.class}>
           {editProductLoading === <Loading />
             ? editProductLoading
             : editSProductMessage.message}
         </p>
+        {editProductLoading && <Loading />}
         <button
           type="button"
           disabled={editFormButtonDisabled()}

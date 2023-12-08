@@ -5,6 +5,7 @@ import {
   getTypes,
   addProduct,
   getCategories,
+  handleUploadImgs,
 } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
 import Loading from "../../../UI/loading/loading";
@@ -17,8 +18,7 @@ const AddProductForm = () => {
     types: "",
     description: "",
     gender: "",
-    link: "",
-    photos: "",
+    link: ""
   });
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -28,7 +28,7 @@ const AddProductForm = () => {
   });
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [addProductLoading, setAddProductLoading] = useState(false);
-  const [textareaValue, setTextareaValue] = useState("")
+  const [productImgs, setProductImgs] = useState([]);
 
   useEffect(() => {
     try {
@@ -60,6 +60,12 @@ const AddProductForm = () => {
     return urlPattern.test(url);
   };
 
+  const handleChange = (e) => {
+    if (e.target.files.length > 0) {
+      setProductImgs(Array.from(e.target.files));
+    }
+  };
+
   const addFormButtonDisabled = () => {
     const {
       name,
@@ -68,8 +74,7 @@ const AddProductForm = () => {
       types,
       description,
       gender,
-      link,
-      photos,
+      link
     } = addProductFromState;
 
     return (
@@ -79,38 +84,36 @@ const AddProductForm = () => {
       types === "" ||
       description === "" ||
       gender === "" ||
-      !isValidUrl(link) ||
-      photos[0] === ""
+      !isValidUrl(link) 
     );
-  };
-
-  const photosHendler = string => {
-    setTextareaValue(string)
-
-    let parts = string.split(/(\.jpg|\.png)/);
-
-    for (let i = 1; i < parts.length; i += 2) {
-        parts[i] += "???";
-    }
-
-    string = parts.join('');
-    let getherArry = string.split("???")
-    let newArray = getherArry.filter(str => str !== "");
-    setAddProductFromState({...addProductFromState, photos: newArray})
   };
 
   const addProductHandler = async () => {
     setAddProductLoading(true);
+    let images = [];
+    const id = Date.now().toString(36) + Math.random().toString(36).substr(2);
     try {
-      await addProduct({
-        ...addProductFromState,
-        createdAt: new Date().toISOString(),
-      });
+      const res = await handleUploadImgs(productImgs, id);
+      if (res) {
+        images = res;
+      } else {
+        setAddSProductMessage({
+          message: "העלת תמונות נכשלה",
+          class: classes.addSFailedMessage,
+        });
+      }
+       await addProduct({
+         ...addProductFromState,
+         createdAt: new Date().toISOString(),
+         photos: images,
+         id
+       });
+
       setAddSProductMessage({
         message: "המוצר נוסף בהצלחה",
         class: classes.addSuccessMessage,
       });
-      setTextareaValue("");
+
       setAddProductFromState({
         name: "",
         price: 0,
@@ -118,9 +121,9 @@ const AddProductForm = () => {
         types: addProductFromState.types,
         description: "",
         gender: "",
-        link: "",
-        photos: "",
+        link: ""
       });
+
       setAddProductLoading(false);
     } catch (error) {
       setAddProductLoading(false);
@@ -294,15 +297,18 @@ const AddProductForm = () => {
             <p className={classes.addSFailedMessage}>לינק לא תקין</p>
           ) : null}
         </label>
+
         <label>
-          <h4> לינקים לתמונות </h4>
-          <textarea value={textareaValue} onChange={(e) => photosHendler(e.target.value)}></textarea>
+        <h4>העלה תמונות</h4>
+
+        <input type="file" onChange={handleChange} multiple />
         </label>
         <p className={addSProductMessage.class}>
           {addProductLoading === <Loading />
             ? addProductLoading
             : addSProductMessage.message}
         </p>
+        {addProductLoading && <Loading />}
         <button
           type="button"
           disabled={addFormButtonDisabled()}

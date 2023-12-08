@@ -15,17 +15,16 @@ const ProductsTable = (props) => {
 
   const deleteDialogHandler = (id) => {
     setDeleteDialog(id);
-    props.setProductsState(props.productsState);
   };
 
   const cancelDeleteDialogHandler = () => {
     setDeleteDialog("");
   };
 
-  const removeP = async (ele, error) => {
+  const removeP = async (ele,photoId,photoArry, error) => {
     try {
       props.productsErrorState.length === 1 && setProductTableShow(true);
-      await removeProduct(ele);
+      await removeProduct(ele, photoId);
       if (error === false) {
         const result = props.productsState.filter((element) => ele !== element.fbId);
         props.setProductsState(result);
@@ -72,7 +71,7 @@ const ProductsTable = (props) => {
     }
 
     return props.productsState.map((ele, index) => (
-      <tr key={ele.id}>
+      <tr key={ele.id + index}>
         <td>{index + 1}</td>
         <td>{ele.name}</td>
         <td>{ele.description}</td>
@@ -89,12 +88,12 @@ const ProductsTable = (props) => {
           </a>
         </td>
         <td>
-          <img
+         {ele.photos[0] && <img
             className={classes.productImg}
             src={ele.photos[0]}
             alt="תמונה ראשית"
             onError={() => handleImageError(ele)}
-          />
+          />}
         </td>
         <td>
           <button
@@ -127,7 +126,7 @@ const ProductsTable = (props) => {
             <div>
               <button
                 className={classes.deleteDialogProductButton}
-                onClick={() => removeP(ele.fbId)}
+                onClick={() => removeP(ele.fbId,ele.id,ele.photos, false)}
               >
                 מחיקה
               </button>
@@ -153,7 +152,7 @@ const ProductsTable = (props) => {
       );
     }
     return props.productsErrorState.map((ele, index) => (
-      <tr key={ele.id}>
+      <tr key={ele.id + index}>
         <td>{index}</td>
         <td>{ele.name}</td>
         <td>{ele.description}</td>
@@ -192,11 +191,11 @@ const ProductsTable = (props) => {
             <div>
               <button
                 className={classes.deleteDialogProductButton}
-                onClick={() => removeP(ele.fbId)}
+                onClick={() => removeP(ele.fbId,ele.id,ele.photos, false)}
               >
                 מחיקה
               </button>
-              <button
+              <button false
                 className={classes.deleteDialogCancelProductButton}
                 onClick={() => cancelDeleteDialogHandler()}
               >
@@ -229,7 +228,7 @@ const ProductsTable = (props) => {
             <th>מחיקה</th>
           </tr>
         </thead>
-        <tbody className={classes.tbody}>{productTableHandler()}</tbody>
+        <tbody key={1} className={classes.tbody}>{productTableHandler()}</tbody>
       </Aux>
     );
   };
@@ -253,7 +252,7 @@ const ProductsTable = (props) => {
             <th>מחיקה</th>
           </tr>
         </thead>
-        <tbody className={classes.tbody}>{productTableErrorHandler()}</tbody>
+        <tbody  key={2}className={classes.tbody}>{productTableErrorHandler()}</tbody>
       </Aux>
     );
   };
