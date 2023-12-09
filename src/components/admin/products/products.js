@@ -9,6 +9,7 @@ import ProductsTable from "./productsTable/productsTable";
 import withClass from "../../../hoc/withClass/withClass";
 import EditProductForm from "./editProductForm/editProductForm";
 import { getProducts } from "../../../fireBase/fireBaseFunc";
+import ProductsTableFilters from "./productsTable/productsTableFilters/productsTableFilters";
 
 const Products = () => {
   const [productPageState, setProductPageState] = useState("");
@@ -18,7 +19,6 @@ const Products = () => {
   const [productsErrorState, setProductsErrorState] = useState([]);
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [loading, setLoading] = useState(true);
-  const collator = new Intl.Collator('he', { numeric: true, sensitivity: 'base' });
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -56,51 +56,6 @@ const Products = () => {
     setEditProductData(ele);
   };
 
-  const sortSelectHandler = (action) => {
-    let sortedProducts = [...productsState];
-
-    switch (action) {
-      case "מהחדש לישן":
-        sortedProducts.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
-        break;
-
-      case "מהישן לחדש":
-        sortedProducts.sort(
-          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-        );
-        break;
-
-      case "מהיקר לזול":
-        sortedProducts.sort((a, b) => b.price - a.price);
-        break;
-
-      case "מהזול ליקר":
-        sortedProducts.sort((a, b) => a.price - b.price);
-        break;
-
-      case "א - ת (שם)":
-        sortedProducts.sort((a, b) => collator.compare(a.name, b.name));
-        break;
-        case "ת - א (שם)":
-          sortedProducts.sort((a, b) => collator.compare(b.name, a.name));
-          break;
-      default:
-        break;
-    }
-
-    setFilterProductsState(sortedProducts);
-  };
-
-  const searchHandler = val => {
-    val !== "" ?
-    setFilterProductsState(filterProductsState.filter(ele => ele.name.includes(val))):
-    setFilterProductsState(productsState.sort(
-      (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-    ))
-  };
-
   const productsNav = () => (
     <Aux>
       <h1>ניהול מוצרים </h1>
@@ -123,26 +78,19 @@ const Products = () => {
           <FontAwesomeIcon icon={faPlus} />
         </button>
 
-        <select
-          defaultValue="מהחדש לישן"
-          onChange={(e) => sortSelectHandler(e.target.value)}
-        >
-          <option value="מהישן לחדש">מהישן לחדש</option>
-          <option value="מהחדש לישן">מהחדש לישן</option>
-          <option value="מהיקר לזול">מהיקר לזול</option>
-          <option value="מהזול ליקר">מהזול ליקר</option>
-          <option value="א - ת (שם)">א - ת (שם)</option>
-          <option value="ת - א (שם)">ת - א (שם)</option>
-        </select>
-
-        <input type="search" placeholder="חפש לפי שם..." onChange={e => searchHandler(e.target.value)}></input>
+        <ProductsTableFilters
+          productsState={productsState}
+          filterProductsState={filterProductsState}
+          setFilterProductsState={(ele) => setFilterProductsState(ele)}
+          setProductsState={(ele) => setProductsState(ele)}
+        />
       </div>
       <ProductsTable
         editPage={(ele) => editProducthandler(ele)}
-        productsState={filterProductsState}
+        filterProductsState={filterProductsState}
         productsErrorState={productsErrorState}
-        setProductsErrorState={(ele) =>  setProductsErrorState(ele)}
-        setProductsState={(ele) => setFilterProductsState(ele)}
+        setProductsErrorState={(ele) => setProductsErrorState(ele)}
+        setFilterProductsState={(ele) => setFilterProductsState(ele)}
         modal={{ ...modal }}
         loading={loading}
         setModal={(modalChild) => setModal(modalChild)}

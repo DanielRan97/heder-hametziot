@@ -3,15 +3,16 @@ import Table from "react-bootstrap/Table";
 import withClass from "../../../../hoc/withClass/withClass";
 import classes from "./productsTable.module.css";
 import React, { useState } from "react";
-import {removeProduct } from "../../../../fireBase/fireBaseFunc";
+import { removeProduct } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
 import { useNavigate } from "react-router-dom";
-import Loading from '../../../UI/loading/loading';
+import Loading from "../../../UI/loading/loading";
 
 const ProductsTable = (props) => {
   const [productTableShow, setProductTableShow] = useState(true);
   const navigate = useNavigate();
   const [deleteDialog, setDeleteDialog] = useState("");
+  const [deleteLoading, setDeleteLoading] = useState(false);
 
   const deleteDialogHandler = (id) => {
     setDeleteDialog(id);
@@ -21,20 +22,25 @@ const ProductsTable = (props) => {
     setDeleteDialog("");
   };
 
-  const removeP = async (ele,photoId,photoArry, error) => {
+  const removeP = async (ele, photoId, error) => {
+    setDeleteLoading(true);
     try {
       props.productsErrorState.length === 1 && setProductTableShow(true);
       await removeProduct(ele, photoId);
       if (error === false) {
-        const result = props.productsState.filter((element) => ele !== element.fbId);
-        props.setProductsState(result);
+        const result = props.filterProductsState.filter(
+          (element) => ele !== element.fbId
+        );
+        props.setFilterProductsState(result);
       } else {
         const resultError = props.productsErrorState.filter(
           (element) => ele !== element.fbId
         );
         props.setProductsErrorState(resultError);
       }
+      setDeleteLoading(false);
     } catch (error) {
+      setDeleteLoading(false);
       props.setModal({
         show: true,
         title: "שגיאה",
@@ -44,8 +50,8 @@ const ProductsTable = (props) => {
   };
 
   const handleImageError = (element) => {
-    let filter = props.productsState.filter((ele) => ele !== element);
-    props.setProductsState(filter);
+    let filter = props.filterProductsState.filter((ele) => ele !== element);
+    props.setFilterProductsState(filter);
     props.setProductsErrorState([...props.productsErrorState, element]);
   };
 
@@ -54,15 +60,16 @@ const ProductsTable = (props) => {
   };
 
   const productTableHandler = () => {
-
-    if(props.loading){
+    if (props.loading) {
       return (
         <tr>
-        <td colSpan="13"><Loading /></td>
-      </tr>
+          <td colSpan="13">
+            <Loading />
+          </td>
+        </tr>
       );
     }
-    if (props.productsState.length === 0) {
+    if (props.filterProductsState.length === 0) {
       return (
         <tr>
           <td colSpan="13">אין מוצרים זמינים</td>
@@ -70,7 +77,7 @@ const ProductsTable = (props) => {
       );
     }
 
-    return props.productsState.map((ele, index) => (
+    return props.filterProductsState.map((ele, index) => (
       <tr key={ele.id + index}>
         <td>{index + 1}</td>
         <td>{ele.name}</td>
@@ -88,12 +95,14 @@ const ProductsTable = (props) => {
           </a>
         </td>
         <td>
-         {ele.photos[0] && <img
-            className={classes.productImg}
-            src={ele.photos[0]}
-            alt="תמונה ראשית"
-            onError={() => handleImageError(ele)}
-          />}
+          {ele.photos[0] && (
+            <img
+              className={classes.productImg}
+              src={ele.photos[0]}
+              alt="תמונה ראשית"
+              onError={() => handleImageError(ele)}
+            />
+          )}
         </td>
         <td>
           <button
@@ -126,16 +135,16 @@ const ProductsTable = (props) => {
             <div>
               <button
                 className={classes.deleteDialogProductButton}
-                onClick={() => removeP(ele.fbId,ele.id,ele.photos, false)}
+                onClick={() => removeP(ele.fbId, ele.id, ele.photos, false)}
               >
-                מחיקה
+                {deleteLoading? <Loading />: "מחיקה"}
               </button>
-              <button
+              {!deleteLoading && <button
                 className={classes.deleteDialogCancelProductButton}
                 onClick={() => cancelDeleteDialogHandler()}
               >
                 ביטול
-              </button>
+              </button>}
             </div>
           )}
         </td>
@@ -191,11 +200,12 @@ const ProductsTable = (props) => {
             <div>
               <button
                 className={classes.deleteDialogProductButton}
-                onClick={() => removeP(ele.fbId,ele.id,ele.photos, false)}
+                onClick={() => removeP(ele.fbId, ele.id, ele.photos, false)}
               >
                 מחיקה
               </button>
-              <button false
+              <button
+                false
                 className={classes.deleteDialogCancelProductButton}
                 onClick={() => cancelDeleteDialogHandler()}
               >
@@ -228,7 +238,9 @@ const ProductsTable = (props) => {
             <th>מחיקה</th>
           </tr>
         </thead>
-        <tbody key={1} className={classes.tbody}>{productTableHandler()}</tbody>
+        <tbody key={1} className={classes.tbody}>
+          {productTableHandler()}
+        </tbody>
       </Aux>
     );
   };
@@ -252,7 +264,9 @@ const ProductsTable = (props) => {
             <th>מחיקה</th>
           </tr>
         </thead>
-        <tbody  key={2}className={classes.tbody}>{productTableErrorHandler()}</tbody>
+        <tbody key={2} className={classes.tbody}>
+          {productTableErrorHandler()}
+        </tbody>
       </Aux>
     );
   };
@@ -270,7 +284,7 @@ const ProductsTable = (props) => {
           />
         </label>
         <label>
-          ({props.productsState.length}) <span>מוצרים תקינים</span>
+          ({props.filterProductsState.length}) <span>מוצרים תקינים</span>
           <input
             name="products"
             value={productTableShow}
@@ -289,7 +303,9 @@ const ProductsTable = (props) => {
         <ModalDialog
           title={props.modal.title}
           text={props.modal.text}
-          onModalClose={() => props.setModal({ show: false, title: "", text: "" })}
+          onModalClose={() =>
+            props.setModal({ show: false, title: "", text: "" })
+          }
         />
       ) : null}
       {props.productsErrorState.length > 0 && tableRadioRender()}

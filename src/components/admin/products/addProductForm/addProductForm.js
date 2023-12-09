@@ -18,7 +18,7 @@ const AddProductForm = () => {
     types: "",
     description: "",
     gender: "",
-    link: ""
+    link: "",
   });
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -67,16 +67,8 @@ const AddProductForm = () => {
   };
 
   const addFormButtonDisabled = () => {
-    const {
-      name,
-      price,
-      categories,
-      types,
-      description,
-      gender,
-      link
-    } = addProductFromState;
-
+    const { name, price, categories, types, description, gender, link } =
+      addProductFromState;
     return (
       name === "" ||
       price === 0 ||
@@ -84,7 +76,8 @@ const AddProductForm = () => {
       types === "" ||
       description === "" ||
       gender === "" ||
-      !isValidUrl(link) 
+      !isValidUrl(link) ||
+      !productImgs.length > 0
     );
   };
 
@@ -102,18 +95,18 @@ const AddProductForm = () => {
           class: classes.addSFailedMessage,
         });
       }
-       await addProduct({
-         ...addProductFromState,
-         createdAt: new Date().toISOString(),
-         photos: images,
-         id
-       });
+      await addProduct({
+        ...addProductFromState,
+        createdAt: new Date().toISOString(),
+        photos: images,
+        id,
+      });
 
       setAddSProductMessage({
         message: "המוצר נוסף בהצלחה",
         class: classes.addSuccessMessage,
       });
-
+      setProductImgs([]);
       setAddProductFromState({
         name: "",
         price: 0,
@@ -121,7 +114,7 @@ const AddProductForm = () => {
         types: addProductFromState.types,
         description: "",
         gender: "",
-        link: ""
+        link: "",
       });
 
       setAddProductLoading(false);
@@ -299,9 +292,9 @@ const AddProductForm = () => {
         </label>
 
         <label>
-        <h4>העלה תמונות</h4>
+          <h4>העלה תמונות</h4>
 
-        <input type="file" onChange={handleChange} multiple />
+          <input type="file" onChange={handleChange} multiple />
         </label>
         <p className={addSProductMessage.class}>
           {addProductLoading === <Loading />

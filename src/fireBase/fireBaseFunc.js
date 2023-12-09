@@ -245,7 +245,6 @@ const deleteImgs = async (id) => {
 
       if (exists) {
         await deleteObject(storageRef);
-        console.log(`Deleted existing image: ${imgPath}`);
       } else {
         // No more images, break out of the loop
         break;
