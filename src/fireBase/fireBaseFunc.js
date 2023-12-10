@@ -189,11 +189,11 @@ export const handleUploadImgs = async (files, id) => {
   try {
     for (let index = 0; index < files.length; index++) {
       const file = files[index];
-      const storageRef = imgRef(storage, `/hederHametziotProductImgs/${id}/place${index}.jpg`);
+      const storageRef = imgRef(storage, `/hederHametziotProductImgs/${id}/place${index}`);
 
       await uploadBytes(storageRef, file);
       // Gets the URL for the uploaded image
-      const imageUrl = await getDownloadURL(imgRef(storage, `/hederHametziotProductImgs/${id}/place${index}.jpg`));
+      const imageUrl = await getDownloadURL(imgRef(storage, `/hederHametziotProductImgs/${id}/place${index}`));
       imgsUrlsArry.push(imageUrl);
     }
     return imgsUrlsArry;
@@ -213,13 +213,13 @@ export const handleEditImgs = async (files, id) => {
     // Upload new images
     for (let index = 0; index < files.length; index++) {
       const file = files[index];
-      const storageRef = imgRef(storage, `/hederHametziotProductImgs/${id}/place${index}.jpg`);
+      const storageRef = imgRef(storage, `/hederHametziotProductImgs/${id}/place${index}`);
 
       await uploadBytes(storageRef, file);
 
       // Gets the URL for the uploaded image
       const imageUrl = await getDownloadURL(
-        imgRef(storage, `/hederHametziotProductImgs/${id}/place${index}.jpg`)
+        imgRef(storage, `/hederHametziotProductImgs/${id}/place${index}`)
       );
       imgsUrlsArry.push(imageUrl);
     }
@@ -237,7 +237,7 @@ const deleteImgs = async (id) => {
     let index = 0;
 
     while (true) {
-      const imgPath = `/hederHametziotProductImgs/${id}/place${index}.jpg`;
+      const imgPath = `/hederHametziotProductImgs/${id}/place${index}`;
       const storageRef = imgRef(storage, imgPath);
 
       // Check if the image exists before trying to delete

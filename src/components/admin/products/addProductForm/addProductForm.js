@@ -1,5 +1,4 @@
 import Aux from "../../../../hoc/Auxiliary/Auxiliary";
-import classes from "./addProductForm.module.css";
 import { useState, useEffect } from "react";
 import {
   getTypes,
@@ -8,7 +7,7 @@ import {
   handleUploadImgs,
 } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
-import Loading from "../../../UI/loading/loading";
+import ProductForm from "./productFrom/productFrom";
 
 const AddProductForm = () => {
   const [addProductFromState, setAddProductFromState] = useState({
@@ -24,7 +23,7 @@ const AddProductForm = () => {
   const [categories, setCategories] = useState([]);
   const [addSProductMessage, setAddSProductMessage] = useState({
     message: "",
-    class: "",
+    type: "",
   });
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [addProductLoading, setAddProductLoading] = useState(false);
@@ -92,7 +91,7 @@ const AddProductForm = () => {
       } else {
         setAddSProductMessage({
           message: "העלת תמונות נכשלה",
-          class: classes.addSFailedMessage,
+          type: "error",
         });
       }
       await addProduct({
@@ -104,7 +103,7 @@ const AddProductForm = () => {
 
       setAddSProductMessage({
         message: "המוצר נוסף בהצלחה",
-        class: classes.addSuccessMessage,
+        type: "success",
       });
       setProductImgs([]);
       setAddProductFromState({
@@ -122,7 +121,7 @@ const AddProductForm = () => {
       setAddProductLoading(false);
       setAddSProductMessage({
         message: "העלת מוצר נכשלה",
-        class: classes.addSFailedMessage,
+        type: "error",
       });
     }
   };
@@ -136,180 +135,18 @@ const AddProductForm = () => {
           onModalClose={() => setModal({ show: false, title: "", text: "" })}
         />
       ) : null}
-      <form className={classes.productForm}>
-        <h1>העלה מוצר</h1>
-        <label>
-          <h4> שם:</h4>
-          <input
-            type="text"
-            value={addProductFromState.name}
-            onChange={(e) =>
-              setAddProductFromState({
-                ...addProductFromState,
-                name: e.target.value,
-              })
-            }
-          />
-        </label>
-        <label>
-          <h4>מחיר:</h4>
-          <input
-            type="number"
-            value={addProductFromState.price}
-            onChange={(e) =>
-              setAddProductFromState({
-                ...addProductFromState,
-                price: parseFloat(e.target.value) || 0,
-              })
-            }
-          />
-        </label>
-        <label>
-          <h4>קטגוריה:</h4>
-          <select
-            value={addProductFromState.categories}
-            onChange={(e) =>
-              setAddProductFromState({
-                ...addProductFromState,
-                categories: e.target.value,
-              })
-            }
-          >
-            <option value="" disabled>
-              {categories.length === 0 ? "עדיין אין קטגוריות" : "בחר קטגוריה"}
-            </option>
-            {categories.map((element, index) => (
-              <option value={element} key={index}>
-                {element}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <h4>תת קטגוריה:</h4>
-          <select
-            value={addProductFromState.types}
-            onChange={(e) =>
-              setAddProductFromState({
-                ...addProductFromState,
-                types: e.target.value,
-              })
-            }
-          >
-            <option value="" disabled>
-              בחר תת קטגוריה
-            </option>
-            {types
-              .filter(
-                (element) => element.category === addProductFromState.categories
-              )
-              .map((element, index) => (
-                <option value={element.type} key={index}>
-                  {element.type}
-                </option>
-              ))}
-          </select>
-        </label>
-        <label>
-          <h4>מיגדר:</h4>
-          <label className={classes.radio}>
-            נקבה
-            <input
-              type="radio"
-              id="female"
-              name="gender"
-              value="נקבה"
-              checked={addProductFromState.gender === "נקבה"}
-              onChange={(e) =>
-                setAddProductFromState({
-                  ...addProductFromState,
-                  gender: e.target.value,
-                })
-              }
-            />
-          </label>
-          <label className={classes.radio}>
-            זכר
-            <input
-              type="radio"
-              id="male"
-              name="gender"
-              value="זכר"
-              checked={addProductFromState.gender === "זכר"}
-              onChange={(e) =>
-                setAddProductFromState({
-                  ...addProductFromState,
-                  gender: e.target.value,
-                })
-              }
-            />
-          </label>
-          <label className={classes.radio}>
-            יוניסקס
-            <input
-              type="radio"
-              id="both"
-              name="gender"
-              value="שניהם"
-              checked={addProductFromState.gender === "שניהם"}
-              onChange={(e) =>
-                setAddProductFromState({
-                  ...addProductFromState,
-                  gender: e.target.value,
-                })
-              }
-            />
-          </label>
-        </label>
-        <label>
-          <h4>תיאור מוצר:</h4>
-          <textarea
-            value={addProductFromState.description}
-            onChange={(e) =>
-              setAddProductFromState({
-                ...addProductFromState,
-                description: e.target.value,
-              })
-            }
-          ></textarea>
-        </label>
-        <label>
-          <h4>לינק:</h4>
-          <input
-            type="text"
-            value={addProductFromState.link}
-            onChange={(e) =>
-              setAddProductFromState({
-                ...addProductFromState,
-                link: e.target.value,
-              })
-            }
-          />
-          {!isValidUrl(addProductFromState.link) &&
-          addProductFromState.link !== "" ? (
-            <p className={classes.addSFailedMessage}>לינק לא תקין</p>
-          ) : null}
-        </label>
-
-        <label>
-          <h4>העלה תמונות</h4>
-
-          <input type="file" onChange={handleChange} multiple />
-        </label>
-        <p className={addSProductMessage.class}>
-          {addProductLoading === <Loading />
-            ? addProductLoading
-            : addSProductMessage.message}
-        </p>
-        {addProductLoading && <Loading />}
-        <button
-          type="button"
-          disabled={addFormButtonDisabled()}
-          onClick={addProductHandler}
-        >
-          הוסף מוצר
-        </button>
-      </form>
+      <ProductForm
+      addProductFromState={addProductFromState}
+      setAddProductFromState={(ele) => setAddProductFromState(ele)}
+      categories={categories}
+      types={types}
+      isValidUrl={(ele) => isValidUrl(ele)}
+      handleChange={(e) => handleChange(e)}
+      addProductLoading={addProductLoading}
+      addFormButtonDisabled={() => addFormButtonDisabled()}
+      addProductHandler={() => addProductHandler()}
+      addSProductMessage={addSProductMessage}
+      />
     </Aux>
   );
 };

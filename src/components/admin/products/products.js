@@ -12,11 +12,13 @@ import { getProducts } from "../../../fireBase/fireBaseFunc";
 import ProductsTableFilters from "./productsTable/productsTableFilters/productsTableFilters";
 
 const Products = () => {
+  const [productTableShow, setProductTableShow] = useState(true);
   const [productPageState, setProductPageState] = useState("");
   const [editProductData, setEditProductData] = useState({});
   const [productsState, setProductsState] = useState([]);
   const [filterProductsState, setFilterProductsState] = useState([]);
   const [productsErrorState, setProductsErrorState] = useState([]);
+  const [productsFilterErrorState, setProductsFilterErrorState] = useState([]);
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [loading, setLoading] = useState(true);
 
@@ -79,18 +81,29 @@ const Products = () => {
         </button>
 
         <ProductsTableFilters
+          productTableShow={productTableShow}
           productsState={productsState}
           filterProductsState={filterProductsState}
           setFilterProductsState={(ele) => setFilterProductsState(ele)}
           setProductsState={(ele) => setProductsState(ele)}
+          productsErrorState={productsErrorState}
+          productsFilterErrorState={productsFilterErrorState}
+          setProductsErrorState={(ele) => setProductsErrorState(ele)}
+          setProductsFilterErrorState={(ele) =>
+            setProductsFilterErrorState(ele)
+          }
         />
       </div>
       <ProductsTable
+        productTableShow={productTableShow}
+        setProductTableShow={(bool) => setProductTableShow(bool)}
         editPage={(ele) => editProducthandler(ele)}
         filterProductsState={filterProductsState}
         productsErrorState={productsErrorState}
-        setProductsErrorState={(ele) => setProductsErrorState(ele)}
+        productsFilterErrorState={productsFilterErrorState}
+        setProductsFilterErrorState={(ele) => setProductsFilterErrorState(ele)}
         setFilterProductsState={(ele) => setFilterProductsState(ele)}
+        setProductsErrorState={(ele) => setProductsErrorState(ele)}
         modal={{ ...modal }}
         loading={loading}
         setModal={(modalChild) => setModal(modalChild)}

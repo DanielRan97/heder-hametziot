@@ -6,10 +6,10 @@ import React, { useState } from "react";
 import { removeProduct } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
 import { useNavigate } from "react-router-dom";
-import Loading from "../../../UI/loading/loading";
+import ProductTableBody from "./productTableBody/productTableBody";
+import ProductTableBodyError from "./productTableBody/productTableBodyError";
 
 const ProductsTable = (props) => {
-  const [productTableShow, setProductTableShow] = useState(true);
   const navigate = useNavigate();
   const [deleteDialog, setDeleteDialog] = useState("");
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -22,22 +22,25 @@ const ProductsTable = (props) => {
     setDeleteDialog("");
   };
 
-  const removeP = async (ele, photoId, error) => {
+  const removeP = async (ele, photoId, worked) => {
     setDeleteLoading(true);
+
     try {
-      props.productsErrorState.length === 1 && setProductTableShow(true);
+      if (props.productsFilterErrorState.length === 1) {
+        props.setProductTableShow(true);
+      }
       await removeProduct(ele, photoId);
-      if (error === false) {
+      if (worked === false) {
         const result = props.filterProductsState.filter(
           (element) => ele !== element.fbId
         );
         props.setFilterProductsState(result);
-      } else {
-        const resultError = props.productsErrorState.filter(
+        const resultError = props.productsFilterErrorState.filter(
           (element) => ele !== element.fbId
         );
-        props.setProductsErrorState(resultError);
+        props.setProductsFilterErrorState(resultError);
       }
+
       setDeleteLoading(false);
     } catch (error) {
       setDeleteLoading(false);
@@ -52,221 +55,72 @@ const ProductsTable = (props) => {
   const handleImageError = (element) => {
     let filter = props.filterProductsState.filter((ele) => ele !== element);
     props.setFilterProductsState(filter);
-    props.setProductsErrorState([...props.productsErrorState, element]);
+    props.setProductsFilterErrorState([
+      ...props.productsFilterErrorState,
+      element,
+    ]);
+    props.setProductsErrorState([
+      ...props.productsFilterErrorState,
+      element,
+    ]);
+
   };
 
   const showProduct = (ele) => {
     navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`);
   };
 
-  const productTableHandler = () => {
-    if (props.loading) {
-      return (
-        <tr>
-          <td colSpan="13">
-            <Loading />
-          </td>
-        </tr>
-      );
-    }
-    if (props.filterProductsState.length === 0) {
-      return (
-        <tr>
-          <td colSpan="13">אין מוצרים זמינים</td>
-        </tr>
-      );
-    }
-
-    return props.filterProductsState.map((ele, index) => (
-      <tr key={ele.id + index}>
-        <td>{index + 1}</td>
-        <td>{ele.name}</td>
-        <td>{ele.description}</td>
-        <td>₪{ele.price}.00</td>
-        <td>{ele.categories}</td>
-        <td>{ele.types}</td>
-        <td>{ele.gender}</td>
-        <td>{`${new Date(ele.createdAt).getDate().toLocaleString()}/${
-          new Date(ele.createdAt).getMonth() + 1
-        }/${new Date(ele.createdAt).getFullYear().toLocaleString()}`}</td>
-        <td>
-          <a href={ele.link} target="_blank" rel="noreferrer noopener">
-            {ele.link}
-          </a>
-        </td>
-        <td>
-          {ele.photos[0] && (
-            <img
-              className={classes.productImg}
-              src={ele.photos[0]}
-              alt="תמונה ראשית"
-              onError={() => handleImageError(ele)}
-            />
-          )}
-        </td>
-        <td>
-          <button
-            type="button"
-            className={classes.showProduct}
-            onClick={() => showProduct(ele)}
-          >
-            הצג מוצר
-          </button>
-        </td>
-        <td>
-          <button
-            type="button"
-            className={classes.editProductButton}
-            onClick={() => props.editPage(ele)}
-          >
-            עריכה
-          </button>
-        </td>
-        <td>
-          {deleteDialog !== ele.fbId ? (
-            <button
-              type="button"
-              className={classes.deleteProductButton}
-              onClick={() => deleteDialogHandler(ele.fbId)}
-            >
-              מחיקה
-            </button>
-          ) : (
-            <div>
-              <button
-                className={classes.deleteDialogProductButton}
-                onClick={() => removeP(ele.fbId, ele.id, ele.photos, false)}
-              >
-                {deleteLoading? <Loading />: "מחיקה"}
-              </button>
-              {!deleteLoading && <button
-                className={classes.deleteDialogCancelProductButton}
-                onClick={() => cancelDeleteDialogHandler()}
-              >
-                ביטול
-              </button>}
-            </div>
-          )}
-        </td>
-      </tr>
-    ));
-  };
-
-  const productTableErrorHandler = () => {
-    if (props.productsErrorState.length === 0 && !props.loading) {
-      return (
-        <tr>
-          <td colSpan="10">אין מוצרים זמינים</td>
-        </tr>
-      );
-    }
-    return props.productsErrorState.map((ele, index) => (
-      <tr key={ele.id + index}>
-        <td>{index}</td>
-        <td>{ele.name}</td>
-        <td>{ele.description}</td>
-        <td>₪{ele.price}.00</td>
-        <td>{ele.categories}</td>
-        <td>{ele.types}</td>
-        <td>{ele.gender}</td>
-        <td>{`${new Date(ele.createdAt).getDate().toLocaleString()}/${
-          new Date(ele.createdAt).getMonth() + 1
-        }/${new Date(ele.createdAt).getFullYear().toLocaleString()}`}</td>
-        <td>
-          <a href={ele.link} target="_blank" rel="noopener noreferrer">
-            {ele.link}
-          </a>
-        </td>
-        <td></td>
-        <td>
-          <button
-            type="button"
-            className={classes.editProductButton}
-            onClick={() => props.editPage(ele)}
-          >
-            עריכה
-          </button>
-        </td>
-        <td>
-          {deleteDialog !== ele.fbId ? (
-            <button
-              type="button"
-              className={classes.deleteProductButton}
-              onClick={() => deleteDialogHandler(ele.fbId)}
-            >
-              מחיקה
-            </button>
-          ) : (
-            <div>
-              <button
-                className={classes.deleteDialogProductButton}
-                onClick={() => removeP(ele.fbId, ele.id, ele.photos, false)}
-              >
-                מחיקה
-              </button>
-              <button
-                false
-                className={classes.deleteDialogCancelProductButton}
-                onClick={() => cancelDeleteDialogHandler()}
-              >
-                ביטול
-              </button>
-            </div>
-          )}
-        </td>
-      </tr>
-    ));
-  };
-
-  const renderTable = () => {
+  const productTableBodyHandler = () => {
     return (
-      <Aux>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>שם</th>
-            <th>תיאור</th>
-            <th>מחיר</th>
-            <th>קטגוריה</th>
-            <th>תת קטגוריה</th>
-            <th>מיגדר</th>
-            <th>תאריך יצירה</th>
-            <th>קישור</th>
-            <th>תמונה ראשית</th>
-            <th>הצג מוצר</th>
-            <th>עריכה</th>
-            <th>מחיקה</th>
-          </tr>
-        </thead>
-        <tbody key={1} className={classes.tbody}>
-          {productTableHandler()}
-        </tbody>
-      </Aux>
+      <ProductTableBody
+        filterProductsState={props.filterProductsState}
+        loading={props.loading}
+        deleteDialog={deleteDialog}
+        deleteLoading={deleteLoading}
+        deleteDialogHandler={(id) => deleteDialogHandler(id)}
+        showProduct={(ele) => showProduct(ele)}
+        editPage={(ele) => props.editPage(ele)}
+        removeP={(fbId, id, bool) => removeP(fbId, id, bool)}
+        cancelDeleteDialogHandler={() => cancelDeleteDialogHandler()}
+        handleImageError={(ele) => handleImageError(ele)}
+      />
     );
   };
 
-  const renderErrorTable = () => {
+  const productTableBodyErrorHandler = () => {
+    return (
+      <ProductTableBodyError
+        productsFilterErrorState={props.productsFilterErrorState}
+        loading={props.loading}
+        deleteDialog={deleteDialog}
+        deleteLoading={deleteLoading}
+        deleteDialogHandler={(id) => deleteDialogHandler(id)}
+        showProduct={(ele) => showProduct(ele)}
+        editPage={(ele) => props.editPage(ele)}
+        removeP={(fbId, id, bool) => removeP(fbId, id, bool)}
+        cancelDeleteDialogHandler={() => cancelDeleteDialogHandler()}
+      />
+    );
+  };
+
+  const renderTableHeader = () => {
     return (
       <Aux>
-        <thead>
-          <tr>
-            <th>id</th>
-            <th>שם</th>
-            <th>תיאור</th>
-            <th>מחיר</th>
-            <th>קטגוריה</th>
-            <th>תת קטגוריה</th>
-            <th>מיגדר</th>
-            <th>תאריך יצירה</th>
-            <th>קישור</th>
-            <th>תמונה ראשית</th>
-            <th>עריכה</th>
-            <th>מחיקה</th>
-          </tr>
-        </thead>
-        <tbody key={2} className={classes.tbody}>
-          {productTableErrorHandler()}
-        </tbody>
+        <tr>
+          <th>id</th>
+          <th>שם</th>
+          <th>תיאור</th>
+          <th>מחיר</th>
+          <th>קטגוריה</th>
+          <th>תת קטגוריה</th>
+          <th>מיגדר</th>
+          <th>תאריך יצירה</th>
+          <th>קישור</th>
+          <th>תמונה ראשית</th>
+          <th>הצג מוצר</th>
+          <th>עריכה</th>
+          <th>מחיקה</th>
+        </tr>
       </Aux>
     );
   };
@@ -275,11 +129,11 @@ const ProductsTable = (props) => {
     return (
       <form className={classes.tableRadioInput}>
         <label>
-          ({props.productsErrorState.length}) מוצרים לא תקינים
+          ({props.productsFilterErrorState.length}) מוצרים לא תקינים
           <input
             name="products"
-            value={productTableShow}
-            onChange={() => setProductTableShow(false)}
+            value={ props.productTableShow}
+            onChange={() =>  props.setProductTableShow(false)}
             type="radio"
           />
         </label>
@@ -287,9 +141,9 @@ const ProductsTable = (props) => {
           ({props.filterProductsState.length}) <span>מוצרים תקינים</span>
           <input
             name="products"
-            value={productTableShow}
+            value={ props.productTableShow}
             defaultChecked={true}
-            onChange={() => setProductTableShow(true)}
+            onChange={() =>  props.setProductTableShow(true)}
             type="radio"
           />
         </label>
@@ -308,9 +162,14 @@ const ProductsTable = (props) => {
           }
         />
       ) : null}
-      {props.productsErrorState.length > 0 && tableRadioRender()}
+      {props.productsFilterErrorState.length > 0 && tableRadioRender()}
       <Table striped bordered hover responsive>
-        {productTableShow ? renderTable() : renderErrorTable()}
+        <thead>{renderTableHeader()}</thead>
+        <tbody>
+          { props.productTableShow
+            ? productTableBodyHandler()
+            : productTableBodyErrorHandler()}
+        </tbody>
       </Table>
     </Aux>
   );
