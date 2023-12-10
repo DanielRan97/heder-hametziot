@@ -103,6 +103,26 @@ export const getProducts = async () => {
   });
 };
 
+export const deleteCategory = async (category) => {
+  try {
+    // Get current categories
+    const categories = await getCategories();
+
+    const updatedCategories = categories ? categories.categories.filter(categoryEle => categoryEle !== category) : [];
+     const types = await getTypes();
+     const updatedTypes = types ? types.filter(type => type.category !== category) : [];
+
+     const categoriesRef = ref(db, "categories");
+     set(categoriesRef, { categories: updatedCategories });
+
+     const typesRef = ref(db, "types");
+     set(typesRef, updatedTypes);
+     return updatedCategories;
+  } catch (error) {
+    console.error("Error deleting category from Firebase:", error);
+  }
+};
+
 export const getProductById = async productId => {
   const query = ref(db, `products/${productId}`);
   return new Promise((resolve, reject) => {

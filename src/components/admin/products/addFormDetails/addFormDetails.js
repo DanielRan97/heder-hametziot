@@ -5,9 +5,11 @@ import {
   getCategories,
   addType,
   getTypes,
+  deleteCategory,
 } from "../../../../fireBase/fireBaseFunc";
 import ModalDialog from "../../../UI/modal/modal";
 import AddFormDetailsForm from "./addFormDetailsForm/addFormDetailsForm";
+
 const AddFormDetails = () => {
   const [categoryState, setCategoryState] = useState("");
   const [typeState, setTypeState] = useState({ category: "", type: "" });
@@ -18,6 +20,7 @@ const AddFormDetails = () => {
   });
   const [typeFeedBack, setTypeFeedBack] = useState({ message: "", type: "" });
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
+
 
   useEffect(() => {
     try {
@@ -102,6 +105,21 @@ const AddFormDetails = () => {
     }
   };
 
+  const deleteCategoryHandler = async(category) => {
+    try {
+      await deleteCategory(category).then(res => {
+
+        setCategoryListState(res)
+      })
+    } catch (error) {
+      setModal({
+        show: true,
+        title: "שגיאה",
+        text: "שגיאה במחיקת נתונים, בדוק את חיבור האינטרנט",
+      });
+    }
+  }
+
   return (
     <Aux>
       {modal.show ? (
@@ -113,6 +131,7 @@ const AddFormDetails = () => {
       ) : null}
       <div>
         <AddFormDetailsForm
+          deleteCategoryHandler={(category) => deleteCategoryHandler(category)}
           categoryState={categoryState}
           setCategoryState={(ele) => setCategoryState(ele)}
           categoryFeedBack={categoryFeedBack}

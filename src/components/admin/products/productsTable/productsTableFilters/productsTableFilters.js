@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Aux from "../../../../../hoc/Auxiliary/Auxiliary";
 
 const ProductsTableFilters = (props) => {
@@ -5,7 +6,9 @@ const ProductsTableFilters = (props) => {
     numeric: true,
     sensitivity: "base",
   });
-
+  const [filterCategory, setFilterCategory] = useState("הצג את כל הקטגוריות");
+  const [filterType, setFilterType] = useState("הצג את כל התת קטגוריות");
+  const [searchProductVal, setSearchProductVal] = useState("");
   const sortSelectHandler = (action) => {
     let sortedFilterProducts = [...props.filterProductsState];
     let sortedProducts = [...props.productsState];
@@ -84,8 +87,33 @@ const ProductsTableFilters = (props) => {
     props.setProductsFilterErrorState(sortedFilterErrorProducts);
     props.setProductsErrorState(sortedErrorProducts);
   };
-  
+
+  const categoryFilterHandler = (category) => {
+    setFilterCategory(category);
+    setSearchProductVal("");
+    let filter = [...props.productsState];
+
+    category !== "הצג את כל הקטגוריות"
+      ? props.setFilterProductsState([
+          ...filter.filter((ele) => ele.categories === category),
+        ])
+      : props.setFilterProductsState([...filter]);
+  };
+
+  const typeFilterHandler = (type) => {
+    setFilterType(type);
+    setSearchProductVal("");
+    let filter = [...props.productsState];
+
+    type !== "הצג את כל התת הקטגוריות"
+      ? props.setFilterProductsState([
+          ...filter.filter((ele) => ele.types === type),
+        ])
+      : props.setFilterProductsState([...filter.filter((ele) => ele.categories === filterCategory)]);
+  };
+
   const searchHandler = (name) => {
+    setSearchProductVal(name);
     if (props.productTableShow === false) {
       let filterError = [...props.productsErrorState];
       name.length > 0
@@ -94,12 +122,25 @@ const ProductsTableFilters = (props) => {
           ])
         : props.setProductsFilterErrorState([...filterError]);
     } else {
-      let filter = [...props.productsState];
+      let filter =
+        filterCategory === "הצג את כל הקטגוריות"
+          ? [...props.productsState]
+          : [
+              ...props.productsState.filter(
+                (ele) => ele.categories === filterCategory
+              ),
+            ];
       name.length > 0
-        ? props.setFilterProductsState([
-            ...filter.filter((ele) => ele.name.includes(name)),
-          ])
-        : props.setFilterProductsState([...filter]);
+        ? props.setFilterProductsState(
+            filterCategory === "הצג את כל הקטגוריות"
+              ? [...filter.filter((ele) => ele.name.includes(name))]
+              : [...filter.filter((ele) => ele.name.includes(name))]
+          )
+        : props.setFilterProductsState(
+            filterCategory === "הצג את כל הקטגוריות"
+              ? [...filter]
+              : [...filter.filter((ele) => ele.categories === filterCategory)]
+          );
     }
   };
 
@@ -117,9 +158,46 @@ const ProductsTableFilters = (props) => {
         <option value="ת - א (שם)">ת - א (שם)</option>
       </select>
 
+      {props.productTableShow === true &&
+      <select
+        value={filterCategory}
+        onChange={(e) => categoryFilterHandler(e.target.value)}
+      >
+        <option value="הצג את כל הקטגוריות">הצג את כל הקטגוריות</option>
+        {props.productTableShow === true &&
+          props.categoriesState &&
+          props.categoriesState.map((ele, index) => (
+            <option value={ele} key={index}>
+              {ele}
+            </option>
+          ))}
+      </select>}
+
+      {filterCategory !== "הצג את כל הקטגוריות" && (
+        <select
+          value={filterType}
+          onChange={(e) => typeFilterHandler(e.target.value)}
+        >
+          <option value="הצג את כל התת הקטגוריות">
+            הצג את כל התת הקטגוריות
+          </option>
+          {props.productTableShow === true &&
+            props.categoriesState &&
+            props.typesState.map(
+              (ele, index) =>
+                filterCategory === ele.category && (
+                  <option value={ele.type} key={index}>
+                    {ele.type}
+                  </option>
+                )
+            )}
+        </select>
+      )}
+
       <input
         type="search"
         placeholder="חפש לפי שם..."
+        value={searchProductVal}
         onChange={(e) => searchHandler(e.target.value)}
       ></input>
     </Aux>

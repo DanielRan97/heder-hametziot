@@ -1,11 +1,24 @@
-import React from "react";
+import React, { useState } from "react";
 import Aux from "../../../../../hoc/Auxiliary/Auxiliary";
 import classes from "./addFormDetailsForm.module.css";
-
+import DialogComponent from "../../../../UI/dialogComponent/dialogComponent";
+import DeleteCategories from "../../deleteCategories/deleteCategories";
 
 const AddFormDetailsForm = (props) => {
+  const [detailsDeleteDialog, setDetailsDeleteDialog] = useState(false);
   return (
     <Aux>
+      {detailsDeleteDialog ? (
+        <DialogComponent
+          closeDialog={() =>
+            setDetailsDeleteDialog(
+              !detailsDeleteDialog ? detailsDeleteDialog : !detailsDeleteDialog
+            )
+          }
+        >
+          <DeleteCategories deleteCategoryHandler={(category) => props.deleteCategoryHandler(category)} categoryListState={props.categoryListState} />
+        </DialogComponent>
+      ) : null}
       <form className={classes.FormDetails}>
         <h1>הוסף קטגוריה</h1>
         <label>
@@ -34,8 +47,10 @@ const AddFormDetailsForm = (props) => {
         >
           הוסף קטגוריה
         </button>
+        <button type="button" onClick={() => setDetailsDeleteDialog(true)}>
+          מחק קטגוריות
+        </button>
       </form>
-
       <form className={classes.FormDetails}>
         <h1>הוסף תת קטגוריה</h1>
 
@@ -53,7 +68,7 @@ const AddFormDetailsForm = (props) => {
             <option value="" disabled>
               בחר קטגוריה
             </option>
-            {props.categoryListState.length > 0 ? (
+            {props.categoryListState && props.categoryListState.length > 0 ? (
               props.categoryListState.map((element, index) => (
                 <option key={index}>{element}</option>
               ))

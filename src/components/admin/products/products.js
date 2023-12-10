@@ -21,16 +21,28 @@ const Products = () => {
   const [productsFilterErrorState, setProductsFilterErrorState] = useState([]);
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [loading, setLoading] = useState(true);
+  const [categoriesState, setCategoriesState] = useState([]);
+  const [typesState, setTypesState] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         let products = [];
+        let categories = [];
+        let types = [];
         const res = await getProducts();
         if (res && Object.keys(res).length > 0) {
           for (const [key, value] of Object.entries(res)) {
             products.push({ fbId: key, ...value });
+            categories.push(value.categories);
+            types.push({ category: value.categories, type: value.types });
           }
+          setCategoriesState(
+            [...new Set(categories.map(JSON.stringify))].map(JSON.parse)
+          );
+          setTypesState(
+            [...new Set(types.map(JSON.stringify))].map(JSON.parse)
+          );
           setProductsState(products);
           setFilterProductsState(
             products.sort(
@@ -63,6 +75,7 @@ const Products = () => {
       <h1>ניהול מוצרים </h1>
 
       <div className={classes.adminActionsDiv}>
+        <div>
         <button
           className={classes.productsNavButtons}
           type="button"
@@ -79,8 +92,10 @@ const Products = () => {
           הוסף קטגוריה/תת קטגוריה
           <FontAwesomeIcon icon={faPlus} />
         </button>
-
+        </div>
         <ProductsTableFilters
+          categoriesState={categoriesState}
+          typesState={typesState}
           productTableShow={productTableShow}
           productsState={productsState}
           filterProductsState={filterProductsState}
@@ -90,7 +105,7 @@ const Products = () => {
           productsFilterErrorState={productsFilterErrorState}
           setProductsErrorState={(ele) => setProductsErrorState(ele)}
           setProductsFilterErrorState={(ele) =>
-            setProductsFilterErrorState(ele)
+          setProductsFilterErrorState(ele)
           }
         />
       </div>
