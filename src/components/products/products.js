@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
-import { getProducts } from "../../fireBase/fireBaseFunc";
+import { getProducts } from "../../fireBase/fireBaseFuncDb";
 import Loading from "../../components/UI/loading/loading";
 import classes from "./products.module.css";
 import withClass from "../../hoc/withClass/withClass";

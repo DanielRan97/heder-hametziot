@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getProductById } from "../../fireBase/fireBaseFunc";
+import { getProductById } from "../../fireBase/fireBaseFuncDb";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import withClass from "../../hoc/withClass/withClass";
 import classes from "./product.module.css";

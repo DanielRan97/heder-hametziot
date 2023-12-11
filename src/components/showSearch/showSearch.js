@@ -4,7 +4,7 @@ import withClass from "../../hoc/withClass/withClass";
 import classes from './showSearch.module.css';
 import { useState, useEffect } from "react";
 import Loading from "../UI/loading/loading";
-import { getProducts } from "../../fireBase/fireBaseFunc";
+import { getProducts } from "../../fireBase/fireBaseFuncDb";
 import  ModalDialog  from "../UI/modal/modal";
 
 const ShowSearch = () => {
@@ -82,8 +82,8 @@ const ShowSearch = () => {
           onModalClose={() => setModal({ show: false, title: "", text: "" })}
         />
       ) : null}
-            {productsState.length > 0 ? <h3 className={classes.showResTitle}>תוצאות חיפוש : {paramsName[2]}</h3> : <h3 className={classes.showResTitle}>לא נמצאו מוצרים</h3>}
-            {loading && <Loading />}
+            {loading ? <Loading /> 
+            : productsState.length > 0 ? <h3 className={classes.showResTitle}>תוצאות חיפוש : {paramsName[2]}</h3> : <h3 className={classes.showResTitle}>לא נמצאו מוצרים</h3>}
             {renderProducts()}
         </Aux>
     )

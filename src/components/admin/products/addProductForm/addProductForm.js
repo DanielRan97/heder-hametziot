@@ -3,12 +3,11 @@ import { useState, useEffect } from "react";
 import {
   getTypes,
   addProduct,
-  getCategories,
-  handleUploadImgs,
-} from "../../../../fireBase/fireBaseFunc";
+  getCategories
+} from "../../../../fireBase/fireBaseFuncDb";
 import ModalDialog from "../../../UI/modal/modal";
 import ProductForm from "./productFrom/productFrom";
-
+import { handleUploadImgs } from "../../../../fireBase/fireBaseStorage";
 const AddProductForm = () => {
   const [addProductFromState, setAddProductFromState] = useState({
     name: "",

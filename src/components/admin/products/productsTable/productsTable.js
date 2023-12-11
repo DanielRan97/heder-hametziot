@@ -3,7 +3,7 @@ import Table from "react-bootstrap/Table";
 import withClass from "../../../../hoc/withClass/withClass";
 import classes from "./productsTable.module.css";
 import React, { useState } from "react";
-import { removeProduct } from "../../../../fireBase/fireBaseFunc";
+import { removeProduct } from "../../../../fireBase/fireBaseFuncDb";
 import ModalDialog from "../../../UI/modal/modal";
 import { useNavigate } from "react-router-dom";
 import ProductTableBody from "./productTableBody/productTableBody";

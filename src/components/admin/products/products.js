@@ -8,7 +8,7 @@ import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import ProductsTable from "./productsTable/productsTable";
 import withClass from "../../../hoc/withClass/withClass";
 import EditProductForm from "./editProductForm/editProductForm";
-import { getProducts } from "../../../fireBase/fireBaseFunc";
+import { getProducts, getTypes } from "../../../fireBase/fireBaseFuncDb";
 import ProductsTableFilters from "./productsTable/productsTableFilters/productsTableFilters";
 
 const Products = () => {
@@ -29,20 +29,24 @@ const Products = () => {
       try {
         let products = [];
         let categories = [];
-        let types = [];
         const res = await getProducts();
         if (res && Object.keys(res).length > 0) {
           for (const [key, value] of Object.entries(res)) {
             products.push({ fbId: key, ...value });
             categories.push(value.categories);
-            types.push({ category: value.categories, type: value.types });
           }
           setCategoriesState(
             [...new Set(categories.map(JSON.stringify))].map(JSON.parse)
           );
+          const types = await getTypes();
+
+          const uniqueTypes = types.filter((type, index, self) => index === self.findIndex(t => JSON.stringify(t) === JSON.stringify(type)));
+
           setTypesState(
-            [...new Set(types.map(JSON.stringify))].map(JSON.parse)
-          );
+            [...new Set(uniqueTypes.map(JSON.stringify))].map(JSON.parse)
+
+            );
+
           setProductsState(products);
           setFilterProductsState(
             products.sort(
@@ -133,7 +137,7 @@ const Products = () => {
       case "addForm":
         return <AddProductForm />;
       case "addDetailsForm":
-        return <AddFormDetails />;
+        return <AddFormDetails typesState={typesState}/>;
       case "editForm":
         return (
           <EditProductForm

@@ -8,7 +8,7 @@ import Fade from '../fade/fade';
 import MainRouter from '../../router/mainRouter';
 import Path from './nav/path/path';
 import SearchBar from './nav/searchBar/searchBar';
-import { getProducts } from '../../fireBase/fireBaseFunc';
+import { getProducts } from '../../fireBase/fireBaseFuncDb';
 
 const Layout = () => {
 

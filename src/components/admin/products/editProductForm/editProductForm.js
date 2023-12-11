@@ -5,10 +5,10 @@ import {
   getTypes,
   editProduct,
   getCategories,
-  handleEditImgs,
-} from "../../../../fireBase/fireBaseFunc";
+} from "../../../../fireBase/fireBaseFuncDb";
 import ModalDialog from "../../../UI/modal/modal";
 import ProductForm from "./productFrom/productFrom";
+import { handleEditImgs } from "../../../../fireBase/fireBaseStorage";
 
 const EditProductForm = (props) => {
   const [editProductFromState, setEditProductFromState] = useState({
@@ -21,7 +21,7 @@ const EditProductForm = (props) => {
     link: props.editProductData.link,
     photos: props.editProductData.photos,
     fbId: props.editProductData.fbId,
-    id: props.editProductData.id
+    id: props.editProductData.id,
   });
   const [types, setTypes] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -88,11 +88,8 @@ const EditProductForm = (props) => {
     setEditProductLoading(true);
     let images = [];
     try {
-      if(productImgs.length > 0){
-        const res = await handleEditImgs(
-          productImgs,
-          editProductFromState.id
-        );
+      if (productImgs.length > 0) {
+        const res = await handleEditImgs(productImgs, editProductFromState.id);
         if (res) {
           images = res;
         } else {
@@ -105,10 +102,10 @@ const EditProductForm = (props) => {
       }
       await editProduct(id, {
         ...editProductFromState,
-        photos: images.length > 0 ? images : editProductFromState.photos
+        photos: images.length > 0 ? images : editProductFromState.photos,
       }).then(() => {
         props.backToTable();
-      })
+      });
     } catch (error) {
       setEditProductLoading(false);
       setEditSProductMessage({
@@ -127,17 +124,18 @@ const EditProductForm = (props) => {
           onModalClose={() => setModal({ show: false, title: "", text: "" })}
         />
       ) : null}
- <ProductForm 
- editProductFromState={editProductFromState}
- setEditProductFromState={(ele) => setEditProductFromState(ele)}
- categories={categories}
- types={types}
- isValidUrl={(ele) => isValidUrl(ele)}
- handleChange={(e) => handleChange(e)}
- editProductLoading={editProductLoading}
- editSProductMessage={editSProductMessage}
- editFormButtonDisabled={() => editFormButtonDisabled()}
- editProductHandler={(id) => editProductHandler(id) }/>
+      <ProductForm
+        editProductFromState={editProductFromState}
+        setEditProductFromState={(ele) => setEditProductFromState(ele)}
+        categories={categories}
+        types={types}
+        isValidUrl={(ele) => isValidUrl(ele)}
+        handleChange={(e) => handleChange(e)}
+        editProductLoading={editProductLoading}
+        editSProductMessage={editSProductMessage}
+        editFormButtonDisabled={() => editFormButtonDisabled()}
+        editProductHandler={(id) => editProductHandler(id)}
+      />
     </Aux>
   );
 };

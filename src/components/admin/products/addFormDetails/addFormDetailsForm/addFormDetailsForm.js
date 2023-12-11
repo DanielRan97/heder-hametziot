@@ -6,6 +6,7 @@ import DeleteCategories from "../../deleteCategories/deleteCategories";
 
 const AddFormDetailsForm = (props) => {
   const [detailsDeleteDialog, setDetailsDeleteDialog] = useState(false);
+
   return (
     <Aux>
       {detailsDeleteDialog ? (
@@ -16,7 +17,13 @@ const AddFormDetailsForm = (props) => {
             )
           }
         >
-          <DeleteCategories deleteCategoryHandler={(category) => props.deleteCategoryHandler(category)} categoryListState={props.categoryListState} />
+          <DeleteCategories
+            deleteCategoryHandler={(category) =>
+              props.deleteCategoryHandler(category)
+            }
+            categoryListState={props.categoryListState}
+            typesStateList={props.typesStateList}
+          />
         </DialogComponent>
       ) : null}
       <form className={classes.FormDetails}>

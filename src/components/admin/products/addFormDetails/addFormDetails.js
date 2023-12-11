@@ -6,11 +6,11 @@ import {
   addType,
   getTypes,
   deleteCategory,
-} from "../../../../fireBase/fireBaseFunc";
+} from "../../../../fireBase/fireBaseFuncDb";
 import ModalDialog from "../../../UI/modal/modal";
 import AddFormDetailsForm from "./addFormDetailsForm/addFormDetailsForm";
 
-const AddFormDetails = () => {
+const AddFormDetails = props => {
   const [categoryState, setCategoryState] = useState("");
   const [typeState, setTypeState] = useState({ category: "", type: "" });
   const [categoryListState, setCategoryListState] = useState([]);
@@ -119,7 +119,6 @@ const AddFormDetails = () => {
       });
     }
   }
-
   return (
     <Aux>
       {modal.show ? (
@@ -131,6 +130,7 @@ const AddFormDetails = () => {
       ) : null}
       <div>
         <AddFormDetailsForm
+          typesStateList={props.typesState}
           deleteCategoryHandler={(category) => deleteCategoryHandler(category)}
           categoryState={categoryState}
           setCategoryState={(ele) => setCategoryState(ele)}
