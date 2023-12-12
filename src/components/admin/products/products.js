@@ -3,13 +3,14 @@ import AddProductForm from "./addProductForm/addProductForm";
 import AddFormDetails from "./addFormDetails/addFormDetails";
 import classes from "./products.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faArrowRight, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import ProductsTable from "./productsTable/productsTable";
 import withClass from "../../../hoc/withClass/withClass";
 import EditProductForm from "./editProductForm/editProductForm";
 import { getProducts, getTypes } from "../../../fireBase/fireBaseFuncDb";
 import ProductsTableFilters from "./productsTable/productsTableFilters/productsTableFilters";
+import DialogComponent from "../../UI/dialogComponent/dialogComponent";
 
 const Products = () => {
   const [productTableShow, setProductTableShow] = useState(true);
@@ -40,12 +41,15 @@ const Products = () => {
           );
           const types = await getTypes();
 
-          const uniqueTypes = types.filter((type, index, self) => index === self.findIndex(t => JSON.stringify(t) === JSON.stringify(type)));
+          const uniqueTypes = types.filter(
+            (type, index, self) =>
+              index ===
+              self.findIndex((t) => JSON.stringify(t) === JSON.stringify(type))
+          );
 
           setTypesState(
             [...new Set(uniqueTypes.map(JSON.stringify))].map(JSON.parse)
-
-            );
+          );
 
           setProductsState(products);
           setFilterProductsState(
@@ -80,22 +84,22 @@ const Products = () => {
 
       <div className={classes.adminActionsDiv}>
         <div>
-        <button
-          className={classes.productsNavButtons}
-          type="button"
-          onClick={() => setProductPageState("addForm")}
-        >
-          הוסף מוצר
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-        <button
-          className={classes.productsNavButtons}
-          type="button"
-          onClick={() => setProductPageState("addDetailsForm")}
-        >
-          הוסף קטגוריה/תת קטגוריה
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
+          <button
+            className={classes.productsNavButtons}
+            type="button"
+            onClick={() => setProductPageState("addForm")}
+          >
+            הוסף מוצר
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
+          <button
+            className={classes.productsNavButtons}
+            type="button"
+            onClick={() => setProductPageState("addDetailsForm")}
+          >
+            הוסף קטגוריה/תת קטגוריה
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
         </div>
         <ProductsTableFilters
           categoriesState={categoriesState}
@@ -109,7 +113,7 @@ const Products = () => {
           productsFilterErrorState={productsFilterErrorState}
           setProductsErrorState={(ele) => setProductsErrorState(ele)}
           setProductsFilterErrorState={(ele) =>
-          setProductsFilterErrorState(ele)
+            setProductsFilterErrorState(ele)
           }
         />
       </div>
@@ -132,33 +136,32 @@ const Products = () => {
 
   const productsPageHandler = () => {
     switch (productPageState) {
-      case "":
-        return productsNav();
       case "addForm":
-        return <AddProductForm />;
+        return (
+          <DialogComponent closeDialog={() => setProductPageState("")}>
+            <AddProductForm />
+          </DialogComponent>
+        );
       case "addDetailsForm":
-        return <AddFormDetails typesState={typesState}/>;
+        return (
+          <DialogComponent closeDialog={() => setProductPageState("")}>
+            <AddFormDetails typesState={typesState} />{" "}
+          </DialogComponent>
+        );
       case "editForm":
         return (
-          <EditProductForm
-            backToTable={() => setProductPageState("")}
-            editProductData={editProductData}
-          />
+          <DialogComponent closeDialog={() => setProductPageState("")}>
+            <EditProductForm editProductData={editProductData} />
+          </DialogComponent>
         );
       default:
-        return productsNav();
+        break ;
     }
   };
 
   return (
     <>
-      {productPageState !== "" ? (
-        <FontAwesomeIcon
-          icon={faArrowRight}
-          className={classes.productsNavButtons}
-          onClick={() => setProductPageState("")}
-        />
-      ) : null}
+      {productsNav()}
       {productsPageHandler()}
     </>
   );

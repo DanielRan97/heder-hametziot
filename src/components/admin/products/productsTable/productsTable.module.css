@@ -1,7 +1,6 @@
 .ProductsTable {
     padding: 25px;
-    height: 800px;
-    overflow: auto;
+    height: 500px;
 }
 
 .ProductsTable th {
@@ -19,8 +18,8 @@
     color: black;
     text-align: center;
     vertical-align: middle;
-    max-height: 20px;
-    overflow: auto;
+    max-height: 20px !important;
+
 }
 
 .deleteProductButton {
@@ -118,6 +117,7 @@
     align-items: start;
     cursor: pointer;
 }
+
 .deleteDialogProductButton {
     background-color: red;
     color: black;

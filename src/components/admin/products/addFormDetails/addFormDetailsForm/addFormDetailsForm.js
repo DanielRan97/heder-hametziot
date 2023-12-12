@@ -58,6 +58,7 @@ const AddFormDetailsForm = (props) => {
           מחק קטגוריות
         </button>
       </form>
+      <hr />
       <form className={classes.FormDetails}>
         <h1>הוסף תת קטגוריה</h1>
 
@@ -86,7 +87,6 @@ const AddFormDetailsForm = (props) => {
             )}
           </select>
         </label>
-
         <label>
           שם תת קטגוריה:
           <input

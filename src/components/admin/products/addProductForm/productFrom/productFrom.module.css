@@ -1,8 +1,5 @@
 .productForm {
-    background-color: bisque;
-    border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     max-width: 500px;
     margin: 30px auto 30px auto;
 }
@@ -23,7 +20,6 @@ select {
 }
 
 .productForm button {
-    background-color: black;
     color: bisque;
     padding: 10px 20px;
     border: none;
