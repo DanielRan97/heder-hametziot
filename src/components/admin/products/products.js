@@ -80,8 +80,6 @@ const Products = () => {
 
   const productsNav = () => (
     <Aux>
-      <h1>ניהול מוצרים </h1>
-
       <div className={classes.adminActionsDiv}>
         <div>
           <button
@@ -151,7 +149,7 @@ const Products = () => {
       case "editForm":
         return (
           <DialogComponent closeDialog={() => setProductPageState("")}>
-            <EditProductForm editProductData={editProductData} />
+            <EditProductForm setProductPageState={() => setProductPageState("")} editProductData={editProductData} />
           </DialogComponent>
         );
       default:

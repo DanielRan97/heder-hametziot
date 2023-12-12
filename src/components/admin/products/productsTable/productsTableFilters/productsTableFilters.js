@@ -107,7 +107,7 @@ const ProductsTableFilters = (props) => {
 
     type !== "הצג את כל התת הקטגוריות"
       ? props.setFilterProductsState([
-          ...filter.filter((ele) => ele.types === type),
+          ...filter.filter((ele) => ele.types === type && ele.categories === filterCategory),
         ])
       : props.setFilterProductsState([...filter.filter((ele) => ele.categories === filterCategory)]);
   };

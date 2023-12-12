@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 import {
   onValue,
   ref,
@@ -9,7 +9,6 @@ import {
   child,
   update,
 } from "firebase/database";
-
 import { deleteImgs } from "./fireBaseStorage";
 
 export const getCategories = async () => {
@@ -62,7 +61,6 @@ export const getProducts = async () => {
 
 export const deleteCategory = async (category) => {
   try {
-    // Get current categories
     const categories = await getCategories();
 
     const updatedCategories = categories
@@ -180,4 +178,40 @@ export const removeProduct = async (productId, imgId) => {
   } catch (error) {
     console.error("Error removing product from Firebase:", error);
   }
+};
+
+export const addVisit = async () => {
+  let admin = auth.currentUser;
+  if (admin === null) {
+    let visitDate = new Date().toLocaleString();
+    let visit = {
+      visitId:
+        Math.floor(Math.random() * 1000000) *
+        Math.floor(Math.random() * 1000000),
+      createdAt: visitDate,
+    };
+    try {
+      const visitRef = ref(db, "visits");
+      await push(visitRef, visit);
+      return visit;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+};
+
+export const getVisits = async () => {
+  const query = ref(db, "visits");
+  return new Promise((resolve, reject) => {
+    onValue(
+      query,
+      (snapshot) => {
+        const data = snapshot.val();
+        resolve(data);
+      },
+      {
+        onlyOnce: true,
+      }
+    );
+  });
 };

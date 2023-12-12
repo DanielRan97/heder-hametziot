@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Aux from "../../../../../hoc/Auxiliary/Auxiliary";
 import classes from "./addFormDetailsForm.module.css";
 import DialogComponent from "../../../../UI/dialogComponent/dialogComponent";
-import DeleteCategories from "../../deleteCategories/deleteCategories";
+import DeleteCategories from "../addFormDetailsForm/deleteCategories/deleteCategories";
 
 const AddFormDetailsForm = (props) => {
   const [detailsDeleteDialog, setDetailsDeleteDialog] = useState(false);
@@ -58,7 +58,7 @@ const AddFormDetailsForm = (props) => {
           מחק קטגוריות
         </button>
       </form>
-      <hr />
+
       <form className={classes.FormDetails}>
         <h1>הוסף תת קטגוריה</h1>
 

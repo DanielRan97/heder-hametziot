@@ -103,8 +103,8 @@ const EditProductForm = (props) => {
       await editProduct(id, {
         ...editProductFromState,
         photos: images.length > 0 ? images : editProductFromState.photos,
-      }).then(() => {
-        props.backToTable();
+      }).then(res => {
+        props.setProductPageState();
       });
     } catch (error) {
       setEditProductLoading(false);

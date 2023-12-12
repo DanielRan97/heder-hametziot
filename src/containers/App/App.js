@@ -4,10 +4,13 @@ import withClass from '../../hoc/withClass/withClass';
 import classes from './App.module.css';
 import { initializeAuth } from '../../fireBase/fireBaseFunc';
 import { useEffect } from 'react';
+import { addVisit } from '../../fireBase/fireBaseFuncDb';
+
 function App() {
 
 useEffect(() => {
-  initializeAuth()
+  initializeAuth();
+  addVisit();
 }, [])
 
 return (
