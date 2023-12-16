@@ -232,7 +232,7 @@ const ProductsTableFilters = (props) => {
         </select>
       )}
       <input
-        type="search"
+        type="text"
         placeholder="חפש לפי שם..."
         value={searchProductVal}
         onChange={(e) => searchHandler(e.target.value)}

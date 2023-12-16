@@ -113,7 +113,7 @@ const Products = () => {
           <p>עדיין אין מוצרים </p>
         ) : null}
       </div>
-      <div className={classes.productsState}>
+      {productsFilterState.length > 0 &&<div className={classes.productsState}>
         <ProductFilter
           productsFilterState={productsFilterState}
           setProductsFilterState={(sortState) =>
@@ -129,7 +129,7 @@ const Products = () => {
           }
         />
         <p>{productsFilterState.length} תוצאות</p>
-      </div>
+      </div>}
       <div className={classes.products}>{renderProducts()}</div>
     </Aux>
   );

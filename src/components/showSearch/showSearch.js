@@ -106,23 +106,23 @@ const ShowSearch = () => {
       ) : (
         <h3 className={classes.showResTitle}>לא נמצאו מוצרים</h3>
       )}
-      <div className={classes.productsState}>
-        <ProductFilter
-          productsFilterState={productsFilterState}
-          setProductsFilterState={(sortState) =>
-            setProductsFilterState(sortState)
-          }
-          filterValue={filterValue}
-          filterGender={filterGender}
-          setFilterGender={(val) => setFilterGender(val)}
-          setFilterValue={(val) => setFilterValue(val)}
-          products={productsState}
-          setProductsState={(sortState) =>
-            setProductsState(sortState)
-          }
-        />
-        <p>{productsFilterState.length} תוצאות</p>
-      </div>
+      {productsFilterState.length > 0 && (
+        <div className={classes.productsState}>
+          <ProductFilter
+            productsFilterState={productsFilterState}
+            setProductsFilterState={(sortState) =>
+              setProductsFilterState(sortState)
+            }
+            filterValue={filterValue}
+            filterGender={filterGender}
+            setFilterGender={(val) => setFilterGender(val)}
+            setFilterValue={(val) => setFilterValue(val)}
+            products={productsState}
+            setProductsState={(sortState) => setProductsState(sortState)}
+          />
+          <p>{productsFilterState.length} תוצאות</p>
+        </div>
+      )}
       {renderProducts()}
     </Aux>
   );

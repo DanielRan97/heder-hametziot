@@ -165,6 +165,7 @@ const ProductsTable = (props) => {
         />
       ) : null}
       {props.productsFilterErrorState.length > 0 && tableRadioRender()}
+      {`${props.filterProductsState.length}מוצרים`}
       <Table striped bordered hover responsive>
         <thead>{renderTableHeader()}</thead>
         <tbody>

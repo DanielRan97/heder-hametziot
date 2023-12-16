@@ -33,6 +33,10 @@
     font-size: 15px;
 }
 
+.Products select{
+    margin-top: 3px;
+}
+
 .Products .price {
     position: absolute;
     bottom: 0px;
