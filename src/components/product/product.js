@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { getProductById } from "../../fireBase/fireBaseFuncDb";
+import { addClick, addProductWatch, getProductById } from "../../fireBase/fireBaseFuncDb";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import withClass from "../../hoc/withClass/withClass";
 import classes from "./product.module.css";
@@ -11,6 +11,10 @@ const Product = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const [mainPhoto, setMainPhoto] = useState("");
+  let pathName = location.pathname;
+  let paramsCategory = decodeURI(pathName)
+    .split("/")
+    .filter((ele) => ele !== "");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,6 +29,7 @@ const Product = () => {
         if (res !== null) {
           setProduct({ ...res });
           setMainPhoto(res.photos[0]);
+          addProductWatch(paramsCategory[3])
         } else {
           navigate("/");
         }
@@ -62,7 +67,7 @@ const Product = () => {
                   )
               )}
                 <p className={classes.description}>{product.description}</p>
-                <a className={classes.Alink} href={product.link} target="blank">קנה עכשיו ₪{product.price}.00</a>
+                <a className={classes.Alink} href={product.link} target="blank" onClick={() => addClick(paramsCategory[3])}>קנה עכשיו ₪{product.price}.00</a>
                 </div>
       );
     } else {

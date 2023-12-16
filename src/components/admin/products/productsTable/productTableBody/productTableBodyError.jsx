@@ -7,7 +7,7 @@ const ProductTableBodyError = props => {
   if (props.loading) {
     return (
       <tr>
-        <td colSpan="13">
+        <td colSpan="17">
           <Loading />
         </td>
       </tr>
@@ -17,7 +17,7 @@ const ProductTableBodyError = props => {
   if (props.productsFilterErrorState.length === 0) {
     return (
       <tr>
-        <td colSpan="13">אין מוצרים זמינים</td>
+        <td colSpan="17">אין מוצרים זמינים</td>
       </tr>
     );
   }
@@ -30,7 +30,7 @@ const ProductTableBodyError = props => {
       <td>₪{ele.price}.00</td>
       <td>{ele.categories}</td>
       <td>{ele.types}</td>
-      <td>{ele.gender}</td>
+      <td>{ele.gender === "שניהם" ? "יוניסקס" : ele.gender}</td>
       <td>{`${new Date(ele.createdAt).getDate().toLocaleString()}/${
         new Date(ele.createdAt).getMonth() + 1
       }/${new Date(ele.createdAt).getFullYear().toLocaleString()}`}</td>
@@ -42,6 +42,8 @@ const ProductTableBodyError = props => {
       <td>
       <p>תמונה ראשית לא עובדת</p>
       </td>
+      <td>{props.getProductWatch(ele.fbId)}</td>
+      <td>{props.getProductClicks(ele.fbId)}</td>
       <td>
         <button
           type="button"
@@ -51,6 +53,7 @@ const ProductTableBodyError = props => {
           הצג מוצר
         </button>
       </td>
+      <td></td>
       <td>
         <button
           type="button"

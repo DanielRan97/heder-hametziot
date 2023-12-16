@@ -163,3 +163,17 @@
     background-color: black;
     color: gray;
 }
+
+.showInAliButton {
+    color: #ff4100;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.showInAliButton:hover {
+    color: black;
+}
+
+.showInAliButton:active {
+    color: #ff4100;
+}

@@ -1,4 +1,4 @@
-import { auth, db } from "./firebase";
+import { auth, db, onAuthStateChanged } from "./firebase";
 import {
   onValue,
   ref,
@@ -131,7 +131,6 @@ export const deleteType = async (typeObject) => {
     const types = await getTypes();
 
     const typesArr = [...types.filter((type) => type.type !== typeObject.type)];
-    console.log(typesArr);
     const typesRef = ref(db, "types");
     set(typesRef, typesArr);
     return typesArr;
@@ -181,27 +180,126 @@ export const removeProduct = async (productId, imgId) => {
 };
 
 export const addVisit = async () => {
-  let admin = auth.currentUser;
-  if (admin === null) {
-    let visitDate = new Date().toLocaleString();
-    let visit = {
-      visitId:
-        Math.floor(Math.random() * 1000000) *
-        Math.floor(Math.random() * 1000000),
-      createdAt: visitDate,
-    };
-    try {
+  const authStatePromise = new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      resolve(user);
+      unsubscribe();
+    });
+  });
+
+  try {
+    const admin = await authStatePromise;
+
+    if (admin === null) {
+      let visitDate = new Date().toLocaleString();
+      let visit = {
+        visitId:
+          Math.floor(Math.random() * 1000000) *
+          Math.floor(Math.random() * 1000000),
+        createdAt: visitDate,
+      };
       const visitRef = ref(db, "visits");
       await push(visitRef, visit);
       return visit;
-    } catch (error) {
-      console.error(error);
     }
+  } catch (error) {
+    console.error(error);
   }
 };
 
 export const getVisits = async () => {
   const query = ref(db, "visits");
+  return new Promise((resolve, reject) => {
+    onValue(
+      query,
+      (snapshot) => {
+        const data = snapshot.val();
+        resolve(data);
+      },
+      {
+        onlyOnce: true,
+      }
+    );
+  });
+};
+
+export const addProductWatch = async (id) => {
+  const authStatePromise = new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      resolve(user);
+      unsubscribe();
+    });
+  });
+  try {
+    const admin = await authStatePromise;
+
+    if (admin === null) {
+      let watchDate = new Date().toLocaleString();
+
+      let watchData = {
+        watchId:
+          Math.floor(Math.random() * 1000000) *
+          Math.floor(Math.random() * 1000000),
+        createdAt: watchDate,
+        productId: id,
+      };
+
+      const productsWatchesRef = ref(db, "productsWatches");
+      await push(productsWatchesRef, watchData);
+      return watchData;
+    }
+  } catch (error) {
+    console.error("Error adding product watch to Firebase:", error);
+  }
+};
+
+export const getProductsWatches = async () => {
+  const query = ref(db, "productsWatches");
+  return new Promise((resolve, reject) => {
+    onValue(
+      query,
+      (snapshot) => {
+        const data = snapshot.val();
+        resolve(data);
+      },
+      {
+        onlyOnce: true,
+      }
+    );
+  });
+};
+
+export const addClick = async (id) => {
+  const authStatePromise = new Promise((resolve) => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      resolve(user);
+      unsubscribe();
+    });
+  });
+
+  try {
+    const admin = await authStatePromise;
+
+    if (admin === null) {
+      let clickDate = new Date().toLocaleString();
+      let click = {
+        clickId:
+          Math.floor(Math.random() * 1000000) *
+          Math.floor(Math.random() * 1000000),
+          createdAt: clickDate,
+          productId: id
+      };
+      const clickRef = ref(db, "clicks");
+      await push(clickRef, click);
+      return click;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+};
+
+export const getClicks = async () => {
+  const query = ref(db, "clicks");
   return new Promise((resolve, reject) => {
     onValue(
       query,

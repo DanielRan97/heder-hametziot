@@ -3,7 +3,9 @@ import Table from "react-bootstrap/Table";
 import withClass from "../../../../hoc/withClass/withClass";
 import classes from "./productsTable.module.css";
 import React, { useState } from "react";
-import { removeProduct } from "../../../../fireBase/fireBaseFuncDb";
+import {
+  removeProduct
+} from "../../../../fireBase/fireBaseFuncDb";
 import ModalDialog from "../../../UI/modal/modal";
 import { useNavigate } from "react-router-dom";
 import ProductTableBody from "./productTableBody/productTableBody";
@@ -18,7 +20,7 @@ const ProductsTable = (props) => {
     setDeleteDialog(id);
   };
 
-  const cancelDeleteDialogHandler = () => {
+  const cancelDeleteDialogHandler = async() => {
     setDeleteDialog("");
   };
 
@@ -40,7 +42,6 @@ const ProductsTable = (props) => {
         );
         props.setProductsFilterErrorState(resultError);
       }
-
       setDeleteLoading(false);
     } catch (error) {
       setDeleteLoading(false);
@@ -59,20 +60,36 @@ const ProductsTable = (props) => {
       ...props.productsFilterErrorState,
       element,
     ]);
-    props.setProductsErrorState([
-      ...props.productsFilterErrorState,
-      element,
-    ]);
-
+    props.setProductsErrorState([...props.productsFilterErrorState, element]);
   };
 
   const showProduct = (ele) => {
     navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`);
   };
 
+  const getProductWatch = (id) => {
+    let watches = [];
+    props.productsWatches &&
+    Object.values(props.productsWatches).forEach((ele) => {
+      ele.productId === id && watches.push(ele);
+    });
+    return watches.length
+  };
+
+  const getProductClicks = (id) => {
+    let clicks = [];
+    props.productsClick &&
+    Object.values(props.productsClick).forEach((ele) => {
+      ele.productId === id && clicks.push(ele);
+    });
+    return clicks.length
+  };
+
   const productTableBodyHandler = () => {
     return (
       <ProductTableBody
+        getProductClicks={(id) => getProductClicks(id)}
+        getProductWatch={(id) => getProductWatch(id)}
         filterProductsState={props.filterProductsState}
         loading={props.loading}
         deleteDialog={deleteDialog}
@@ -90,6 +107,8 @@ const ProductsTable = (props) => {
   const productTableBodyErrorHandler = () => {
     return (
       <ProductTableBodyError
+        getProductClicks={(id) => getProductClicks(id)}
+        getProductWatch={(id) => getProductWatch(id)}
         productsFilterErrorState={props.productsFilterErrorState}
         loading={props.loading}
         deleteDialog={deleteDialog}
@@ -117,7 +136,10 @@ const ProductsTable = (props) => {
           <th>תאריך יצירה</th>
           <th>קישור</th>
           <th>תמונה ראשית</th>
+          <th>צפיות במוצר</th>
+          <th>לחיצות לקנייה</th>
           <th>הצג מוצר</th>
+          <th>הצג באלי אקספרס</th>
           <th>עריכה</th>
           <th>מחיקה</th>
         </tr>
@@ -132,8 +154,8 @@ const ProductsTable = (props) => {
           ({props.productsFilterErrorState.length}) מוצרים לא תקינים
           <input
             name="products"
-            value={ props.productTableShow}
-            onChange={() =>  props.setProductTableShow(false)}
+            value={props.productTableShow}
+            onChange={() => props.setProductTableShow(false)}
             type="radio"
           />
         </label>
@@ -141,9 +163,9 @@ const ProductsTable = (props) => {
           ({props.filterProductsState.length}) <span>מוצרים תקינים</span>
           <input
             name="products"
-            value={ props.productTableShow}
+            value={props.productTableShow}
             defaultChecked={true}
-            onChange={() =>  props.setProductTableShow(true)}
+            onChange={() => props.setProductTableShow(true)}
             type="radio"
           />
         </label>
@@ -166,7 +188,7 @@ const ProductsTable = (props) => {
       <Table striped bordered hover responsive>
         <thead>{renderTableHeader()}</thead>
         <tbody>
-          { props.productTableShow
+          {props.productTableShow
             ? productTableBodyHandler()
             : productTableBodyErrorHandler()}
         </tbody>

@@ -2,27 +2,27 @@ import React from "react";
 import Loading from "../../../../UI/loading/loading";
 import classes from "../productsTable.module.css";
 
-const ProductTableBody = props => {
+const ProductTableBody = (props) => {
+  
 
   if (props.loading) {
     return (
       <tr>
-        <td colSpan="13">
+        <td colSpan="17S">
           <Loading />
         </td>
       </tr>
     );
   }
 
-  if (props.filterProductsState.length === 0) {
+  if (props.filterProductsState && props.filterProductsState.length === 0) {
     return (
       <tr>
-        <td colSpan="13">אין מוצרים זמינים</td>
+        <td colSpan="17">אין מוצרים זמינים</td>
       </tr>
     );
   }
-
-  return props.filterProductsState.map((ele, index) => (
+  return  props.filterProductsState.map((ele, index) => (
     <tr key={ele.id + index}>
       <td>{index + 1}</td>
       <td>{ele.name}</td>
@@ -30,7 +30,7 @@ const ProductTableBody = props => {
       <td>₪{ele.price}.00</td>
       <td>{ele.categories}</td>
       <td>{ele.types}</td>
-      <td>{ele.gender}</td>
+      <td>{ele.gender === "שניהם" ? "יוניסקס" : ele.gender}</td>
       <td>{`${new Date(ele.createdAt).getDate().toLocaleString()}/${
         new Date(ele.createdAt).getMonth() + 1
       }/${new Date(ele.createdAt).getFullYear().toLocaleString()}`}</td>
@@ -49,6 +49,8 @@ const ProductTableBody = props => {
           />
         )}
       </td>
+      <td>{props.getProductWatch(ele.fbId)}</td>
+      <td>{props.getProductClicks(ele.fbId)}</td>
       <td>
         <button
           type="button"
@@ -57,6 +59,14 @@ const ProductTableBody = props => {
         >
           הצג מוצר
         </button>
+      </td>
+      <td>
+      <a href={ele.link}
+      target="_blank"
+      rel="noreferrer"
+          className={classes.showInAliButton}>
+          הצג באלי אקספרס
+        </a>
       </td>
       <td>
         <button

@@ -14,10 +14,16 @@ const MainAdmin = () => {
     const productPage = <Products />;
   
     useEffect(() => {
+        let visitsArray = []
       getVisits().then((res) => {
-        const visitsArray = Object.values(res);
-        setVisits(visitsArray);
-        setLoading(false);
+        if(res !== null ){
+            visitsArray = Object.values(res)
+            setVisits(visitsArray)
+            setLoading(false)
+        }else{
+            setVisits([])
+            setLoading(false)
+        }
       });
     }, []);
   
@@ -28,12 +34,10 @@ const MainAdmin = () => {
           {loading ? (
             <Loading />
           ) : (
-            visits.length > 0 && (
               <details>
                 <summary>נתונים</summary>
-                <p>כניסות לאתר: {visits.length}</p>
+                <p>כניסות לאתר: {visits.length > 0 ? visits.length : 0}</p>
               </details>
-            )
           )}
         </div>
         {productPage}

@@ -8,7 +8,7 @@ import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import ProductsTable from "./productsTable/productsTable";
 import withClass from "../../../hoc/withClass/withClass";
 import EditProductForm from "./editProductForm/editProductForm";
-import { getProducts, getTypes } from "../../../fireBase/fireBaseFuncDb";
+import { getClicks, getProducts, getProductsWatches, getTypes } from "../../../fireBase/fireBaseFuncDb";
 import ProductsTableFilters from "./productsTable/productsTableFilters/productsTableFilters";
 import DialogComponent from "../../UI/dialogComponent/dialogComponent";
 
@@ -24,6 +24,8 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [categoriesState, setCategoriesState] = useState([]);
   const [typesState, setTypesState] = useState([]);
+  const [productsWatches, setProductsWatches] = useState([]);
+  const [productsClick, setProductsClicks] = useState([]);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -57,6 +59,12 @@ const Products = () => {
               (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
             )
           );
+          await getProductsWatches().then(res => {
+            setProductsWatches(res)
+          });
+          await getClicks().then(res => {
+            setProductsClicks(res)
+          })
           setLoading(false);
         }
       } catch (error) {
@@ -116,6 +124,8 @@ const Products = () => {
         />
       </div>
       <ProductsTable
+        productsClick={productsClick}
+        productsWatches={productsWatches}
         productTableShow={productTableShow}
         setProductTableShow={(bool) => setProductTableShow(bool)}
         editPage={(ele) => editProducthandler(ele)}
