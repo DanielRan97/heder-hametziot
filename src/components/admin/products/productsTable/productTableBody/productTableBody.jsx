@@ -8,7 +8,7 @@ const ProductTableBody = (props) => {
   if (props.loading) {
     return (
       <tr>
-        <td colSpan="17S">
+        <td colSpan="17">
           <Loading />
         </td>
       </tr>
@@ -49,8 +49,8 @@ const ProductTableBody = (props) => {
           />
         )}
       </td>
-      <td>{props.getProductWatch(ele.fbId)}</td>
-      <td>{props.getProductClicks(ele.fbId)}</td>
+      <td>{ele.watches}</td>
+      <td>{ele.clicks}</td>
       <td>
         <button
           type="button"

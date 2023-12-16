@@ -84,18 +84,15 @@ export const deleteCategory = async (category) => {
 
 export const getProductById = async (productId) => {
   const query = ref(db, `products/${productId}`);
-  return new Promise((resolve, reject) => {
-    onValue(
-      query,
-      (snapshot) => {
-        const data = snapshot.val();
-        resolve(data);
-      },
-      {
-        onlyOnce: true,
-      }
-    );
-  });
+  
+  try {
+    const snapshot = await get(query);
+    const data = snapshot.val();
+    return data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
 };
 
 export const addCategory = async (data) => {
@@ -142,7 +139,7 @@ export const deleteType = async (typeObject) => {
 export const addProduct = async (data) => {
   try {
     const productData = {
-      ...data,
+      ...data
     };
     const productsRef = ref(db, "products");
     await push(productsRef, productData);
@@ -209,97 +206,6 @@ export const addVisit = async () => {
 
 export const getVisits = async () => {
   const query = ref(db, "visits");
-  return new Promise((resolve, reject) => {
-    onValue(
-      query,
-      (snapshot) => {
-        const data = snapshot.val();
-        resolve(data);
-      },
-      {
-        onlyOnce: true,
-      }
-    );
-  });
-};
-
-export const addProductWatch = async (id) => {
-  const authStatePromise = new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      resolve(user);
-      unsubscribe();
-    });
-  });
-  try {
-    const admin = await authStatePromise;
-
-    if (admin === null) {
-      let watchDate = new Date().toLocaleString();
-
-      let watchData = {
-        watchId:
-          Math.floor(Math.random() * 1000000) *
-          Math.floor(Math.random() * 1000000),
-        createdAt: watchDate,
-        productId: id,
-      };
-
-      const productsWatchesRef = ref(db, "productsWatches");
-      await push(productsWatchesRef, watchData);
-      return watchData;
-    }
-  } catch (error) {
-    console.error("Error adding product watch to Firebase:", error);
-  }
-};
-
-export const getProductsWatches = async () => {
-  const query = ref(db, "productsWatches");
-  return new Promise((resolve, reject) => {
-    onValue(
-      query,
-      (snapshot) => {
-        const data = snapshot.val();
-        resolve(data);
-      },
-      {
-        onlyOnce: true,
-      }
-    );
-  });
-};
-
-export const addClick = async (id) => {
-  const authStatePromise = new Promise((resolve) => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      resolve(user);
-      unsubscribe();
-    });
-  });
-
-  try {
-    const admin = await authStatePromise;
-
-    if (admin === null) {
-      let clickDate = new Date().toLocaleString();
-      let click = {
-        clickId:
-          Math.floor(Math.random() * 1000000) *
-          Math.floor(Math.random() * 1000000),
-          createdAt: clickDate,
-          productId: id
-      };
-      const clickRef = ref(db, "clicks");
-      await push(clickRef, click);
-      return click;
-    }
-  } catch (error) {
-    console.error(error);
-  }
-};
-
-export const getClicks = async () => {
-  const query = ref(db, "clicks");
   return new Promise((resolve, reject) => {
     onValue(
       query,

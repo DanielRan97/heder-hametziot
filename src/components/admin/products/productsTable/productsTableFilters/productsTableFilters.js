@@ -23,6 +23,14 @@ const ProductsTableFilters = (props) => {
           return b.price - a.price;
         case "מהזול ליקר":
           return a.price - b.price;
+        case "צפיות (נמוך לגבוהה)":
+          return a.watches - b.watches;
+        case "צפיות (גבוהה לנמוך)":
+          return b.watches - a.watches;
+        case "לחיצות לקנייה (נמוך לגבוהה)":
+          return a.clicks - b.clicks;
+        case "לחיצות לקנייה (גבוהה לנמוך)":
+          return b.clicks - a.clicks;
         case "א - ת (שם)":
           return collator.compare(a.name, b.name);
         case "ת - א (שם)":
@@ -110,7 +118,7 @@ const ProductsTableFilters = (props) => {
     setFilterGender(gender);
     setSearchProductVal("");
     if (gender === "הצג את כל המיגדרים") {
-      setFilterType("")
+      setFilterType("");
       const filteredProducts =
         filterCategory !== "הצג את כל הקטגוריות"
           ? props.productsState.filter(
@@ -138,7 +146,7 @@ const ProductsTableFilters = (props) => {
 
   const searchHandler = (name) => {
     setFilterCategory("הצג את כל הקטגוריות");
-    setFilterType("הצג את כל התת קטגוריות")
+    setFilterType("הצג את כל התת קטגוריות");
     setFilterGender("הצג את כל המיגדרים");
     setSearchProductVal(name);
     if (!props.productTableShow) {
@@ -168,6 +176,14 @@ const ProductsTableFilters = (props) => {
         <option value="מהחדש לישן">מהחדש לישן</option>
         <option value="מהיקר לזול">מהיקר לזול</option>
         <option value="מהזול ליקר">מהזול ליקר</option>
+        <option value="צפיות (נמוך לגבוהה)">צפיות (נמוך לגבוהה)</option>
+        <option value="צפיות (גבוהה לנמוך)">צפיות (גבוהה לנמוך)</option>
+        <option value="לחיצות לקנייה (נמוך לגבוהה)">
+          לחיצות לקנייה (נמוך לגבוהה)
+        </option>
+        <option value="לחיצות לקנייה (גבוהה לנמוך)">
+          לחיצות לקנייה (גבוהה לנמוך)
+        </option>
         <option value="א - ת (שם)">א - ת (שם)</option>
         <option value="ת - א (שם)">ת - א (שם)</option>
       </select>
@@ -204,17 +220,17 @@ const ProductsTableFilters = (props) => {
             )}
         </select>
       )}
-   {props.productTableShow && (
-      <select
-        value={filterGender}
-        onChange={(e) => genderFilter(e.target.value)}
-      >
-        <option value="הצג את כל המיגדרים"> הצג את כל המיגדרים</option>
-        <option value="שניהם">יוניסקס</option>
-        <option value="זכר">זכר</option>
-        <option value="נקבה">נקבה</option>
-      </select>
-   )}
+      {props.productTableShow && (
+        <select
+          value={filterGender}
+          onChange={(e) => genderFilter(e.target.value)}
+        >
+          <option value="הצג את כל המיגדרים"> הצג את כל המיגדרים</option>
+          <option value="שניהם">יוניסקס</option>
+          <option value="זכר">זכר</option>
+          <option value="נקבה">נקבה</option>
+        </select>
+      )}
       <input
         type="search"
         placeholder="חפש לפי שם..."

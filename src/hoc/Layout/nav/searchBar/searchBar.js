@@ -29,7 +29,7 @@ const SearchBar = props => {
           <FontAwesomeIcon icon={faBars} />
           תפריט
         </button>
-      <form>
+      <form onSubmit={search}>
         <input
           value={searchState}
           className={classes.searchInput}

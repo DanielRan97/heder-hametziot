@@ -6,16 +6,22 @@ import classes from "./products.module.css";
 import withClass from "../../hoc/withClass/withClass";
 import { useLocation, useNavigate } from "react-router-dom";
 import ModalDialog from "../UI/modal/modal";
+import ProductFilter from "../../utility/productsFilter";
 
 const Products = () => {
   const [productsState, setProductsState] = useState([]);
+  const [productsFilterState, setProductsFilterState] = useState([]);
   const [loading, setLoading] = useState(true);
   const location = useLocation();
   const navigate = useNavigate();
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
+  const [filterValue, setFilterValue] = useState("מהחדש לישן");
+  const [filterGender, setFilterGender] = useState("הצג את כל המיגדרים");
 
   useEffect(() => {
     setProductsState([]);
+    setFilterValue("מהחדש לישן");
+    setFilterGender("הצג את כל המיגדרים");
     let pathName = location.pathname;
     let paramsCategory = decodeURI(pathName)
       .split("/")
@@ -35,7 +41,16 @@ const Products = () => {
               ele.types === paramsCategory[2]
             : ele.categories === paramsCategory[1]
         );
-        setProductsState(productFilter);
+        setProductsState(
+          productFilter.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
+        );
+        setProductsFilterState(
+          productFilter.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          )
+        );
       } catch (error) {
         setModal({
           show: true,
@@ -57,7 +72,7 @@ const Products = () => {
   };
 
   const renderProducts = () => {
-    return productsState.map((ele) => (
+    return productsFilterState.map((ele) => (
       <div
         key={ele.fbId}
         className={classes.product}
@@ -94,11 +109,27 @@ const Products = () => {
       ) : null}
       <div>
         {loading && <Loading />}
-        {productsState.length === 0 && loading === false ? (
+        {productsFilterState.length === 0 && loading === false ? (
           <p>עדיין אין מוצרים </p>
         ) : null}
       </div>
-
+      <div className={classes.productsState}>
+        <ProductFilter
+          productsFilterState={productsFilterState}
+          setProductsFilterState={(sortState) =>
+            setProductsFilterState(sortState)
+          }
+          filterValue={filterValue}
+          filterGender={filterGender}
+          setFilterGender={(val) => setFilterGender(val)}
+          setFilterValue={(val) => setFilterValue(val)}
+          products={productsState}
+          setProductsState={(sortState) =>
+            setProductsState(sortState)
+          }
+        />
+        <p>{productsFilterState.length} תוצאות</p>
+      </div>
       <div className={classes.products}>{renderProducts()}</div>
     </Aux>
   );

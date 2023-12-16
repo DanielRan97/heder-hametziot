@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from "react";
-import { getProductById } from "../../../../fireBase/fireBaseFuncDb";
+import React, { useState } from "react";
 import Aux from "../../../Auxiliary/Auxiliary";
 import withClass from "../../../withClass/withClass";
 import classes from "./path.module.css";
@@ -12,20 +11,8 @@ const Path = () => {
   const pathName = decodeURI(location.pathname)
     .split("/")
     .filter((ele) => ele !== "");
-  const [productName, setProductName] = useState();
   const navigate = useNavigate();
 
-useEffect(() => {
-  const fetchData = async () => {
-
-    if(pathName[3]){
-      await getProductById(pathName[3]).then(res => {
-        setProductName(res.name)
-      })
-    }
-  }
-  fetchData()
-}, [pathName])
 
 
   return (
@@ -58,8 +45,7 @@ useEffect(() => {
                 }
               >{`${pathName[2]}`}</span>
             )}
-            {pathName[3] && <span>/</span>}
-            {pathName[3] && productName !== "" && <span>{productName}</span>}
+
           </p>
         ) : null}
       </div>

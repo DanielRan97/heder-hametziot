@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import {
   getTypes,
   addProduct,
-  getCategories
+  getCategories,
 } from "../../../../fireBase/fireBaseFuncDb";
 import ModalDialog from "../../../UI/modal/modal";
 import ProductForm from "./productFrom/productFrom";
@@ -96,6 +96,8 @@ const AddProductForm = () => {
       await addProduct({
         ...addProductFromState,
         createdAt: new Date().toISOString(),
+        clicks: 0,
+        watches: 0,
         photos: images,
         id,
       });
@@ -135,16 +137,16 @@ const AddProductForm = () => {
         />
       ) : null}
       <ProductForm
-      addProductFromState={addProductFromState}
-      setAddProductFromState={(ele) => setAddProductFromState(ele)}
-      categories={categories}
-      types={types}
-      isValidUrl={(ele) => isValidUrl(ele)}
-      handleChange={(e) => handleChange(e)}
-      addProductLoading={addProductLoading}
-      addFormButtonDisabled={() => addFormButtonDisabled()}
-      addProductHandler={() => addProductHandler()}
-      addSProductMessage={addSProductMessage}
+        addProductFromState={addProductFromState}
+        setAddProductFromState={(ele) => setAddProductFromState(ele)}
+        categories={categories}
+        types={types}
+        isValidUrl={(ele) => isValidUrl(ele)}
+        handleChange={(e) => handleChange(e)}
+        addProductLoading={addProductLoading}
+        addFormButtonDisabled={() => addFormButtonDisabled()}
+        addProductHandler={() => addProductHandler()}
+        addSProductMessage={addSProductMessage}
       />
     </Aux>
   );

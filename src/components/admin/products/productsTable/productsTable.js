@@ -67,29 +67,10 @@ const ProductsTable = (props) => {
     navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`);
   };
 
-  const getProductWatch = (id) => {
-    let watches = [];
-    props.productsWatches &&
-    Object.values(props.productsWatches).forEach((ele) => {
-      ele.productId === id && watches.push(ele);
-    });
-    return watches.length
-  };
-
-  const getProductClicks = (id) => {
-    let clicks = [];
-    props.productsClick &&
-    Object.values(props.productsClick).forEach((ele) => {
-      ele.productId === id && clicks.push(ele);
-    });
-    return clicks.length
-  };
-
   const productTableBodyHandler = () => {
     return (
       <ProductTableBody
-        getProductClicks={(id) => getProductClicks(id)}
-        getProductWatch={(id) => getProductWatch(id)}
+
         filterProductsState={props.filterProductsState}
         loading={props.loading}
         deleteDialog={deleteDialog}
@@ -107,8 +88,7 @@ const ProductsTable = (props) => {
   const productTableBodyErrorHandler = () => {
     return (
       <ProductTableBodyError
-        getProductClicks={(id) => getProductClicks(id)}
-        getProductWatch={(id) => getProductWatch(id)}
+
         productsFilterErrorState={props.productsFilterErrorState}
         loading={props.loading}
         deleteDialog={deleteDialog}

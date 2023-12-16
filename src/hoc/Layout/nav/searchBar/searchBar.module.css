@@ -9,20 +9,11 @@
     gap: 30px;
 }
 
-.SearchBar  form {
-    display: flex;
-    margin: auto 0px auto 0px;
-    height: 50px;
-    line-height: 0px;
-    padding-top: 7px;
-    max-width: 200px;
-    justify-content: space-around;
 
-}
 
 .SearchBar Input {
     height: 40px;
-    line-height: 60px;
+    line-height: 40px;
     max-width: 300px;
     display: inline-block;
 }

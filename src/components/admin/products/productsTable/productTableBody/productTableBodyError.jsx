@@ -42,8 +42,6 @@ const ProductTableBodyError = props => {
       <td>
       <p>תמונה ראשית לא עובדת</p>
       </td>
-      <td>{props.getProductWatch(ele.fbId)}</td>
-      <td>{props.getProductClicks(ele.fbId)}</td>
       <td>
         <button
           type="button"

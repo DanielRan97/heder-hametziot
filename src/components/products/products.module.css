@@ -45,3 +45,8 @@
     color: bisque;
     font-weight: bold;
 }
+
+.Products .productsState{
+width: 250px;
+margin-right: 10px;
+}

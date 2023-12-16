@@ -1,7 +1,7 @@
 .ShowSearch .product {
-    max-height: 200px;
-    max-width: 90%;
-    margin: 0px auto 10px auto;
+    height: 200px;
+    width: 90%;
+    margin: 10px auto 10px auto;
     text-align: right;
     padding: 10px;
     cursor: pointer;
@@ -14,8 +14,8 @@
 
 .ShowSearch .product img {
     display: inline-block;
-    height: 140px;
-    max-width: 140px;
+    height: 180px;
+    width: 180px;
     border-radius: 50px;
     -webkit-border-radius: 13px;
     -moz-border-radius: 50px;
@@ -27,6 +27,7 @@
     display: inline-block;
     max-width: 300px;
     margin: 3px;
+    padding-right: 20px;
 }
 
 .ShowSearch .product .price {
@@ -39,11 +40,22 @@
     width: 90%;
 }
 
-.ShowSearch .showResTitle{
+.ShowSearch .showResTitle {
     margin-bottom: 70px;
 }
 
+.ShowSearch .productsState {
+    width: 250px;
+    margin-right: 10px;
+}
+
+
 @media (max-width: 600px) {
+
+    .ShowSearch .product {
+        min-height: 120px;
+ 
+    }
     .ShowSearch .product img {
         width: 100px;
         height: 100px;
