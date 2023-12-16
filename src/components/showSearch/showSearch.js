@@ -7,6 +7,7 @@ import Loading from "../UI/loading/loading";
 import { getProducts } from "../../fireBase/fireBaseFuncDb";
 import ModalDialog from "../UI/modal/modal";
 import ProductFilter from "../../utility/productsFilter";
+import { comaToBr } from "../../utility/comaToBr";
 
 const ShowSearch = () => {
   const location = useLocation();
@@ -21,6 +22,17 @@ const ShowSearch = () => {
   const [filterValue, setFilterValue] = useState("מהחדש לישן");
   const [filterGender, setFilterGender] = useState("הצג את כל המיגדרים");
   const navigate = useNavigate();
+  const [preventContextMenu] = useState(true);
+
+  const handleContextMenu = (e) => {
+    if (preventContextMenu) {
+      e.preventDefault();
+    }
+  };
+
+  const handleDragStart = (e) => {
+    e.preventDefault();
+  };
 
   useEffect(() => {
     setProductsState([]);
@@ -77,10 +89,15 @@ const ShowSearch = () => {
       productsFilterState.map((ele) => (
         <div key={ele.id} onClick={() => navTo(ele)}>
           <div className={classes.product}>
-            <img src={ele.photos[0]} alt={ele.name}></img>
+            <img
+              src={ele.photos[0]}
+              alt={ele.name}
+              onContextMenu={handleContextMenu}
+              onDragStart={handleDragStart}
+            ></img>
             <div className={classes.data}>
               <h4 className={classes.name}>{ele.name}</h4>
-              <p className={classes.description}>{ele.description}</p>
+              <p className={classes.description}>{comaToBr(ele.description)}</p>
               <h4 className={classes.price}>₪{ele.price}</h4>
             </div>
           </div>
@@ -107,7 +124,7 @@ const ShowSearch = () => {
         <h3 className={classes.showResTitle}>לא נמצאו מוצרים</h3>
       )}
       {productsFilterState.length > 0 && (
-        <div className={classes.productsState}>
+        <div className={classes.productFilter}>
           <ProductFilter
             productsFilterState={productsFilterState}
             setProductsFilterState={(sortState) =>

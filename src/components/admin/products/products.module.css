@@ -3,7 +3,7 @@ text-align: center;
 overflow: auto;
 }
 
-.Products .adminActionsDiv select,  input, input[type="select"]{
+.Products .adminActionsDiv select,  input[type="text"], input[type="select"]{
     width: 200px;
     height: 50px;
     color: black;

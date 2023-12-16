@@ -17,7 +17,17 @@ const Products = () => {
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [filterValue, setFilterValue] = useState("מהחדש לישן");
   const [filterGender, setFilterGender] = useState("הצג את כל המיגדרים");
+  const [preventContextMenu] = useState(true);
 
+  const handleContextMenu = (e) => {
+    if (preventContextMenu) {
+      e.preventDefault(); 
+    }
+  };
+
+  const handleDragStart = (e) => {
+    e.preventDefault();
+  };
   useEffect(() => {
     setProductsState([]);
     setFilterValue("מהחדש לישן");
@@ -84,6 +94,8 @@ const Products = () => {
           <img
             src={ele.photos[0]}
             alt={ele.name}
+            onContextMenu={handleContextMenu}
+            onDragStart={handleDragStart}
             onError={() => handleImageError(ele)}
           ></img>
         </div>

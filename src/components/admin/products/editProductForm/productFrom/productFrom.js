@@ -172,9 +172,6 @@ const ProductForm = props => {
             ? props.editProductLoading
             : props.editSProductMessage.message}
         </p>
-        <div className={classes.photosP}>{props.editProductFromState.photos.map((ele, index) => (
-          <p key={index}>{ele}</p>
-        ))}</div>
         {props.editProductLoading && <Loading />}
         <button
           type="button"

@@ -27,6 +27,11 @@
     padding-top: 50px;
 }
 
+.price{
+    font-weight: bold;
+    font-size: 23px;
+}
+
 .Alink {
     background-color: bisque;
     color: black;
@@ -35,7 +40,6 @@
     line-height: 60px;
     margin: 50px auto auto auto;
     border: none;
-    border-radius: 4px;
     cursor: pointer;
     text-decoration: none;
     font-weight: bold;
@@ -56,6 +60,15 @@
     .mainImg {
         width: 300px;
         height: 300px;
+    }
+
+    .Alink {
+        width: 99%;
+        height: 60px;
+        line-height: 60px;
+        position:fixed;
+        bottom: 10px;
+        right: 3.5px;
     }
 
 }

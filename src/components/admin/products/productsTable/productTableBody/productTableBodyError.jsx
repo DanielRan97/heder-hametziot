@@ -1,6 +1,7 @@
 import React from "react";
 import Loading from "../../../../UI/loading/loading";
 import classes from "../productsTable.module.css";
+import { comaToBr } from "../../../../../utility/comaToBr";
 
 const ProductTableBodyError = props => {
 
@@ -26,7 +27,7 @@ const ProductTableBodyError = props => {
     <tr key={ele.id + index}>
       <td>{index + 1}</td>
       <td>{ele.name}</td>
-      <td>{ele.description}</td>
+      <td>{comaToBr(ele.description)}</td>
       <td>₪{ele.price}.00</td>
       <td>{ele.categories}</td>
       <td>{ele.types}</td>

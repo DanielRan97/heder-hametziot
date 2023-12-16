@@ -6,6 +6,7 @@ import classes from "./product.module.css";
 import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../UI/loading/loading";
 import { auth } from "../../fireBase/firebase";
+import { comaToBr } from "../../utility/comaToBr";
 
 const Product = () => {
   const [product, setProduct] = useState({});
@@ -13,7 +14,17 @@ const Product = () => {
   const navigate = useNavigate();
   const [mainPhoto, setMainPhoto] = useState("");
   const [productId, setProductId] = useState("");
+  const [preventContextMenu] = useState(true);
 
+  const handleContextMenu = (e) => {
+    if (preventContextMenu) {
+      e.preventDefault();
+    }
+  };
+
+  const handleDragStart = (e) => {
+    e.preventDefault();
+  };
   useEffect(() => {
     const fetchData = async () => {
       let pathName = location.pathname;
@@ -63,6 +74,8 @@ const Product = () => {
           <img
             src={mainPhoto}
             alt={product.name}
+            onContextMenu={handleContextMenu}
+            onDragStart={handleDragStart}
             className={classes.mainImg}
           ></img>
           {product.photos.map(
@@ -79,14 +92,15 @@ const Product = () => {
                 ></img>
               )
           )}
-          <p className={classes.description}>{product.description}</p>
+          <p className={classes.description}>{comaToBr(product.description)}</p>
+          <p className={classes.price}>₪{product.price}.00</p>
           <a
             className={classes.Alink}
             href={product.link}
             target="blank"
             onClick={() => clickOnProduct()}
           >
-            קנה עכשיו ₪{product.price}.00
+            קנה עכשיו 
           </a>
         </div>
       );

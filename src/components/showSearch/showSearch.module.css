@@ -44,9 +44,10 @@
     margin-bottom: 70px;
 }
 
-.ShowSearch .productsState {
+.ShowSearch .productFilter {
     width: 250px;
     margin-right: 10px;
+    text-align: right;
 }
 
 .ShowSearch select{
