@@ -1,5 +1,5 @@
 .loginDAdminButton{
-    background-color: bisque;
+    background-color: #f9f9f9;
     border: 2px solid black;
     width: 100px;
     height: 50px;
@@ -12,10 +12,10 @@
 
 .loginDAdminButton:hover{
     background-color: black;
-    color: bisque;
+    color: #f9f9f9;
   }
   
  .loginDAdminButton:active{
-    background-color: bisque;
+    background-color: #f9f9f9;
     color: black;
   }

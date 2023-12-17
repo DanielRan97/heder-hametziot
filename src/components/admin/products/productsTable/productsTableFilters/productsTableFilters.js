@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Aux from "../../../../../hoc/Auxiliary/Auxiliary";
+import classes from './productsTableFilters.module.css';
 
 const ProductsTableFilters = (props) => {
   const collator = new Intl.Collator("he", {
@@ -232,6 +233,7 @@ const ProductsTableFilters = (props) => {
         </select>
       )}
       <input
+        className={classes.inputSearch}
         type="text"
         placeholder="חפש לפי שם..."
         value={searchProductVal}

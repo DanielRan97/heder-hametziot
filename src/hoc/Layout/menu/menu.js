@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState, useEffect } from "react";
 import { logout } from "../../../fireBase/fireBaseFunc";
 import { auth } from "../../../fireBase/firebase";
 import Aux from "../../Auxiliary/Auxiliary";
@@ -12,6 +12,15 @@ const Menu = (props) => {
 
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if(category !== ""){
+      const menu = document.getElementById('category');
+      menu.classList.add('animate__animated', 'animate__fadeIn');
+    }
+
+
+  }, [category]);
   
   const logOutHandler = async () => {
     await logout();
@@ -66,7 +75,7 @@ const Menu = (props) => {
                   />
                 )}
                 {element === category && (
-                  <ul className={classes.typesUl}>
+                  <ul id={element === category ? "category" : "nonCategory"} className={classes.typesUl}>
                     {props.types
                       .filter((type) => type.category === element)
                       .map((type , index) => (

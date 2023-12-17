@@ -42,6 +42,14 @@ const Layout = () => {
         setMenu(menu === false ? true : false)
     }
 
+    useEffect(() => {
+      if(menu){
+        const menu = document.getElementById('menu');
+        menu.classList.add('animate__animated', 'animate__fadeInRight');
+      }
+  
+    }, [menu]);
+
     return(
         <Aux>
 
@@ -51,8 +59,8 @@ const Layout = () => {
                 <Path />
             </header>
 
-           {menu? <aside className={classes.layoutAside}>
-                        <Menu setMenu={() => setMenu()} types={types} categories={categories}/>
+           {menu? <aside  className={classes.layoutAside}>
+                        <div className={classes.divMenu} id="menu"><Menu menu setMenu={() => setMenu()} types={types} categories={categories}/></div>
                         <Fade show={menu} clicked={handelMenu}/>
                   </aside>
                 : null

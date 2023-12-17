@@ -123,7 +123,7 @@ const ShowSearch = () => {
       ) : (
         <h3 className={classes.showResTitle}>לא נמצאו מוצרים</h3>
       )}
-      {productsFilterState.length > 0 && (
+      {productsState.length > 0 && (
         <div className={classes.productFilter}>
           <ProductFilter
             productsFilterState={productsFilterState}

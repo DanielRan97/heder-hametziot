@@ -1,5 +1,5 @@
 .ShowProducts .product {
-    background-color: bisque;
+    background-color: #f9f9f9;
     height: 400px;
     width: 300px;
     border: 1px solid black;
@@ -38,6 +38,6 @@
     border: 1PX solid black;
     text-align: center;
     background-color: black;
-    color: bisque;
+    color: #f9f9f9;
     font-weight: bold;
 }

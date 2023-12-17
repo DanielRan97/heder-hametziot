@@ -33,8 +33,8 @@
 }
 
 .Alink {
-    background-color: bisque;
-    color: black;
+    background-color: black;
+    color: #f9f9f9;
     width: 162px;
     height: 60px;
     line-height: 60px;
@@ -47,12 +47,13 @@
 }
 
 .Alink:hover {
-    background-color: black;
-    color: bisque;
+    background-color: #f9f9f9;
+    color: black;
+    border: 1px solid black;
 }
 
 .Alink:active {
-    background-color: bisque;
+    background-color: #f9f9f9;
     color: black;
 }
 
@@ -63,12 +64,12 @@
     }
 
     .Alink {
-        width: 99%;
+        width: 100%;
         height: 60px;
         line-height: 60px;
         position:fixed;
-        bottom: 10px;
-        right: 3.5px;
+        bottom: 0px;
+        right: 0px;
     }
 
 }

@@ -7,6 +7,7 @@ import withClass from "../../hoc/withClass/withClass";
 import { useLocation, useNavigate } from "react-router-dom";
 import ModalDialog from "../UI/modal/modal";
 import ProductFilter from "../../utility/productsFilter";
+import { comaToBr } from "../../utility/comaToBr";
 
 const Products = () => {
   const [productsState, setProductsState] = useState([]);
@@ -18,10 +19,11 @@ const Products = () => {
   const [filterValue, setFilterValue] = useState("מהחדש לישן");
   const [filterGender, setFilterGender] = useState("הצג את כל המיגדרים");
   const [preventContextMenu] = useState(true);
+  const [photoHover, setPhotoHover] = useState({ id: "", num: 0 });
 
   const handleContextMenu = (e) => {
     if (preventContextMenu) {
-      e.preventDefault(); 
+      e.preventDefault();
     }
   };
 
@@ -76,6 +78,24 @@ const Products = () => {
     fetchData();
   }, [location.pathname]);
 
+  const productHoverHandler = (id, photosArry) => {
+    const highestId = window.setTimeout(() => {
+      for (let i = highestId; i >= 0; i--) {
+        window.clearInterval(i);
+      }
+    }, 0);
+    setPhotoHover({ id : "", num: 0 });
+    for (let index = 0; index < photosArry.length; index++) {
+      setTimeout(() => {
+        if (index === photosArry.length - 1) {
+          setPhotoHover({ id, num: 1 });
+        } else {
+          setPhotoHover({ id, num: index + 1 });
+        }
+      }, 2000 * index);
+    }
+  };
+
   const handleImageError = (element) => {
     let filter = productsState.filter((ele) => ele !== element);
     setProductsState(filter);
@@ -90,19 +110,23 @@ const Products = () => {
           navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`)
         }
       >
-        <div className={classes.productImgDiv}>
-          <img
-            src={ele.photos[0]}
-            alt={ele.name}
-            onContextMenu={handleContextMenu}
-            onDragStart={handleDragStart}
-            onError={() => handleImageError(ele)}
-          ></img>
-        </div>
+        <img
+          src={
+            ele.id !== photoHover.id
+              ? ele.photos[0]
+              : ele.photos[photoHover.num]
+          }
+          alt={ele.name}
+          onContextMenu={handleContextMenu}
+          onDragStart={handleDragStart}
+          onError={() => handleImageError(ele)}
+          onMouseEnter={() => productHoverHandler(ele.id, ele.photos)}
+          onTouchStart={() => productHoverHandler(ele.id, ele.photos)}
+        ></img>
         <div className={classes.productData}>
           <h4 className={classes.productTile}>{ele.name}</h4>
           <div className={classes.productDescriptionDiv}>
-            <p>{ele.description}</p>
+            <p>{comaToBr(ele.description)}</p>
           </div>
           <p className={classes.price}>₪{ele.price}.00</p>
         </div>
@@ -125,23 +149,23 @@ const Products = () => {
           <p>עדיין אין מוצרים </p>
         ) : null}
       </div>
-      {productsFilterState.length > 0 &&<div className={classes.productsState}>
-        <ProductFilter
-          productsFilterState={productsFilterState}
-          setProductsFilterState={(sortState) =>
-            setProductsFilterState(sortState)
-          }
-          filterValue={filterValue}
-          filterGender={filterGender}
-          setFilterGender={(val) => setFilterGender(val)}
-          setFilterValue={(val) => setFilterValue(val)}
-          products={productsState}
-          setProductsState={(sortState) =>
-            setProductsState(sortState)
-          }
-        />
-        <p>{productsFilterState.length} תוצאות</p>
-      </div>}
+      {productsState.length > 0 && (
+        <div className={classes.productsState}>
+          <ProductFilter
+            productsFilterState={productsFilterState}
+            setProductsFilterState={(sortState) =>
+              setProductsFilterState(sortState)
+            }
+            filterValue={filterValue}
+            filterGender={filterGender}
+            setFilterGender={(val) => setFilterGender(val)}
+            setFilterValue={(val) => setFilterValue(val)}
+            products={productsState}
+            setProductsState={(sortState) => setProductsState(sortState)}
+          />
+          <p>{productsFilterState.length} תוצאות</p>
+        </div>
+      )}
       <div className={classes.products}>{renderProducts()}</div>
     </Aux>
   );

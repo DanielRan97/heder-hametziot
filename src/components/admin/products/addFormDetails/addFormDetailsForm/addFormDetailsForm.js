@@ -29,7 +29,7 @@ const AddFormDetailsForm = (props) => {
       <form className={classes.FormDetails}>
         <h1>הוסף קטגוריה</h1>
         <label>
-          שם הקטגוריה:
+         <h4> שם הקטגוריה:</h4>
           <input
             value={props.categoryState}
             type="text"
@@ -63,7 +63,7 @@ const AddFormDetailsForm = (props) => {
         <h1>הוסף תת קטגוריה</h1>
 
         <label>
-          הוסף קטגוריה :
+        <h4>  הוסף קטגוריה :</h4>
           <select
             value={props.typeState.category}
             onChange={(e) =>
@@ -74,7 +74,7 @@ const AddFormDetailsForm = (props) => {
             }
           >
             <option value="" disabled>
-              בחר קטגוריה
+             בחר קטגוריה 
             </option>
             {props.categoryListState && props.categoryListState.length > 0 ? (
               props.categoryListState.map((element, index) => (
@@ -88,7 +88,7 @@ const AddFormDetailsForm = (props) => {
           </select>
         </label>
         <label>
-          שם תת קטגוריה:
+        <h4>  שם תת קטגוריה: </h4>
           <input
             type="text"
             value={props.typeState.type}
@@ -115,7 +115,7 @@ const AddFormDetailsForm = (props) => {
           }
           onClick={props.addTypesHandler}
         >
-          הוסף תת קטגוריה
+           הוסף תת קטגוריה
         </button>
       </form>
     </Aux>

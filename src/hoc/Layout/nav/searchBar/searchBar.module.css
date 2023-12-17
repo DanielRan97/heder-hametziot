@@ -22,7 +22,7 @@
 .SearchBar .searchButton{
 position: absolute;
 top: 0px;
-left: 2px;
+left: 8px;
 }
 
 .SearchBar Input:focus {
@@ -36,13 +36,12 @@ left: 2px;
 }
 
 .SearchBar Button:hover {
-    color: bisque;
+    color: #f9f9f9;
 }
 
 .toggleMenuButton {
     display: inline-block;
     color: black;
-    background-color: white;
     border: none;
     font-weight: bold;
     font-size: 25px;
@@ -50,5 +49,5 @@ left: 2px;
 }
 
 .toggleMenuButton:hover {
-    color: bisque;
+    color: #bdbdbd !important;
 }

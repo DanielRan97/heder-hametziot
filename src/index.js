@@ -5,6 +5,7 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import App from './containers/App/App';
 import reportWebVitals from './reportWebVitals';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import 'animate.css';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

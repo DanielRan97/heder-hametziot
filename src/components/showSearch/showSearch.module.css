@@ -9,7 +9,7 @@
 }
 
 .ShowSearch .product:hover {
-    background-color: bisque;
+    background-color: #f9f9f9;
 }
 
 .ShowSearch .product img {
@@ -58,12 +58,12 @@
 @media (max-width: 600px) {
 
     .ShowSearch .product {
-        min-height: 120px;
+        min-height: 250px;
  
     }
     .ShowSearch .product img {
-        width: 100px;
-        height: 100px;
+        max-width: 240px;
+        height: auto;
     }
 
 }

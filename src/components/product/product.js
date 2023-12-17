@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { editProduct, getProductById } from "../../fireBase/fireBaseFuncDb";
 import Aux from "../../hoc/Auxiliary/Auxiliary";
 import withClass from "../../hoc/withClass/withClass";
@@ -15,6 +15,7 @@ const Product = () => {
   const [mainPhoto, setMainPhoto] = useState("");
   const [productId, setProductId] = useState("");
   const [preventContextMenu] = useState(true);
+  const targetDivRef = useRef(null);
 
   const handleContextMenu = (e) => {
     if (preventContextMenu) {
@@ -66,12 +67,18 @@ const Product = () => {
     }
   };
 
+  const scrollToDiv = (ele) => {
+    setMainPhoto(ele !== mainPhoto && ele)
+    targetDivRef.current.scrollIntoView({ behavior: "smooth" });
+  };
+
   const renderProducts = () => {
     if (Object.keys(product).length > 0) {
       return (
         <div className={classes.productTemplate}>
           <h1>{product.name}</h1>
           <img
+            ref={targetDivRef}
             src={mainPhoto}
             alt={product.name}
             onContextMenu={handleContextMenu}
@@ -87,7 +94,7 @@ const Product = () => {
                   alt={product.name}
                   className={classes.img}
                   onClick={() => {
-                    setMainPhoto(ele !== mainPhoto && ele);
+                    scrollToDiv(ele);
                   }}
                 ></img>
               )
@@ -100,7 +107,7 @@ const Product = () => {
             target="blank"
             onClick={() => clickOnProduct()}
           >
-            קנה עכשיו 
+            קנה עכשיו
           </a>
         </div>
       );

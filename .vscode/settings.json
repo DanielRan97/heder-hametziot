@@ -25,6 +25,7 @@
         "Prodacts",
         "Producthandler",
         "setdetails",
+        "setopen",
         "slidein",
         "sortproducts",
         "suuccefull",
