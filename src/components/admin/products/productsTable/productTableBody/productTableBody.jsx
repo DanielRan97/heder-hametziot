@@ -5,7 +5,6 @@ import { comaToBr } from "../../../../../utility/comaToBr";
 
 const ProductTableBody = (props) => {
   
-
   if (props.loading) {
     return (
       <tr>
@@ -23,8 +22,8 @@ const ProductTableBody = (props) => {
       </tr>
     );
   }
-  return  props.filterProductsState.map((ele, index) => (
-    <tr key={ele.id + index}>
+  return props.filterProductsState.map((ele, index) => (
+    <tr key={ele.id + index} className={index % 2 !== 0 ? classes.trEven : classes.trOdd}>
       <td>{index + 1}</td>
       <td>{ele.name}</td>
       <td>{comaToBr(ele.description)}</td>
@@ -62,10 +61,12 @@ const ProductTableBody = (props) => {
         </button>
       </td>
       <td>
-      <a href={ele.link}
-      target="_blank"
-      rel="noreferrer"
-          className={classes.showInAliButton}>
+        <a
+          href={ele.link}
+          target="_blank"
+          rel="noreferrer"
+          className={classes.showInAliButton}
+        >
           הצג באלי אקספרס
         </a>
       </td>

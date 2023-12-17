@@ -1,6 +1,5 @@
 .Products{
 text-align: center;
-overflow: auto;
 }
 
 .Products .adminActionsDiv select, input[type="select"], input[type="text"]{
