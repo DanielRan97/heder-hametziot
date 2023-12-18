@@ -1,5 +1,11 @@
+
 .Menu .categoriesList {
   margin-top: 50px;
+}
+
+.Menu img {
+  height: 81px;
+  width: 75px;
 }
 
 .Menu ul {
@@ -70,7 +76,7 @@
 .closeButton {
   background: none;
   border: none;
-  color: red;
+  color: black;
   font-size: 30px;
   position: absolute;
   top: 2px;
@@ -79,6 +85,6 @@
 }
 
 .closeButton:hover {
-  color: white;
+  color: red;
 
 }

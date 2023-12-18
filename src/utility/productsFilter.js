@@ -31,14 +31,14 @@ const ProductFilter = (props) => {
     const sortedProducts = sortProducts(action);
     props.setFilterValue(action);
     props.setProductsState(sortedProducts);
-    props.setProductsFilterState(props.filterGender === "הצג את כל המיגדרים" ? [...sortedProducts] : [...sortedProducts.filter(ele => ele.gender === props.filterGender)]);
+    props.setProductsFilterState(props.filterGender === "הצג את כל המגדרים" ? [...sortedProducts] : [...sortedProducts.filter(ele => ele.gender === props.filterGender)]);
   };
 
   const genderFilter = (gender) => {
     let filter = [...props.products];
     sortSelectHandler(props.filterValue);
     props.setFilterGender(gender);
-    gender !== "הצג את כל המיגדרים"
+    gender !== "הצג את כל המגדרים"
       ? props.setProductsFilterState(
           filter.filter((ele) => ele.gender === gender)
         )
@@ -63,10 +63,10 @@ const ProductFilter = (props) => {
         value={props.filterGender}
         onChange={(e) => genderFilter(e.target.value)}
       >
-        <option value="הצג את כל המיגדרים"> הצג את כל המיגדרים</option>
+        <option value="הצג את כל המגדרים"> הצג את כל המגדרים</option>
         <option value="שניהם">יוניסקס</option>
-        <option value="זכר">זכר</option>
-        <option value="נקבה">נקבה</option>
+        <option value="זכר">גברים</option>
+        <option value="נקבה">נשים</option>
       </select>
     </Aux>
   );

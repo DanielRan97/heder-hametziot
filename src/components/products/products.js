@@ -8,6 +8,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import ModalDialog from "../UI/modal/modal";
 import ProductFilter from "../../utility/productsFilter";
 import { comaToBr } from "../../utility/comaToBr";
+import { genderFilter } from "../../utility/genderFilter";
 
 const Products = () => {
   const [productsState, setProductsState] = useState([]);
@@ -17,7 +18,7 @@ const Products = () => {
   const navigate = useNavigate();
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [filterValue, setFilterValue] = useState("מהחדש לישן");
-  const [filterGender, setFilterGender] = useState("הצג את כל המיגדרים");
+  const [filterGender, setFilterGender] = useState("הצג את כל המגדרים");
   const [preventContextMenu] = useState(true);
   const [photoHover, setPhotoHover] = useState({ id: "", num: 0 });
 
@@ -33,7 +34,7 @@ const Products = () => {
   useEffect(() => {
     setProductsState([]);
     setFilterValue("מהחדש לישן");
-    setFilterGender("הצג את כל המיגדרים");
+    setFilterGender("הצג את כל המגדרים");
     let pathName = location.pathname;
     let paramsCategory = decodeURI(pathName)
       .split("/")
@@ -127,6 +128,7 @@ const Products = () => {
           <h4 className={classes.productTile}>{ele.name}</h4>
           <div className={classes.productDescriptionDiv}>
             <p>{comaToBr(ele.description)}</p>
+            <span>{genderFilter(ele.gender)}</span>
           </div>
           <p className={classes.price}>₪{ele.price}.00</p>
         </div>

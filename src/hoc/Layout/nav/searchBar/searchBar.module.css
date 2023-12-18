@@ -1,12 +1,11 @@
-.SearchBar  {
+.SearchBar {
     width: 100%;
     color: black;
     display: flex;
-    height: 60px;
+    min-height: 60px;
     line-height: 60px;
     display: flex;
     justify-content: space-around;
-    gap: 30px;
 }
 
 .SearchBar form {
@@ -16,13 +15,19 @@
 .SearchBar Input {
     height: 40px;
     line-height: 40px;
-    max-width: 300px;
     display: inline-block;
+    border: none;
+    padding: 5px;
 }
-.SearchBar .searchButton{
-position: absolute;
-top: 0px;
-left: 8px;
+
+.SearchBar .searchButton {
+    position: absolute;
+    top: 0px;
+    left: 8px;
+}
+
+.SearchBar img {
+    display: none;
 }
 
 .SearchBar Input:focus {
@@ -50,4 +55,50 @@ left: 8px;
 
 .toggleMenuButton:hover {
     color: #bdbdbd !important;
+}
+
+@media (max-width: 600px) {
+    .SearchBar {
+        display: flex;
+        flex-direction: column;
+
+    }
+
+    .toggleMenuButton {
+        color: black;
+        border: none;
+        font-weight: bold;
+        font-size: 20px;
+        cursor: pointer;
+    }
+
+    .SearchBar .firstChilde {
+        display: flex;
+        padding: 10px 10px 0px 10px;
+        width: 100%;
+        justify-content: space-between;
+
+    }
+
+    .SearchBar .secondChilde {
+        width: 100%;
+        align-items: center;
+        margin: 0px;
+       height: 40px;
+    }
+
+    .SearchBar form, .SearchBar input{
+        width: 100%;
+        margin: 0px;
+        height: 20px;
+        border:none;
+        line-height: 40px;
+        display: inline-block;
+    }
+
+    .SearchBar img {
+        height: 58px;
+        width: 96px;
+        display: inline-block;
+    }
 }

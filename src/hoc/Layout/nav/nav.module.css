@@ -6,9 +6,16 @@
 }
 
 .Nav img{
-    height: 202px;
-    width: 268px;
+    height: 127px;
+    width: 196px;
+    margin-top: 20px;
+
 }
 
+@media (max-width: 600px) {
+    .Nav  {
+        display: none;
+    }
 
+}
 

@@ -7,6 +7,13 @@ import { useLocation, useNavigate } from "react-router-dom";
 import Loading from "../UI/loading/loading";
 import { auth } from "../../fireBase/firebase";
 import { comaToBr } from "../../utility/comaToBr";
+import {
+  WhatsappShareButton,
+  WhatsappIcon,
+  TelegramShareButton,
+  TelegramIcon
+  
+} from "react-share";
 
 const Product = () => {
   const [product, setProduct] = useState({});
@@ -68,7 +75,7 @@ const Product = () => {
   };
 
   const scrollToDiv = (ele) => {
-    setMainPhoto(ele !== mainPhoto && ele)
+    setMainPhoto(ele !== mainPhoto && ele);
     targetDivRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
@@ -101,6 +108,20 @@ const Product = () => {
           )}
           <p className={classes.description}>{comaToBr(product.description)}</p>
           <p className={classes.price}>₪{product.price}.00</p>
+          <div className={classes.sharesDiv}>
+            <WhatsappShareButton
+              url={`https://heder-hametziot.web.app/${location.pathname}`}
+              title={product.name}
+            >
+              <WhatsappIcon size={32} round />
+            </WhatsappShareButton>
+            <TelegramShareButton
+              url={`https://heder-hametziot.web.app/${location.pathname}`}
+              title={product.name}
+            >
+              <TelegramIcon size={32} round />
+            </TelegramShareButton>
+          </div>
           <a
             className={classes.Alink}
             href={product.link}

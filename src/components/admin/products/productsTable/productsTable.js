@@ -112,7 +112,7 @@ const ProductsTable = (props) => {
           <th>מחיר</th>
           <th>קטגוריה</th>
           <th>תת קטגוריה</th>
-          <th>מיגדר</th>
+          <th>מגדר</th>
           <th>תאריך יצירה</th>
           <th>קישור</th>
           <th>תמונה ראשית</th>

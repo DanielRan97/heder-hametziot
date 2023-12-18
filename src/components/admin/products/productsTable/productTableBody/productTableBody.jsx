@@ -2,6 +2,7 @@ import React from "react";
 import Loading from "../../../../UI/loading/loading";
 import classes from "../productsTable.module.css";
 import { comaToBr } from "../../../../../utility/comaToBr";
+import { genderFilter } from "../../../../../utility/genderFilter";
 
 const ProductTableBody = (props) => {
   
@@ -30,7 +31,7 @@ const ProductTableBody = (props) => {
       <td>₪{ele.price}.00</td>
       <td>{ele.categories}</td>
       <td>{ele.types}</td>
-      <td>{ele.gender === "שניהם" ? "יוניסקס" : ele.gender}</td>
+      <td>{genderFilter(ele.gender)}</td>
       <td>{`${new Date(ele.createdAt).getDate().toLocaleString()}/${
         new Date(ele.createdAt).getMonth() + 1
       }/${new Date(ele.createdAt).getFullYear().toLocaleString()}`}</td>

@@ -83,9 +83,9 @@ const ProductForm = props => {
           </select>
         </label>
         <label>
-          <h4>מיגדר:</h4>
+          <h4>מגדר:</h4>
           <label className={classes.radio}>
-            נקבה
+            נשים
             <input
               type="radio"
               id="female"
@@ -101,7 +101,7 @@ const ProductForm = props => {
             />
           </label>
           <label className={classes.radio}>
-            זכר
+            גברים
             <input
               type="radio"
               id="male"

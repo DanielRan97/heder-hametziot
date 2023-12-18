@@ -8,6 +8,7 @@ import { getProducts } from "../../fireBase/fireBaseFuncDb";
 import ModalDialog from "../UI/modal/modal";
 import ProductFilter from "../../utility/productsFilter";
 import { comaToBr } from "../../utility/comaToBr";
+import { genderFilter } from "../../utility/genderFilter";
 
 const ShowSearch = () => {
   const location = useLocation();
@@ -20,7 +21,7 @@ const ShowSearch = () => {
   const [modal, setModal] = useState({ show: false, title: "", text: "" });
   const [loading, setLoading] = useState(true);
   const [filterValue, setFilterValue] = useState("מהחדש לישן");
-  const [filterGender, setFilterGender] = useState("הצג את כל המיגדרים");
+  const [filterGender, setFilterGender] = useState("הצג את כל המגדרים");
   const navigate = useNavigate();
   const [preventContextMenu] = useState(true);
 
@@ -37,7 +38,7 @@ const ShowSearch = () => {
   useEffect(() => {
     setProductsState([]);
     setFilterValue("מהחדש לישן");
-    setFilterGender("הצג את כל המיגדרים");
+    setFilterGender("הצג את כל המגדרים");
     let pathName = location.pathname;
     let paramsCategory = decodeURI(pathName)
       .split("/")
@@ -98,6 +99,7 @@ const ShowSearch = () => {
             <div className={classes.data}>
               <h4 className={classes.name}>{ele.name}</h4>
               <p className={classes.description}>{comaToBr(ele.description)}</p>
+              <span>{genderFilter(ele.gender)}</span>
               <h4 className={classes.price}>₪{ele.price}</h4>
             </div>
           </div>

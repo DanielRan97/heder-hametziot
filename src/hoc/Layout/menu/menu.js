@@ -1,4 +1,4 @@
-import {useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { logout } from "../../../fireBase/fireBaseFunc";
 import { auth } from "../../../fireBase/firebase";
 import Aux from "../../Auxiliary/Auxiliary";
@@ -6,22 +6,35 @@ import withClass from "../../withClass/withClass";
 import classes from "./menu.module.css";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleRight, faXmark } from "@fortawesome/free-solid-svg-icons";
+import {
+  faAngleDown,
+  faAngleRight,
+  faXmark,
+} from "@fortawesome/free-solid-svg-icons";
+import title from "../../../assets/hederHametziotLogoPng.png";
 
 const Menu = (props) => {
-
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
+  const [preventContextMenu] = useState(true);
+
+  const handleContextMenu = (e) => {
+    if (preventContextMenu) {
+      e.preventDefault();
+    }
+  };
+
+  const handleDragStart = (e) => {
+    e.preventDefault();
+  };
 
   useEffect(() => {
-    if(category !== ""){
-      const menu = document.getElementById('category');
-      menu.classList.add('animate__animated', 'animate__fadeIn');
+    if (category !== "") {
+      const menu = document.getElementById("category");
+      menu.classList.add("animate__animated", "animate__fadeIn");
     }
-
-
   }, [category]);
-  
+
   const logOutHandler = async () => {
     await logout();
     props.setMenu(false);
@@ -30,8 +43,13 @@ const Menu = (props) => {
 
   const homepageLinkHandler = () => {
     props.setMenu();
-    navigate('/');
-  }
+    navigate("/");
+  };
+
+  const adminLinkHandler = () => {
+    props.setMenu();
+    navigate("/admin");
+  };
 
   const typesHandler = (category, type) => {
     navigate(`/products/${category}/${type}`);
@@ -41,19 +59,19 @@ const Menu = (props) => {
   const setTypesList = () => {
     let uniqCategory = [...new Set(props.categories)];
 
-      return (
-        <div className={classes.categoriesList}>
-          <ul>
+    return (
+      <div className={classes.categoriesList}>
+        <ul>
           <li
-                className={classes.categories}
-                key='homePage'
-                onClick={() =>
-                  homepageLinkHandler()
-                }
-              >
-                עמוד הבית
-              </li>
-            {props.types !== undefined && props.types !== null && props.types.length > 0 &&
+            className={classes.categories}
+            key="homePage"
+            onClick={() => homepageLinkHandler()}
+          >
+            עמוד הבית
+          </li>
+          {props.types !== undefined &&
+            props.types !== null &&
+            props.types.length > 0 &&
             uniqCategory.map((element, index) => (
               <li
                 className={classes.categories}
@@ -75,10 +93,13 @@ const Menu = (props) => {
                   />
                 )}
                 {element === category && (
-                  <ul id={element === category ? "category" : "nonCategory"} className={classes.typesUl}>
+                  <ul
+                    id={element === category ? "category" : "nonCategory"}
+                    className={classes.typesUl}
+                  >
                     {props.types
                       .filter((type) => type.category === element)
-                      .map((type , index) => (
+                      .map((type, index) => (
                         <li
                           key={index + 1000000}
                           className={classes.typesLi}
@@ -91,14 +112,26 @@ const Menu = (props) => {
                 )}
               </li>
             ))}
-          </ul>
-        </div>
-      );
+         {auth.currentUser !== null &&
+          <li
+            className={classes.categories}
+            key="adminPage"
+            onClick={() => adminLinkHandler()}
+          >
+            אדמין
+          </li>}
+        </ul>
+      </div>
+    );
   };
-
   return (
     <Aux>
-      <h1>תפריט</h1>
+      <img
+        onContextMenu={handleContextMenu}
+        onDragStart={handleDragStart}
+        src={title}
+        alt="חדר המציאות"
+      />
       <button
         type="button"
         className={classes.closeButton}

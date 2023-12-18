@@ -10,7 +10,7 @@ const ProductsTableFilters = (props) => {
 
   const [filterCategory, setFilterCategory] = useState("הצג את כל הקטגוריות");
   const [filterType, setFilterType] = useState("הצג את כל התת קטגוריות");
-  const [filterGender, setFilterGender] = useState("הצג את כל המיגדרים");
+  const [filterGender, setFilterGender] = useState("הצג את כל המגדרים");
   const [searchProductVal, setSearchProductVal] = useState("");
 
   const sortProducts = (products, order) => {
@@ -67,14 +67,14 @@ const ProductsTableFilters = (props) => {
     setSearchProductVal("");
 
     if (category === "הצג את כל הקטגוריות") {
-      filterGender === "הצג את כל המיגדרים"
+      filterGender === "הצג את כל המגדרים"
         ? props.setFilterProductsState([...props.productsState])
         : props.setFilterProductsState([
             ...props.productsState.filter((ele) => ele.gender === filterGender),
           ]);
     } else {
       const filteredProducts =
-        filterGender === "הצג את כל המיגדרים"
+        filterGender === "הצג את כל המגדרים"
           ? props.productsState.filter((ele) => ele.categories === category)
           : props.productsState.filter(
               (ele) =>
@@ -90,7 +90,7 @@ const ProductsTableFilters = (props) => {
 
     if (type === "הצג את כל התת קטגוריות") {
       const filteredProducts =
-        filterGender === "הצג את כל המיגדרים"
+        filterGender === "הצג את כל המגדרים"
           ? props.productsState.filter(
               (ele) => ele.categories === filterCategory
             )
@@ -101,7 +101,7 @@ const ProductsTableFilters = (props) => {
       props.setFilterProductsState([...filteredProducts]);
     } else {
       const filteredProducts =
-        filterGender === "הצג את כל המיגדרים"
+        filterGender === "הצג את כל המגדרים"
           ? props.productsState.filter(
               (ele) => ele.types === type && ele.categories === filterCategory
             )
@@ -118,7 +118,7 @@ const ProductsTableFilters = (props) => {
   const genderFilter = (gender) => {
     setFilterGender(gender);
     setSearchProductVal("");
-    if (gender === "הצג את כל המיגדרים") {
+    if (gender === "הצג את כל המגדרים") {
       setFilterType("");
       const filteredProducts =
         filterCategory !== "הצג את כל הקטגוריות"
@@ -148,7 +148,7 @@ const ProductsTableFilters = (props) => {
   const searchHandler = (name) => {
     setFilterCategory("הצג את כל הקטגוריות");
     setFilterType("הצג את כל התת קטגוריות");
-    setFilterGender("הצג את כל המיגדרים");
+    setFilterGender("הצג את כל המגדרים");
     setSearchProductVal(name);
     if (!props.productTableShow) {
       const filteredErrorProducts =
@@ -226,10 +226,10 @@ const ProductsTableFilters = (props) => {
           value={filterGender}
           onChange={(e) => genderFilter(e.target.value)}
         >
-          <option value="הצג את כל המיגדרים"> הצג את כל המיגדרים</option>
+          <option value="הצג את כל המגדרים"> הצג את כל המגדרים</option>
           <option value="שניהם">יוניסקס</option>
-          <option value="זכר">זכר</option>
-          <option value="נקבה">נקבה</option>
+          <option value="זכר">גברים</option>
+          <option value="נקבה">נשים</option>
         </select>
       )}
       <input

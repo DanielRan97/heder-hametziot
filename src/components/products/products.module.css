@@ -17,6 +17,7 @@
 
 .Products .productTile{
     margin: 0px;
+    font-size: 16px;
 }
 
 .Products .product img {
@@ -68,7 +69,6 @@ margin-right: 10px;
     }
     .Products .productTile{
         margin: 0px;
-        font-size: 20px;
     }
 
 }
@@ -86,7 +86,6 @@ margin-right: 10px;
     }
     .Products .productTile{
         margin: 0px;
-        font-size: 20px;
     }
     .Products .productTile{
         font-size: 15px;
