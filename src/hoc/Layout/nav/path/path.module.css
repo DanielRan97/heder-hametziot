@@ -4,26 +4,14 @@
     font-size: 20px;
     color: #605b5b87;
     font-weight: bold;
-    display: block;
     cursor: pointer;
     width: 100%;
     margin: 0px;
-    display: flex;
-    justify-content :space-between;
     direction: rtl;
     height:20px;
     line-height: 20px;
     font-size: 15px;
-}
-
-.path{
-    margin: auto 70px auto 0px;
-}
-
-.path p{
-    display: inline-block;
-    margin: auto 0px auto 0px;
-
+    display: block;
 }
 
 .path span:hover{
@@ -33,7 +21,18 @@
 
 @media only screen and (max-width: 600px) {
     .path {
-        margin: auto 30px auto 0px;
         font-size: 13px;
+        background-color: black;
+        color:  #f9f9f9;
+        height:20px;
+        line-height: 20px;
+        padding-right: 30px;
+    }
+  }
+
+  @media only screen and (min-width: 600px) {
+    .path {
+        padding-right: 30px;
+
     }
   }

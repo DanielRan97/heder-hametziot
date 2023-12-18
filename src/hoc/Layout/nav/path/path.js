@@ -29,7 +29,7 @@ const Path = () => {
           עמוד הבית{pathName[0] ? "/" : null}
         </span>
         {pathName.length > 0 ? (
-          <p>
+          <span>
             {pathName[0] && <span>{`מוצרים`}</span>}
             {pathName[1] && pathName[1] !== "search" && <span>/</span>}
             {pathName[1] && pathName[1] !== "search" && (
@@ -46,7 +46,7 @@ const Path = () => {
               >{`${pathName[2]}`}</span>
             )}
 
-          </p>
+          </span>
         ) : null}
       </div>
     </Aux>

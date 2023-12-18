@@ -17,7 +17,7 @@
     line-height: 40px;
     display: inline-block;
     border: none;
-    padding: 5px;
+    padding-right: 25px;
 }
 
 .SearchBar .searchButton {
@@ -61,7 +61,6 @@
     .SearchBar {
         display: flex;
         flex-direction: column;
-
     }
 
     .toggleMenuButton {
@@ -82,17 +81,13 @@
 
     .SearchBar .secondChilde {
         width: 100%;
-        align-items: center;
-        margin: 0px;
-       height: 40px;
+        height: 50px;
     }
 
     .SearchBar form, .SearchBar input{
         width: 100%;
-        margin: 0px;
-        height: 20px;
         border:none;
-        line-height: 40px;
+        line-height: 50px;
         display: inline-block;
     }
 

@@ -9,7 +9,7 @@ import ModalDialog from "../../../UI/modal/modal";
 import ProductForm from "./productFrom/productFrom";
 import { handleUploadImgs } from "../../../../fireBase/fireBaseStorage";
 
-const AddProductForm = () => {
+const AddProductForm = props => {
   const [addProductFromState, setAddProductFromState] = useState({
     name: "",
     price: 0,
@@ -116,7 +116,7 @@ const AddProductForm = () => {
         watches: 0,
         photos: images,
         id,
-      });
+      })
 
       setAddSProductMessage({
         message: "המוצר נוסף בהצלחה",

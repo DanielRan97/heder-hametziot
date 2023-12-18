@@ -2,12 +2,12 @@
 text-align: center;
 }
 
-.Products .adminActionsDiv select, input[type="select"], input[type="text"]{
+.Products .adminActionsDiv select, .Products .adminActionsDiv input[type="text"]{
     width: 200px;
     height: 50px;
     color: black;
-    margin: 10px;
     cursor: pointer;
+    margin: 10px;
 }
 
 
