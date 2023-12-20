@@ -38,11 +38,11 @@ const AddProductForm = props => {
             .then((res) => {
               setTypes(res);
             })
-            .catch((err) => {
+            .catch(() => {
               setTypes([]);
             });
         })
-        .catch((err) => {
+        .catch(() => {
           setCategories([]);
         });
     } catch (error) {
@@ -54,24 +54,9 @@ const AddProductForm = props => {
     }
   }, []);
 
-  useEffect(() => {
-    return () => {
-      localStorage.setItem('addProductState', JSON.stringify(addProductFromState));
-    };
-  }, [addProductFromState]);
-
-  useEffect(() => {
-    const savedState = localStorage.getItem('addProductState');
-
-    if (savedState) {
-      setAddProductFromState(JSON.parse(savedState));
-    }
-  }, []);
-
   const isValidUrl = (url) => {
     const urlPattern = /^(https?:\/\/)?[\w.-]+\.[a-z]{2,}(:\d{1,5})?(\/\S*)?$/i;
     return urlPattern.test(url);
-    
   };
 
   const handleChange = (e) => {

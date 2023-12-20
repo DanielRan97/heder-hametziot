@@ -1,0 +1,36 @@
+.HomePageCategories .imgSpan{
+    width: 190px;
+    height: 250px;
+    margin: 20px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+
+.HomePageCategories img{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    filter: opacity(0.5) drop-shadow(0 0 0 rgb(163, 163, 163));
+    -webkit-filter: opacity(0.5) drop-shadow(0 0 0 rgb(255, 255, 255));
+}
+
+.HomePageCategories img:hover{
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    filter: none;
+    -webkit-filter: none;
+}
+
+.HomePageCategories .imgTitle {
+    position: absolute;
+    bottom: -12%;
+    width: 100%;
+    font-family: 'Kalnia', serif;
+    font-family: 'Shadows Into Light', cursive;
+    font-weight: bold;
+    font-size: 20px;
+    background-color: #f9f9f9;
+}
