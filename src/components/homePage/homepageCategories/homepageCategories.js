@@ -1,8 +1,8 @@
 import React from 'react';
-import Aux from '../../hoc/Auxiliary/Auxiliary';
-import withClass from '../../hoc/withClass/withClass';
 import classes from './homepageCategories.module.css';
 import { useNavigate } from "react-router-dom";
+import withClass from '../../../hoc/withClass/withClass';
+import Aux from '../../../hoc/Auxiliary/Auxiliary';
 
 const HomePageCategories = (props) => {
   const { categoriesState } = props;
@@ -26,9 +26,9 @@ const HomePageCategories = (props) => {
 
   const getImageSource = (imageName) => {
     try {
-      return require(`../../assets/categoriesPhotos/${imageName}.png`);
+      return require(`../../../assets/categoriesPhotos/${imageName}.png`);
     } catch (error) {
-      return require('../../assets/hederHametziotTitle/hederHametziotTitle.png');
+      return require('../../../assets/hederHametziotTitle/hederHametziotTitle.png');
     }
   };
 
