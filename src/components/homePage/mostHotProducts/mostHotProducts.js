@@ -20,7 +20,7 @@ const MostHotProducts = (props) => {
       const sortedArray = props.productState.sort(
         (a, b) => b.clicks - a.clicks
       );
-      const top10Array = sortedArray.slice(0, 10);
+      const top10Array = sortedArray.slice(0, 12);
       setMostHotProducts(top10Array);
     };
 

@@ -40,7 +40,7 @@ const ProductFilter = (props) => {
     props.setFilterGender(gender);
     gender !== "הצג את כל המגדרים"
       ? props.setProductsFilterState(
-          filter.filter((ele) => ele.gender === gender)
+          filter.filter((ele) => ele.gender === gender || ele.gender === "שניהם")
         )
       : props.setProductsFilterState([...filter]);
 

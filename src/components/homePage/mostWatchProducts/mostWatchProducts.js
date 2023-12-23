@@ -19,7 +19,7 @@ const MostWatchProducts = (props) => {
       const sortedArray = props.productState.sort(
         (a, b) => b.watches - a.watches
       );
-      const top10Array = sortedArray.slice(0, 10);
+      const top10Array = sortedArray.slice(0, 12);
       setMostWatchProduct(top10Array);
     };
 

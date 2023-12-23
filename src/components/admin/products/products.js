@@ -8,9 +8,14 @@ import Aux from "../../../hoc/Auxiliary/Auxiliary";
 import ProductsTable from "./productsTable/productsTable";
 import withClass from "../../../hoc/withClass/withClass";
 import EditProductForm from "./editProductForm/editProductForm";
-import {  getProducts, getTypes } from "../../../fireBase/fireBaseFuncDb";
+import {
+  getProducts,
+  getTypes,
+  getVisits,
+} from "../../../fireBase/fireBaseFuncDb";
 import ProductsTableFilters from "./productsTable/productsTableFilters/productsTableFilters";
 import DialogComponent from "../../UI/dialogComponent/dialogComponent";
+import Loading from "../../UI/loading/loading";
 
 const Products = () => {
   const [productTableShow, setProductTableShow] = useState(true);
@@ -24,22 +29,34 @@ const Products = () => {
   const [loading, setLoading] = useState(true);
   const [categoriesState, setCategoriesState] = useState([]);
   const [typesState, setTypesState] = useState([]);
-
+  const [visits, setVisits] = useState([]);
+  const [allProductsWatches, setAllProductsWatches] = useState(0);
+  const [allProductsClicks, setAllProductsClicks] = useState(0);
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
+
         let products = [];
         let categories = [];
+        let watches = 0;
+        let clicks = 0;
+
         const res = await getProducts();
+
         if (res && Object.keys(res).length > 0) {
           for (const [key, value] of Object.entries(res)) {
             products.push({ fbId: key, ...value });
             categories.push(value.categories);
+            value.watches > 0 ? watches = watches +  value.watches : watches = watches + 0
+            value.clicks > 0 ? clicks = clicks +  value.clicks : clicks = clicks + 0
           }
+
           setCategoriesState(
             [...new Set(categories.map(JSON.stringify))].map(JSON.parse)
           );
+
           const types = await getTypes();
 
           const uniqueTypes = types.filter(
@@ -58,14 +75,18 @@ const Products = () => {
               (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
             )
           );
-          setLoading(false);
+
+          setAllProductsWatches(watches);
+          setAllProductsClicks(clicks);
         }
       } catch (error) {
+        console.error("Error fetching data:", error);
         setModal({
           show: true,
           title: "שגיאה",
           text: "שגיאה בקריאת נתונים, בדוק את חיבור האינטרנט",
         });
+      } finally {
         setLoading(false);
       }
     };
@@ -73,12 +94,35 @@ const Products = () => {
     fetchProducts();
   }, []);
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const visits = await getVisits();
+        if (visits !== null) {
+          const visitsArray = Object.values(visits);
+          setVisits(visitsArray);
+        } else {
+          setVisits([]);
+        }
+      } catch (error) {
+        setModal({
+          show: true,
+          title: "שגיאה",
+          text: "שגיאה בקריאת נתונים, בדוק את חיבור האינטרנט",
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  }, []);
+
   const editProducthandler = (ele) => {
     setEditProductData({});
     setProductPageState("editForm");
     setEditProductData(ele);
   };
-  
 
   const productsNav = () => (
     <Aux>
@@ -151,19 +195,34 @@ const Products = () => {
       case "editForm":
         return (
           <DialogComponent closeDialog={() => setProductPageState("")}>
-            <EditProductForm setProductPageState={() => setProductPageState("")} editProductData={editProductData} />
+            <EditProductForm
+              setProductPageState={() => setProductPageState("")}
+              editProductData={editProductData}
+            />
           </DialogComponent>
         );
       default:
-        break ;
+        break;
     }
   };
 
   return (
-    <>
+    <Aux>
+      <div className={classes.siteDataDiv}>
+        {loading ? (
+          <Loading />
+        ) : (
+          <details>
+            <summary>נתונים</summary>
+            <p>סה"כ כניסות לאתר: {visits.length > 0 ? visits.length : 0}</p>
+            <p>סה"כ צפיות במוצרים:{allProductsWatches > 0 ? allProductsWatches : 0}</p>
+            <p>סה"כ לחיצות לקנייה :{allProductsClicks > 0 ? allProductsClicks : 0}</p>
+          </details>
+        )}
+      </div>
       {productsNav()}
       {productsPageHandler()}
-    </>
+    </Aux>
   );
 };
 

@@ -98,8 +98,8 @@ const ShowSearch = () => {
             ></img>
             <div className={classes.data}>
               <h4 className={classes.name}>{ele.name}</h4>
-              <p className={classes.description}>{comaToBr(ele.description)}</p>
               <span>{genderFilter(ele.gender)}</span>
+              <p className={classes.description}>{comaToBr(ele.description)}</p>
               <h4 className={classes.price}>₪{ele.price}</h4>
             </div>
           </div>

@@ -13,6 +13,8 @@ import {
   TelegramShareButton,
   TelegramIcon,
 } from "react-share";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Product = () => {
   const [product, setProduct] = useState({});
@@ -22,6 +24,7 @@ const Product = () => {
   const [productId, setProductId] = useState("");
   const [preventContextMenu] = useState(true);
   const targetDivRef = useRef(null);
+  const photosDivRef = useRef(null);
 
   const handleContextMenu = (e) => {
     if (preventContextMenu) {
@@ -63,6 +66,18 @@ const Product = () => {
     fetchData();
   }, [location.pathname, navigate]);
 
+  const scrollLeft = () => {
+    if (photosDivRef.current) {
+      photosDivRef.current.scrollLeft -= 100;
+    }
+  };
+
+  const scrollRight = () => {
+    if (photosDivRef.current) {
+      photosDivRef.current.scrollLeft += 100;
+    }
+  };
+
   const clickOnProduct = () => {
     if (auth.currentUser === null) {
       editProduct(productId, {
@@ -103,65 +118,93 @@ const Product = () => {
     if (Object.keys(product).length > 0) {
       return (
         <div className={classes.productTemplate}>
-          <h1 ref={targetDivRef}>{product.name}</h1>
-          <img
-            src={mainPhoto}
-            alt={product.name}
-            onContextMenu={handleContextMenu}
-            onDragStart={handleDragStart}
-            className={classes.mainImg}
-          ></img>
-          <div className={classes.photosDiv}>
-            {product.photos.map(
-              (ele, index) =>
-                ele !== mainPhoto && (
-                  <img
-                    key={index}
-                    src={ele}
-                    alt={product.name}
-                    className={classes.img}
-                    onClick={() => {
-                      scrollToDiv(ele);
-                    }}
-                  ></img>
-                )
-            )}
+          <div className={classes.productTemplateFlex}>
+            <span className={classes.productTemplateChild1}>
+              <h1 ref={targetDivRef}>{product.name}</h1>
+              <img
+                src={mainPhoto}
+                alt={product.name}
+                onContextMenu={handleContextMenu}
+                onDragStart={handleDragStart}
+                className={classes.mainImg}
+              ></img>
+              <div className={classes.photosDiv}>
+                <button
+                  type="button"
+                  onClick={scrollRight}
+                  className={classes.scrollRight}
+                >
+                  <FontAwesomeIcon icon={faAngleRight} />
+                </button>
+                <div className={classes.photosWrap} ref={photosDivRef}>
+                {product.photos.map(
+                  (ele, index) =>
+                      <img
+                      onContextMenu={handleContextMenu}
+                      onDragStart={handleDragStart}
+                        key={index}
+                        src={ele}
+                        alt={product.name}
+                        className={classes.img}
+                        onClick={() => {
+                          scrollToDiv(ele);
+                        }}
+                      ></img>
+                )}
+                </div>
+                <button
+                  type="button"
+                  onClick={scrollLeft}
+                  className={classes.scrollLeft}
+                >
+                  <FontAwesomeIcon icon={faAngleLeft} />
+                </button>
+              </div>
+            </span>
+            <span className={classes.productTemplateChild2}>
+              <p className={classes.description}>
+                {comaToBr(product.description)}
+              </p>
+              <p className={classes.categories}>
+                קטגוריות:
+                <span
+                  className={classes.categoriesLink}
+                  onClick={() => navigate(`/products/${product.categories}`)}
+                >
+                  {product.categories}
+                </span>
+                ,
+                <span
+                  className={classes.categoriesLink}
+                  onClick={() =>
+                    navigate(`/products/${product.categories}/${product.types}`)
+                  }
+                >
+                  {product.types}{" "}
+                </span>
+              </p>
+              <p className={classes.shareP}>שיתוף : {renderSharesButtons()} </p>
+              <p className={classes.alert}>
+                {" "}
+                <span className={classes.alertTitle}> שימו לב ! </span>ייתכן
+                ובקישור יופיע מוצר אחר, יש לוודא שאתם מסמנים את המוצר בלינק לפי
+                הקוד, האות או המספר שמופיע על התמונה של המוצר שבחרתם ושקראתם את{" "}
+                <br />
+                תקנון האתר.
+              </p>
+              <mark className={classes.sizeAlert}>אנחנו ממליצים לבדוק את טבלת המידות שיש בכל מוצר לפניי הרכישה</mark>
+              <p className={classes.price}>₪{product.price}.00</p>
+              <div className={classes.sharesDiv}>{renderSharesButtons()} </div>
+              <a
+                className={classes.Alink}
+                href={product.link}
+                target="blank"
+                onClick={() => clickOnProduct()}
+              >
+                קנה עכשיו
+              </a>
+            </span>
           </div>
-          <p className={classes.description}>{comaToBr(product.description)}</p>
-          <p className={classes.categories}>
-            קטגוריות:
-            <span
-              className={classes.categoriesLink}
-              onClick={() => navigate(`/products/${product.categories}`)}
-            >
-              {product.categories}
-            </span>
-            ,
-            <span
-              className={classes.categoriesLink}
-              onClick={() =>
-                navigate(`/products/${product.categories}/${product.types}`)
-              }
-            >
-              {product.types}{" "}
-            </span>
-          </p>
-          <p className={classes.shareP}>שיתוף : {renderSharesButtons()} </p>
-          <p className={classes.alert}>
-            {" "}
-            <span className={classes.alertTitle}> שימו לב ! </span>ייתכן ובקישור יופיע מוצר אחר, יש לוודא שאתם מסמנים את המוצר בלינק לפי הקוד, האות
-            או המספר שמופיע על התמונה של המוצר שבחרתם ושקראתם את <br/>תקנון האתר
-          </p>
-          <p className={classes.price}>₪{product.price}.00</p>
-          <div className={classes.sharesDiv}>{renderSharesButtons()} </div>
-          <a
-            className={classes.Alink}
-            href={product.link}
-            target="blank"
-            onClick={() => clickOnProduct()}
-          >
-            קנה עכשיו
-          </a>
         </div>
       );
     } else {

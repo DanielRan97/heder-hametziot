@@ -5,14 +5,14 @@
 .MostNewProducts .title {
     display: flex;
     flex-direction: row;
-    font-weight: bold;
+    font-weight: lighter;
 }
 
 .MostNewProducts .title:before,
 .MostNewProducts .title:after {
     content: "";
     flex: 1 1;
-    border-bottom: 2px solid #000;
+    border-bottom: 1px solid #000;
     margin: auto;
 }
 

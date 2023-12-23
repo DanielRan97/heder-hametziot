@@ -1,11 +1,21 @@
 .Product .productTemplate {
     width: 100%;
     padding: 5px;
+    display: flex;
+    flex-wrap: wrap;
+
+}
+
+.Product .productTemplateFlex {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    gap: 50px;
 }
 
 .Product .mainImg {
     display: block;
-    margin: auto;
     height: 500px;
     width: 500px;
 }
@@ -22,41 +32,86 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
+.Product .photosDiv {
+    position: relative;
+
+}
+
+.Product .photosDiv .photosWrap {
+    display: flex;
+    min-height: 150px;
+    margin-top: 20px;
+    width: 500px;
+    overflow: auto;
+}
+
+.Product .photosDiv .photosWrap::-webkit-scrollbar {
+    display: none;
+}
+
+.Product .scrollRight,
+.Product .scrollLeft {
+    background: none;
+    border: none;
+    font-size: 20px;
+    color: black;
+    cursor: pointer;
+    z-index: 5;
+}
+
+.Product .scrollRight {
+    position: absolute;
+    top: 60px;
+    right: 0px;
+}
+
+.Product .scrollLeft {
+    position: absolute;
+    top: 60px;
+    left: 0px;
+}
+
 .Product .description {
-    font-weight:lighter;
+    font-weight: lighter;
     font-size: 30px;
     padding-top: 50px;
     text-align: right;
 }
 
-.Product .categories{
+.Product .categories {
     text-align: right;
 }
 
-.Product .categories .categoriesLink{
+.Product .categories .categoriesLink {
     color: blue;
     cursor: pointer;
 }
 
-.Product .categories .categoriesLink:hover{
+.Product .categories .categoriesLink:hover {
     text-decoration: underline;
 }
 
-.Product .shareP{
-text-align: right;
+.Product .shareP {
+    text-align: right;
 }
 
-.Product .shareButton{
+.Product .shareButton {
     margin-right: 5px;
 }
 
-.Product .alert{
+.Product .alert {
     text-align: right;
     width: 300px;
 }
 
-.Product .alertTitle{
+.Product .alertTitle {
     color: red;
+}
+
+.Product .sizeAlert {
+    width: 300px;
+    text-align: right;
+    display: block;
 }
 
 .Product .price {
@@ -69,7 +124,7 @@ text-align: right;
 .Product .Alink {
     background-color: black;
     color: #f9f9f9;
-    width: 162px;
+    width: 100%;
     height: 60px;
     line-height: 60px;
     margin: 50px auto auto auto;
@@ -78,6 +133,7 @@ text-align: right;
     text-decoration: none;
     font-weight: bold;
     display: block;
+    text-align: center;
 }
 
 .Product .Alink:hover {
@@ -99,10 +155,30 @@ text-align: right;
     justify-content: center;
 }
 
+
+@media (max-width: 920px) {
+    .Product .productTemplateChild1 {
+        margin: auto;
+    }
+
+    .Product .productTemplateChild2 {
+        margin: auto;
+    }
+
+    .Product .Alink {
+        width: 100%;
+    }
+}
+
 @media (max-width: 600px) {
+    .Product .productTemplateFlex {
+        display: block;
+    }
+
     .Product .mainImg {
         width: 300px;
         height: 300px;
+        margin: auto;
     }
 
     .Product .sharesDiv {
@@ -123,11 +199,11 @@ text-align: right;
         right: 0px;
     }
 
-    .Product .photosDiv{
-      display: flex;
-      width: 100%;
-      overflow: auto;  
-      scroll-behavior: smooth;
+    .Product .photosDiv {
+        display: flex;
+        width: 100%;
+        overflow: auto;
+        scroll-behavior: smooth;
     }
 
     .Product .description {

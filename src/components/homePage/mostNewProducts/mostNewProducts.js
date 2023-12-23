@@ -19,7 +19,7 @@ const MostNewProducts = (props) => {
       const sortedArray = props.productState.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
       );
-      const top10Array = sortedArray.slice(0, 10);
+      const top10Array = sortedArray.slice(0, 12);
       setMostNewProducts(top10Array);
     };
 
