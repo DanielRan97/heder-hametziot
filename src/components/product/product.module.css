@@ -1,8 +1,9 @@
-.productTemplate {
+.Product .productTemplate {
     width: 100%;
+    padding: 5px;
 }
 
-.mainImg {
+.Product .mainImg {
     display: block;
     margin: auto;
     height: 500px;
@@ -21,18 +22,51 @@
     box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px, rgba(0, 0, 0, 0.3) 0px 30px 60px -30px, rgba(10, 37, 64, 0.35) 0px -2px 6px 0px inset;
 }
 
-.description {
-    font-weight: bold;
+.Product .description {
+    font-weight:lighter;
     font-size: 30px;
     padding-top: 50px;
+    text-align: right;
 }
 
-.price {
+.Product .categories{
+    text-align: right;
+}
+
+.Product .categories .categoriesLink{
+    color: blue;
+    cursor: pointer;
+}
+
+.Product .categories .categoriesLink:hover{
+    text-decoration: underline;
+}
+
+.Product .shareP{
+text-align: right;
+}
+
+.Product .shareButton{
+    margin-right: 5px;
+}
+
+.Product .alert{
+    text-align: right;
+    width: 300px;
+}
+
+.Product .alertTitle{
+    color: red;
+}
+
+.Product .price {
     font-weight: bold;
     font-size: 23px;
+    text-align: right;
+
 }
 
-.Alink {
+.Product .Alink {
     background-color: black;
     color: #f9f9f9;
     width: 162px;
@@ -46,32 +80,32 @@
     display: block;
 }
 
-.Alink:hover {
+.Product .Alink:hover {
     background-color: #f9f9f9;
     color: black;
     border: 1px solid black;
 }
 
-.Alink:active {
+.Product .Alink:active {
     background-color: #f9f9f9;
     color: black;
 }
 
-.sharesDiv {
+.Product .sharesDiv {
     width: 100%;
-    display: flex;
+    display: none;
     margin-top: 5px;
     gap: 10px;
     justify-content: center;
 }
 
 @media (max-width: 600px) {
-    .mainImg {
+    .Product .mainImg {
         width: 300px;
         height: 300px;
     }
 
-    .sharesDiv {
+    .Product .sharesDiv {
         width: auto;
         display: flex;
         position: fixed;
@@ -80,13 +114,27 @@
         z-index: 5;
     }
 
-    .Alink {
+    .Product .Alink {
         width: 100%;
         height: 60px;
         line-height: 60px;
         position: fixed;
         bottom: 0px;
         right: 0px;
+    }
+
+    .Product .photosDiv{
+      display: flex;
+      width: 100%;
+      overflow: auto;  
+      scroll-behavior: smooth;
+    }
+
+    .Product .description {
+        font-weight: lighter;
+        font-size: 30px;
+        padding-top: 50px;
+        text-align: right;
     }
 
 }

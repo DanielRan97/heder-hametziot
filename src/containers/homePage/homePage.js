@@ -6,6 +6,7 @@ import Loading from "../../components/UI/loading/loading.js";
 import HomePageCategories from "../../components/homePage/homepageCategories/homepageCategories.js";
 import MostWatchProducts from "../../components/homePage/mostWatchProducts/mostWatchProducts.js";
 import MostHotProducts from "../../components/homePage/mostHotProducts/mostHotProducts.js";
+import MostNewProducts from "../../components/homePage/mostNewProducts/mostNewProducts.js";
 
 const HomePage = () => {
   const [productState, setProductState] = useState([]);
@@ -46,8 +47,9 @@ const HomePage = () => {
     return (
       <div>
         <HomePageCategories categoriesState={categoriesState} />
-        <MostWatchProducts productState={productState} />
-        <MostHotProducts productState={productState}/>
+        <MostNewProducts productState={[...productState]}/>
+        <MostWatchProducts productState={[...productState]} />
+        <MostHotProducts productState={[...productState]}/>
       </div>
     );
   };

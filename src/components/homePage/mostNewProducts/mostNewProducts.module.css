@@ -1,0 +1,76 @@
+.MostNewProducts {
+    margin-top: 100px;
+}
+
+.MostNewProducts .title {
+    display: flex;
+    flex-direction: row;
+    font-weight: bold;
+}
+
+.MostNewProducts .title:before,
+.MostNewProducts .title:after {
+    content: "";
+    flex: 1 1;
+    border-bottom: 2px solid #000;
+    margin: auto;
+}
+
+.MostNewProducts .imgDiv {
+    width: 190px;
+    height: 250px;
+    margin: 20px;
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+}
+
+
+.MostNewProducts img {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+}
+
+.MostNewProducts img:hover {
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    filter: opacity(0.5) drop-shadow(0 0 0 rgb(163, 163, 163));
+    -webkit-filter: opacity(0.5) drop-shadow(0 0 0 rgb(255, 255, 255));
+}
+
+.MostNewProducts .imgTitle {
+    position: absolute;
+    bottom: -12%;
+    width: 100%;
+    font-weight: bold;
+    font-size: 17px;
+    background-color: #f9f9f9;
+    font-family: 'Kalnia', serif;
+    font-family: 'Shadows Into Light', cursive;
+}
+
+@media (max-width: 600px) {
+    .MostNewProducts .title {
+        font-size: 20px;
+    }
+
+    .MostNewProducts .title:before,
+    .MostNewProducts .title:after {
+        border-bottom: 1px solid #000;
+
+    }
+
+
+    .MostNewProducts .imgDiv {
+        width: 141px;
+        height: 218px;
+    }
+
+    .MostNewProducts .imgTitle {
+        font-size: 15px;
+
+    }
+
+}
