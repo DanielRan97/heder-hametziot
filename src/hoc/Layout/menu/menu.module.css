@@ -1,11 +1,5 @@
-
 .Menu .categoriesList {
   margin-top: 50px;
-}
-
-.Menu img {
-  height: 81px;
-  width: 75px;
 }
 
 .Menu ul {
@@ -39,16 +33,16 @@
 }
 
 .Menu .typesLi {
-  background-color: #f9f9f9ed;
-  color: black;
+  background-color: black;
+  color: white;
   cursor: pointer;
   border-bottom: white 1px solid;
   border-top: white 1px solid;
 }
 
 .Menu .typesLi:hover {
-  background-color: black;
-  color: #f9f9f9;
+  background-color: white;
+  color: black;
 }
 
 .Menu .logOutButton {

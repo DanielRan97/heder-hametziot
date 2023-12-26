@@ -38,7 +38,6 @@ export const logInWithGoogle = async () => {
       const token = await user.getIdToken();
       return { user, token };
     } else {
-      user.delete();
       throw new Error(
         "משתמש זה לא יכול להתחבר כאדמין, במידה ואתה אחד האדמינים פנה למנהלי האתר"
       );

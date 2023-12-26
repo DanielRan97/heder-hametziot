@@ -1,7 +1,6 @@
 import Aux from '../Auxiliary/Auxiliary';
 import withClass from '../withClass/withClass';
 import classes from './layout.module.css';
-import Nav from './nav/nav';
 import Menu from './menu/menu';
 import { useState, useEffect } from 'react';
 import Fade from '../fade/fade';
@@ -54,7 +53,6 @@ const Layout = () => {
         <Aux>
 
             <header>
-                <Nav />
                 <SearchBar handelMenu={handelMenu}/>
                 <Path />
             </header>
@@ -66,7 +64,7 @@ const Layout = () => {
                 : null
             }
 
-            <main>
+            <main className={classes.main}>
                 <MainRouter />
             </main>
 

@@ -5,22 +5,10 @@ import withClass from "../../../withClass/withClass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faSearch } from "@fortawesome/free-solid-svg-icons";
 import { useNavigate } from "react-router-dom";
-import title from "../../../../assets//hederHametziotTitle/hederHametziotTitle.png";
 
 const SearchBar = (props) => {
   const [searchState, setSearchState] = useState("");
   const navigate = useNavigate();
-  const [preventContextMenu] = useState(true);
-
-  const handleContextMenu = (e) => {
-    if (preventContextMenu) {
-      e.preventDefault();
-    }
-  };
-
-  const handleDragStart = (e) => {
-    e.preventDefault();
-  };
 
   const searchHandler = (productName) => {
     setSearchState(productName);
@@ -37,12 +25,6 @@ const SearchBar = (props) => {
           <FontAwesomeIcon icon={faBars} />
           תפריט
         </button>
-        <img
-          onContextMenu={handleContextMenu}
-          onDragStart={handleDragStart}
-          src={title}
-          alt="חדר המציאות"
-        />
       </div>
       <div className={classes.secondChilde}>
         <form onSubmit={search}>

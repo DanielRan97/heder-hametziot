@@ -11,22 +11,10 @@ import {
   faAngleRight,
   faXmark,
 } from "@fortawesome/free-solid-svg-icons";
-import title from "../../../assets/hederHametziotLogoPng.png";
 
 const Menu = (props) => {
   const [category, setCategory] = useState("");
   const navigate = useNavigate();
-  const [preventContextMenu] = useState(true);
-
-  const handleContextMenu = (e) => {
-    if (preventContextMenu) {
-      e.preventDefault();
-    }
-  };
-
-  const handleDragStart = (e) => {
-    e.preventDefault();
-  };
 
   useEffect(() => {
     if (category !== "") {
@@ -126,18 +114,12 @@ const Menu = (props) => {
   };
   return (
     <Aux>
-      <img
-        onContextMenu={handleContextMenu}
-        onDragStart={handleDragStart}
-        src={title}
-        alt="חדר המציאות"
-      />
+      <h2>תפריט</h2>
       <button
         type="button"
         className={classes.closeButton}
         onClick={props.setMenu}
       >
-        {" "}
         <FontAwesomeIcon
           icon={faXmark}
           className={classes.categoriesDownButton}

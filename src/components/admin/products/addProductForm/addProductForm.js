@@ -111,8 +111,8 @@ const AddProductForm = props => {
       setAddProductFromState({
         name: "",
         price: 0,
-        categories: addProductFromState.categories,
-        types: addProductFromState.types,
+        categories:"",
+        types: "",
         description: "",
         gender: "",
         link: "",

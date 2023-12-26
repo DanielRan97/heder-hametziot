@@ -1,11 +1,11 @@
 .SearchBar {
     width: 100%;
-    color: black;
     display: flex;
     min-height: 60px;
     line-height: 60px;
     display: flex;
     justify-content: space-around;
+    background-color: black;
 }
 
 .SearchBar form {
@@ -26,7 +26,7 @@
     left: 8px;
 }
 
-.SearchBar img {
+.SearchBar .smallWidthImg {
     display: none;
 }
 
@@ -46,7 +46,7 @@
 
 .toggleMenuButton {
     display: inline-block;
-    color: black;
+    color: white !important;
     border: none;
     font-weight: bold;
     font-size: 25px;
@@ -84,16 +84,15 @@
         height: 50px;
     }
 
-    .SearchBar form, .SearchBar input{
+    .SearchBar form,
+    .SearchBar input {
         width: 100%;
-        border:none;
+        border: none;
         line-height: 50px;
         display: inline-block;
     }
 
-    .SearchBar img {
-        height: 58px;
-        width: 96px;
-        display: inline-block;
+    .SearchBar .bigWidthImg {
+        display: none;
     }
 }

@@ -137,20 +137,19 @@ const Product = () => {
                   <FontAwesomeIcon icon={faAngleRight} />
                 </button>
                 <div className={classes.photosWrap} ref={photosDivRef}>
-                {product.photos.map(
-                  (ele, index) =>
-                      <img
+                  {product.photos.map((ele, index) => (
+                    <img
                       onContextMenu={handleContextMenu}
                       onDragStart={handleDragStart}
-                        key={index}
-                        src={ele}
-                        alt={product.name}
-                        className={classes.img}
-                        onClick={() => {
-                          scrollToDiv(ele);
-                        }}
-                      ></img>
-                )}
+                      key={index}
+                      src={ele}
+                      alt={product.name}
+                      className={classes.img}
+                      onClick={() => {
+                        scrollToDiv(ele);
+                      }}
+                    ></img>
+                  ))}
                 </div>
                 <button
                   type="button"
@@ -190,9 +189,18 @@ const Product = () => {
                 ובקישור יופיע מוצר אחר, יש לוודא שאתם מסמנים את המוצר בלינק לפי
                 הקוד, האות או המספר שמופיע על התמונה של המוצר שבחרתם ושקראתם את{" "}
                 <br />
-                תקנון האתר.
+                <span
+                  onClick={() => navigate(`/terms`)}
+                  className={classes.termsLink}
+                >
+                  {" "}
+                  תקנון האתר
+                </span>
+                .
               </p>
-              <mark className={classes.sizeAlert}>אנחנו ממליצים לבדוק את טבלת המידות שיש בכל מוצר לפניי הרכישה</mark>
+              <mark className={classes.sizeAlert}>
+                אנחנו ממליצים לבדוק את טבלת המידות שיש בכל מוצר לפניי הרכישה
+              </mark>
               <p className={classes.price}>₪{product.price}.00</p>
               <div className={classes.sharesDiv}>{renderSharesButtons()} </div>
               <a

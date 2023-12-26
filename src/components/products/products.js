@@ -9,6 +9,11 @@ import ModalDialog from "../UI/modal/modal";
 import ProductFilter from "../../utility/productsFilter";
 import { comaToBr } from "../../utility/comaToBr";
 import { genderFilter } from "../../utility/genderFilter";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
 
 const Products = () => {
   const [productsState, setProductsState] = useState([]);
@@ -20,7 +25,20 @@ const Products = () => {
   const [filterValue, setFilterValue] = useState("מהחדש לישן");
   const [filterGender, setFilterGender] = useState("הצג את כל המגדרים");
   const [preventContextMenu] = useState(true);
-  const [photoHover, setPhotoHover] = useState({ id: "", num: 0 });
+
+  const settings = {
+    infinite: true,
+    speed: 500,
+    slidesToShow: 1,
+    slidesToScroll: 1,
+    appendDots: (dots) => (
+      <div style={{ marginTop: "10px" }}>
+        <ul style={{ margin: "0", padding: "0", textAlign: "center" }}>
+          {dots}
+        </ul>
+      </div>
+    ),
+  };
 
   const handleContextMenu = (e) => {
     if (preventContextMenu) {
@@ -79,53 +97,62 @@ const Products = () => {
     fetchData();
   }, [location.pathname]);
 
-  const productHoverHandler = (id, photosArry) => {
-    const highestId = window.setTimeout(() => {
-      for (let i = highestId; i >= 0; i--) {
-        window.clearInterval(i);
-      }
-    }, 0);
-    setPhotoHover({ id : "", num: 0 });
-    for (let index = 0; index < photosArry.length; index++) {
-      setTimeout(() => {
-        if (index === photosArry.length - 1) {
-          setPhotoHover({ id, num: 1 });
-        } else {
-          setPhotoHover({ id, num: index + 1 });
-        }
-      }, 2000 * index);
-    }
-  };
-
   const handleImageError = (element) => {
     let filter = productsState.filter((ele) => ele !== element);
     setProductsState(filter);
   };
 
+  const CustomPrevArrow = (props) => {
+    return (
+      <div className={classes.scrollRight} onClick={props.onClick}>
+                          <FontAwesomeIcon icon={faAngleRight} />
+      </div>
+    );
+  };
+
+  const CustomNextArrow = (props) => {
+    return (
+      <div className={classes.scrollLeft} onClick={props.onClick}>
+                          <FontAwesomeIcon icon={faAngleLeft} />
+      </div>
+    );
+  };
+
   const renderProducts = () => {
     return productsFilterState.map((ele) => (
-      <div
-        key={ele.fbId}
-        className={classes.product}
-        onClick={() =>
-          navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`)
-        }
-      >
-        <img
-          src={
-            ele.id !== photoHover.id
-              ? ele.photos[0]
-              : ele.photos[photoHover.num]
-          }
-          alt={ele.name}
-          onContextMenu={handleContextMenu}
-          onDragStart={handleDragStart}
-          onError={() => handleImageError(ele)}
-          onMouseEnter={() => productHoverHandler(ele.id, ele.photos)}
-          onTouchStart={() => productHoverHandler(ele.id, ele.photos)}
-        ></img>
+      <div key={ele.fbId} className={classes.product}>
+        <Slider
+          {...settings}
+          prevArrow={<CustomPrevArrow />}
+          nextArrow={<CustomNextArrow />}
+        >
+          {ele.photos.map((photo, index) => (
+            <div key={index} className={classes.slide}>
+              <img
+                src={photo}
+                id={ele.id}
+                alt={`Slide ${index}`}
+                onContextMenu={handleContextMenu}
+                onDragStart={handleDragStart}
+                onError={() => handleImageError(ele)}
+                onClick={() =>
+                  navigate(
+                    `/products/${ele.categories}/${ele.types}/${ele.fbId}`
+                  )
+                }
+              />
+            </div>
+          ))}
+        </Slider>
         <div className={classes.productData}>
-          <h4 className={classes.productTile}>{ele.name}</h4>
+          <h4
+            className={classes.productTitle}
+            onClick={() =>
+              navigate(`/products/${ele.categories}/${ele.types}/${ele.fbId}`)
+            }
+          >
+            {ele.name}
+          </h4>
           <div className={classes.productDescriptionDiv}>
             <p>{comaToBr(ele.description)}</p>
             <span>{genderFilter(ele.gender)}</span>
